@@ -1,43 +1,43 @@
 CREATE TABLE Users (
-  ID          AS INTEGER PRIMARY KEY,
-  Username    AS TEXT NOT NULL,
-  Password    AS TEXT NOT NULL,
-  Email       AS TEXT NOT NULL,
-  Name        AS TEXT NOT NULL,
-  DateOfBirth AS DATE,
-  Gender      AS CHARACTER(1),
-  Picture     AS TEXT
+  ID          INTEGER PRIMARY KEY,
+  Username    TEXT NOT NULL,
+  Password    TEXT NOT NULL,
+  Email       TEXT NOT NULL,
+  Name        TEXT NOT NULL,
+  DateOfBirth DATE,
+  Gender      CHARACTER(1),
+  Picture     TEXT
 );
 
 CREATE TABLE UserGroups (
-  ID AS INTEGER PRIMARY KEY
+  ID INTEGER PRIMARY KEY
 
 );
 
 CREATE TABLE Restaurants (
-  ID      AS INTEGER PRIMARY KEY,
-  FOREIGN KEY (OwnerID) REFERENCES Users (ID) ,
-  Name AS TEXT NOT NULL,
-  Address AS TEXT,
-  Description AS TEXT
+  ID          INTEGER PRIMARY KEY,
+  OwnerID     INTEGER NOT NULL REFERENCES Users,
+  Name        TEXT NOT NULL,
+  Address     TEXT,
+  Description TEXT
 );
 
 CREATE TABLE RestaurantPhotos (
-  ID AS INTEGER PRIMARY KEY,
-  FOREIGN KEY (RestaurantID) REFERENCES Restaurants(ID),
-  Path AS TEXT NOT NULL
+  ID           INTEGER PRIMARY KEY,
+  RestaurantID INTEGER NOT NULL REFERENCES Restaurants,
+  Path         TEXT NOT NULL
 );
 
 CREATE TABLE Reviews (
-  ID AS INTEGER PRIMARY KEY,
-  FOREIGN KEY (RestaurantID) REFERENCES Restaurants(ID),
-  FOREIGN KEY (ReviewerID) REFERENCES Users(ID),
-  Score AS TINYINT NOT NULL,
-  Comment AS TEXT
+  ID           INTEGER PRIMARY KEY,
+  RestaurantID INTEGER NOT NULL REFERENCES Restaurants,
+  ReviewerID   INTEGER NOT NULL REFERENCES Users,
+  Score        TINYINT NOT NULL,
+  Comment      TEXT
 );
 
-CREATE TABLE Replies(
-  ID AS INTEGER PRIMARY KEY,
-  FOREIGN KEY (ReviewID) REFERENCES Reviews(ID),
-  Text AS TEXT
+CREATE TABLE Replies (
+  ID       INTEGER PRIMARY KEY,
+  ReviewID INTEGER NOT NULL REFERENCES Reviews,
+  Text     TEXT
 );
