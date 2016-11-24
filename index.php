@@ -1,4 +1,4 @@
-<? include_once ('pages/templates/header.php'); ?>
+<?php include("pages/templates/header.php"); ?>
 <!-- index template -->
-<? include_once ('pages/templates/footer.php'); ?>
+<?php include ("pages/templates/footer.php"); ?>
 
