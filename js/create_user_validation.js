@@ -27,6 +27,4 @@ function validateForm() {
         output.html('The provided email is not valid.\nPlease provide a valid one.');
         return false;
     }
-
-    this.submit();
 }
