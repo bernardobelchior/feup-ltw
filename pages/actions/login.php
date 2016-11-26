@@ -1,6 +1,6 @@
 <?php
 
-include_once('users.php');
+include_once('../../database/users.php');
 
 $username = $_POST['username'];
 $password = $_POST['password'];
@@ -9,7 +9,7 @@ if ($username && $password) {
     if (login($username, $password)) {
         session_start();
         $_SESSION['username'] = $username;
-        echo 'Logged in!';
+        header('Location: ../profile.php');
     } else
-        echo 'Invalid match.';
+        header('Location: ../login.php');
 }

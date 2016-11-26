@@ -1,6 +1,6 @@
 <?php
 
-include_once('users.php');
+include_once('../../database/users.php');
 
 $username = $_POST['username'];
 $password = $_POST['password'];
@@ -39,8 +39,11 @@ if ($username && $password && $password_repeat && $email && $name && $gender) {
         return;
     }
 
-    if(createUser($username, $password, $email, $name, $dateOfBirth, $gender, $picture) == 0)
+    if(createUser($username, $password, $email, $name, $dateOfBirth, $gender, $picture) == 0) {
+        session_start();
+        $_SESSION['username'] = $username;
         echo 'User successfully created! You may now log in.';
+    }
 /*    else {
         //May happen if the user refreshes the page after the form has been submitted.
         if(usernameExists($username))

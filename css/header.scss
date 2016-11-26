@@ -1,8 +1,17 @@
-.header {
-  position: absolute;
-  right: 2rem;
+.top-bar {
+  .right {
+    position: absolute;
+    right: 2rem;
+  }
+
+  .left {
+    position: absolute;
+    left: 2rem;
+  }
 
   form {
     display: inline;
   }
+
+  padding-bottom: 1rem;
 }

@@ -1,4 +1,4 @@
 <?php
-include('templates/header.html');
+include('templates/header.php');
 include('templates/login.html');
 include('templates/footer.html');

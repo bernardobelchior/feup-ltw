@@ -1,2 +1,2 @@
 <?php
-$db = new PDO('sqlite:database.db');
+$db = new PDO('sqlite:../../database/database.db');
