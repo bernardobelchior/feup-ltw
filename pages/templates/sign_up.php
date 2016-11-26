@@ -1,6 +1,6 @@
-<script src="js/create_user_validation.js"></script>
+<script src="/js/sign_up.js"></script>
 
-<form id="#form" method="post" action="database/create_user.php" onsubmit="return validateForm();">
+<form id="#form" method="post" action="/database/create_user.php" onsubmit="return validateForm();">
     <input id="username" type="text" name="username" placeholder="Username" required/>
     <input id="password" type="password" name="password" placeholder="Password" required/>
     <input id="password-repeat" type="password" name="password-repeat" placeholder="Repeat your Password" required/>

@@ -12,14 +12,17 @@ $gender = $_POST['gender'];
 $picture;
 
 if ($username && $password && $password_repeat && $email && $name && $gender) {
-    //TODO: Form validation in the server
-    //because the client may have js disabled
-    //and the form wont be validated
+
+    if(usernameExists($username))
+        echo 'That username is already in use. Try a new one.';
 
     if ($password !== $password_repeat)
-        return;
+        echo 'The passwords provided do not match. Try again.';
 
     $password = password_hash($password, PASSWORD_DEFAULT);
+
+    if(emailExists($email))
+        echo 'That email is already in use. Use different one.';
 
     createUser($username, $password, $email, $name, $dateOfBirth, $gender, $picture);
 }

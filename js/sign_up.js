@@ -1,3 +1,7 @@
+$(document).ready(function () {
+  $('#sign-up').hide();
+});
+
 function validateForm() {
     let output = $('#output');
     let username = $('#username').val();

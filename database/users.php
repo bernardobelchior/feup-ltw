@@ -1,10 +1,9 @@
 <?php
 include_once('connection.php');
 
-function createUser($username, $password, $email, $name, $dateOfBirth, $gender, $picture) {
+function createUser($username, $password, $email, $name, $dateOfBirth, $gender, $picture)
+{
     global $db;
-
-    //FIXME: Check if username is already on the db.
 
     $statement = $db->prepare('INSERT INTO Users VALUES(NULL, ?, ?, ?, ?, ?, ?, ?)');
     $password = password_hash($password, PASSWORD_DEFAULT);
@@ -12,5 +11,32 @@ function createUser($username, $password, $email, $name, $dateOfBirth, $gender, 
 
     $statement = $db->prepare('SELECT * FROM Users;');
     $statement->execute();
-//    echo json_encode($statement->fetchAll());
+    echo $statement->errorInfo();
+}
+
+function login($username, $password) {
+    global $db;
+
+    $statement = $db->prepare('SELECT Password FROM Users WHERE Username = "?"');
+    $statement->execute([$username]);
+    $hashed_password = $statement->fetch();
+    return password_verify($password, $hashed_password);
+}
+
+function usernameExists($username)
+{
+    global $db;
+
+    $statement = $db->prepare('SELECT * FROM Users WHERE Username = "?"');
+    $statement->execute([$username]);
+    return $statement->rowCount();
+}
+
+function emailExists($email)
+{
+    global $db;
+
+    $statement = $db->prepare('SELECT * FROM Users WHERE Email = "?"');
+    $statement->execute([$email]);
+    return $statement->rowCount();
 }
