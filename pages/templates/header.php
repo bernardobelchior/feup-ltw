@@ -10,11 +10,11 @@
 </head>
 <body>
 <div class="header">
-     <form action="pages/login.php">
+     <form action="/pages/login.php">
         <input id="login" type="submit" value="Login"/>
     </form>
 
-    <form action="pages/sign_up.php">
+    <form action="/pages/sign_up.php">
         <input id="sign-up" type="submit" value="Sign up"/>
     </form>
 </div>

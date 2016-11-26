@@ -24,11 +24,4 @@ function validateForm() {
         output.html('The provided passwords do not match.');
         return false;
     }
-
-    let email = $('#email').val();
-
-    if (false) { //TODO: Email regex to check if it is valid.
-        output.html('The provided email is not valid.\nPlease provide a valid one.');
-        return false;
-    }
 }
