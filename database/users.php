@@ -20,7 +20,7 @@ function createUser($username, $password, $email, $name, $dateOfBirth, $gender, 
 
     $statement = $db->prepare('SELECT * FROM Users;');
     $statement->execute();
-    return $statement->errorInfo();
+    return $statement->errorCode(); //Returns 0 even if the insertion failed due to repeated username or email.
 }
 
 function login($username, $password) {

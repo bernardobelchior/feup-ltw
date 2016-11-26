@@ -1,4 +1,4 @@
 <?php
-include($_SERVER['DOCUMENT_ROOT'] . '/pages/templates/header.php');
-include($_SERVER['DOCUMENT_ROOT'] . '/pages/templates/login.php');
-include($_SERVER['DOCUMENT_ROOT'] . '/pages/templates/footer.php');
+include('templates/header.html');
+include('templates/login.html');
+include('templates/footer.html');
