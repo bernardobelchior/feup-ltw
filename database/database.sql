@@ -53,6 +53,81 @@ CREATE TABLE Replies (
   Text     TEXT    NOT NULL
 );
 
-INSERT INTO UserGroups VALUES (NULL, 'ADMIN');
-INSERT INTO UserGroups VALUES (NULL, 'RESTAURANT_OWNER');
-INSERT INTO UserGroups VALUES (NULL, 'REGULAR_USER');
+/* User Groups */
+INSERT INTO UserGroups VALUES (0, 'ANONYMOUS');
+INSERT INTO UserGroups VALUES (1, 'ADMIN');
+INSERT INTO UserGroups VALUES (2, 'RESTAURANT_OWNER');
+INSERT INTO UserGroups VALUES (3, 'REGULAR_USER');
+
+/* Permissions */
+INSERT INTO Permissions VALUES (0, 'ADD_RESTAURANT');
+INSERT INTO Permissions VALUES (1, 'EDIT_RESTAURANT');
+INSERT INTO Permissions VALUES (2, 'REMOVE_RESTAURANT');
+
+INSERT INTO Permissions VALUES (3, 'ADD_REVIEW');
+INSERT INTO Permissions VALUES (4, 'EDIT_REVIEW');
+INSERT INTO Permissions VALUES (5, 'REMOVE_REVIEW');
+INSERT INTO Permissions VALUES (6, 'ADD_REVIEW_TO_OWN_RESTAURANT');
+
+INSERT INTO Permissions VALUES (9, 'ADD_REPLY');
+INSERT INTO Permissions VALUES (10, 'EDIT_REPLY');
+INSERT INTO Permissions VALUES (11, 'REMOVE_REPLY');
+
+/* Anonymous Basic Permissions */
+
+/* Admin Basic Permissions */
+INSERT INTO GroupsPermissions VALUES (NULL, 1, 0);
+INSERT INTO GroupsPermissions VALUES (NULL, 1, 1);
+INSERT INTO GroupsPermissions VALUES (NULL, 1, 2);
+INSERT INTO GroupsPermissions VALUES (NULL, 1, 3);
+INSERT INTO GroupsPermissions VALUES (NULL, 1, 4);
+INSERT INTO GroupsPermissions VALUES (NULL, 1, 5);
+INSERT INTO GroupsPermissions VALUES (NULL, 1, 6);
+INSERT INTO GroupsPermissions VALUES (NULL, 1, 7);
+INSERT INTO GroupsPermissions VALUES (NULL, 1, 8);
+INSERT INTO GroupsPermissions VALUES (NULL, 1, 9);
+INSERT INTO GroupsPermissions VALUES (NULL, 1, 10);
+INSERT INTO GroupsPermissions VALUES (NULL, 1, 11);
+
+/* Restaurant Owner Basic Permissions */
+INSERT INTO GroupsPermissions VALUES (NULL, 2, 0);
+INSERT INTO GroupsPermissions VALUES (NULL, 2, 1);
+INSERT INTO GroupsPermissions VALUES (NULL, 2, 2);
+INSERT INTO GroupsPermissions VALUES (NULL, 2, 3);
+INSERT INTO GroupsPermissions VALUES (NULL, 2, 4);
+INSERT INTO GroupsPermissions VALUES (NULL, 2, 5);
+INSERT INTO GroupsPermissions VALUES (NULL, 2, 9);
+INSERT INTO GroupsPermissions VALUES (NULL, 2, 10);
+INSERT INTO GroupsPermissions VALUES (NULL, 2, 11);
+
+/* Regular User Basic Permissions */
+
+/*INSERT INTO GroupsPermissions VALUES (NULL, , );
+INSERT INTO GroupsPermissions VALUES (NULL, , );
+INSERT INTO GroupsPermissions VALUES (NULL, , );
+INSERT INTO GroupsPermissions VALUES (NULL, , );
+INSERT INTO GroupsPermissions VALUES (NULL, , );
+INSERT INTO GroupsPermissions VALUES (NULL, , );
+INSERT INTO GroupsPermissions VALUES (NULL, , );
+INSERT INTO GroupsPermissions VALUES (NULL, , );
+INSERT INTO GroupsPermissions VALUES (NULL, , );
+INSERT INTO GroupsPermissions VALUES (NULL, , );
+INSERT INTO GroupsPermissions VALUES (NULL, , );
+INSERT INTO GroupsPermissions VALUES (NULL, , );
+INSERT INTO GroupsPermissions VALUES (NULL, , );
+INSERT INTO GroupsPermissions VALUES (NULL, , );
+INSERT INTO GroupsPermissions VALUES (NULL, , );
+INSERT INTO GroupsPermissions VALUES (NULL, , );
+INSERT INTO GroupsPermissions VALUES (NULL, , );
+INSERT INTO GroupsPermissions VALUES (NULL, , );
+INSERT INTO GroupsPermissions VALUES (NULL, , );
+INSERT INTO GroupsPermissions VALUES (NULL, , );
+INSERT INTO GroupsPermissions VALUES (NULL, , );
+INSERT INTO GroupsPermissions VALUES (NULL, , );
+INSERT INTO GroupsPermissions VALUES (NULL, , );
+INSERT INTO GroupsPermissions VALUES (NULL, , );
+INSERT INTO GroupsPermissions VALUES (NULL, , );
+INSERT INTO GroupsPermissions VALUES (NULL, , );
+INSERT INTO GroupsPermissions VALUES (NULL, , );
+INSERT INTO GroupsPermissions VALUES (NULL, , );
+*/
