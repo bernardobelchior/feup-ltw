@@ -1,7 +1,8 @@
 <?php
-echo 'Hello!';
-if(isset($_SESSION['username'])) {
-    unset($_SESSION['username']);
+session_start();
+
+if (isset($_SESSION['username'])) {
+    $_SESSION = array();
     session_destroy();
     header('Location: ../logout.php');
 }

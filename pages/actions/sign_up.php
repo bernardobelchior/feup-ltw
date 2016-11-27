@@ -1,7 +1,7 @@
 <?php
-
 include_once('../../database/users.php');
 
+session_start();
 $username = $_POST['username'];
 $password = $_POST['password'];
 $password_repeat = $_POST['password-repeat'];

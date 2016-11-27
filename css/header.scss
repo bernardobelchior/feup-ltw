@@ -1,17 +1,22 @@
 .top-bar {
-  .right {
-    position: absolute;
-    right: 2rem;
+  div {
+    display: inline-block;
+    width: 32%;
   }
 
   .left {
-    position: absolute;
-    left: 2rem;
+    text-align: left;
+  }
+
+  .center {
+    text-align: center;
+  }
+
+  .right {
+    text-align: right;
   }
 
   form {
     display: inline;
   }
-
-  padding-bottom: 1rem;
 }
