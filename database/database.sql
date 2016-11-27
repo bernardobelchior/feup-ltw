@@ -10,14 +10,25 @@ CREATE TABLE Users (
 );
 
 CREATE TABLE UserGroups (
-  ID INTEGER PRIMARY KEY
+  ID   INTEGER PRIMARY KEY,
+  Name TEXT NOT NULL
+);
 
+CREATE TABLE Permissions (
+  ID   INTEGER PRIMARY KEY,
+  Name TEXT NOT NULL
+);
+
+CREATE TABLE GroupsPermissions (
+  ID            INTEGER PRIMARY KEY,
+  GroupID       INTEGER NOT NULL REFERENCES UserGroups,
+  PermissionsID INTEGER NOT NULL REFERENCES Permissions
 );
 
 CREATE TABLE Restaurants (
   ID          INTEGER PRIMARY KEY,
   OwnerID     INTEGER NOT NULL REFERENCES Users,
-  Name        TEXT NOT NULL,
+  Name        TEXT    NOT NULL,
   Address     TEXT,
   Description TEXT
 );
@@ -25,7 +36,7 @@ CREATE TABLE Restaurants (
 CREATE TABLE RestaurantPhotos (
   ID           INTEGER PRIMARY KEY,
   RestaurantID INTEGER NOT NULL REFERENCES Restaurants,
-  Path         TEXT NOT NULL
+  Path         TEXT    NOT NULL
 );
 
 CREATE TABLE Reviews (
@@ -39,5 +50,9 @@ CREATE TABLE Reviews (
 CREATE TABLE Replies (
   ID       INTEGER PRIMARY KEY,
   ReviewID INTEGER NOT NULL REFERENCES Reviews,
-  Text     TEXT
+  Text     TEXT    NOT NULL
 );
+
+INSERT INTO UserGroups VALUES (NULL, 'ADMIN');
+INSERT INTO UserGroups VALUES (NULL, 'RESTAURANT_OWNER');
+INSERT INTO UserGroups VALUES (NULL, 'REGULAR_USER');
