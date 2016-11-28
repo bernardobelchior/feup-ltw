@@ -74,3 +74,17 @@ function getUserField($username, $field) {
    $statement->execute([$username]);
    return $statement->fetch()[$field];
 }
+
+function updateUser($userId, $name, $email, $date, $gender) {
+  global $db;
+
+  $statement = $db->prepare('UPDATE Users SET Name = :name, Email = :email, Gender = :gender, DateOfBirth = :date WHERE id = :id');
+  $statement->bindParam(':name', $name);
+  $statement->bindParam(':email', $email);
+  $statement->bindParam(':gender', $gender);
+  $statement->bindParam(':date', $date);
+  $statement->bindParam(':id', $userId);
+
+  $statement->execute();
+  return $statement->errorCode();
+}

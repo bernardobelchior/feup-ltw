@@ -8,7 +8,7 @@ $password_repeat = $_POST['password-repeat'];
 $email = $_POST['email'];
 $name = $_POST['name'];
 $dateOfBirth;
-$gender = $_POST['gender'];
+$gender;
 $picture;
 
 if ($username && $password && $password_repeat && $email && $name && $gender) {
