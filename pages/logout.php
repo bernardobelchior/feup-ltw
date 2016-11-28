@@ -1,4 +1,4 @@
 <?php
-include('templates/header.php');
-include('templates/logout.html');
-include('templates/footer.html');
+include_once('templates/header.php');
+include_once('templates/logout.html');
+include_once('templates/footer.html');
