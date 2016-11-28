@@ -40,37 +40,66 @@ function login($username, $password) {
 
 /** Queries the database to check if user with $username exists.
  * @param $username $username to check
- * @return int Returns 0 if the username does not exist, returning > 0 otherwise.
+ * @return bool Returns false if the username does not exist, returning true otherwise.
  */
 function usernameExists($username) {
     global $db;
 
     $statement = $db->prepare('SELECT * FROM Users WHERE Username = ?');
     $statement->execute([$username]);
-    return $statement->rowCount();
+    return $statement->rowCount() > 0;
 }
 
 /** Queries the database to check if a user with $email exists.
  * @param $email $email to check
- * @return int Returns 0 if the email does not exist, returning > 0 otherwise.
+ * @return bool Returns false if the email does not exist, returning true otherwise.
  */
 function emailExists($email) {
     global $db;
 
     $statement = $db->prepare('SELECT * FROM Users WHERE Email = ?');
     $statement->execute([$email]);
-    return $statement->rowCount();
+    return $statement->rowCount() > 0;
 }
 
-/** Returns the user's requested field
+/** Gets ID by username
  * @param $username Username
- * @param $field Field
- * @return string (TODO: Verify if is string) Returns the user's field, if found. Returns null otherwise.
+ * @return Integer ID
  */
-function getUserField($username, $field) {
-   global $db;
+function getIdByUsername($username) {
+    global $db;
 
-   $statement = $db->prepare('SELECT * FROM Users WHERE Username = ?');
-   $statement->execute([$username]);
-   return $statement->fetch()[$field];
+    $statement = $db->prepare('SELECT ID FROM Users WHERE Name = ?');
+    $statement->execute([$username]);
+    return $statement->fetch() ['ID'];
+}
+
+/** Returns the user's requested field. The field cannot be the user password.
+ * @param $userId User ID
+ * @param $field Field
+ * @return string
+ */
+function getUserField($userId, $field) {
+    if ($field === 'Password')
+        return null;
+
+    global $db;
+
+    $statement = $db->prepare('SELECT * FROM Users WHERE ID = ?');
+    $statement->execute([$userId]);
+    return $statement->fetch()[$field];
+}
+
+/**
+ * Checks if the $groupId has the specified $permission.
+ * @param $groupId Group ID in the database
+ * @param $permission Permission string
+ * @return bool Returns true if the groupId has the given permission.
+ */
+function groupIdHasPermissions($groupId, $permission) {
+    global $db;
+
+    $statement = $db->prepare('SELECT * FROM GroupsPermissions, Permissions WHERE GroupID = ? AND Name = ?');
+    $statement->execute([$groupId, $permission]);
+    return $statement->rowCount() > 0;
 }
