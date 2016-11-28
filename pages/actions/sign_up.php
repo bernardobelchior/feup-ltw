@@ -40,9 +40,8 @@ if ($username && $password && $password_repeat && $email && $name && $gender) {
     }
 
     if(createUser($username, $password, $email, $name, $dateOfBirth, $gender, $picture) == 0) {
-        session_start();
-        $_SESSION['username'] = $username;
-        echo 'User successfully created! You may now log in.';
+        //Logs the user in.
+        include('login.php');
     }
 /*    else {
         //May happen if the user refreshes the page after the form has been submitted.

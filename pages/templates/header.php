@@ -33,10 +33,10 @@
             echo '<input id="login" type="submit" value="Logout"/>';
             echo '</form>';
         } else {
-            echo '<form action="/pages/login.php">';
+            echo '<form action="login.php">';
             echo '<input id="login" type="submit" value="Login"/>';
             echo '</form>';
-            echo '<form action="/pages/sign_up.php">';
+            echo '<form action="sign_up.php">';
             echo '<input id="sign-up" type="submit" value="Sign up"/>';
             echo '</form>';
         }
