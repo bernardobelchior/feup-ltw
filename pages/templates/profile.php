@@ -1,22 +1,48 @@
-<p>
-    User profile
-</p>
+<link rel="stylesheet" href="../css/profile.min.css">
 
-<?php include_once('../database/users.php'); ?>
+<?php
+include_once('../database/users.php');
 
-<form id="form" method="post" action="actions/update_profile.php" onsubmit="return validateForm();">
-    <input id="username" type="text" name="username" value=<?php echo $_SESSION['username'];?> />
-    <input id="password" type="password" name="password" placeholder="Password"/>
-    <input id="password-repeat" type="password" name="password-repeat" placeholder="Repeat your Password"/>
-    <input id="email" type="email" name="email" value=<?php echo getUserField($_SESSION['username'], 'Email');?> />
-    <input id="name" type="text" name="name" value=<?php echo getUserField($_SESSION['username'], 'Name');?> />
-    <input id="date" type="date" name="birthdate" value=<?php echo getUserField($_SESSION['username'], 'DateOfBirth');?> />
+$id = (int)$_GET['id'];
 
-    <select id="gender" name="gender">
-        <option value="M">Male</option>
-        <option value="F">Female</option>
-    </select>
+if (!idExists($id)) {
+    echo '<p> User not found </p>';
+    die();
+}
 
-    <button type="submit">Update</button>
-    <span id="output"></span>
-</form>
+$username = getUserField($id, 'Username');
+$email = getUserField($id, 'Email');
+$name = getUserField($id, 'Name');
+
+?>
+<div id="profile">
+    <div id="profile-header">
+        <div id="user-identification">
+            <span id="name">
+                <?php echo $name; ?>
+            </span>
+            <span id="username">
+                (<?php echo $username; ?>)
+            </span>
+        </div>
+
+        <?php
+        if (isset($_SESSION['userId']) && (int)$_SESSION['userId'] === $id) {
+            echo '<div id="edit-profile">';
+            echo '<form>';
+            echo '<button type="submit" formaction="edit_profile.php">Edit Profile</button>';
+            echo '</form>';
+            echo '</div>';
+        }
+        ?>
+    </div>
+
+    <div>
+        <span id="email">Email: </span>
+        <span> <?php echo $email; ?></span>
+    </div>
+
+    <div class="image">
+        <img src="" alt="User profile picture"/>
+    </div>
+</div>

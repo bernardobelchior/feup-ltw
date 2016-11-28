@@ -8,7 +8,7 @@ $password = $_POST['password'];
 if ($username && $password) {
     if (login($username, $password)) {
         initializeSession($username);
-        header('Location: ../profile.php');
+        header('Location: ../profile.php?id=' . $_SESSION['userId']);
     } else
         header('Location: ../login.php');
 }

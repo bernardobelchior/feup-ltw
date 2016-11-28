@@ -47,7 +47,7 @@ function usernameExists($username) {
 
     $statement = $db->prepare('SELECT * FROM Users WHERE Username = ?');
     $statement->execute([$username]);
-    return $statement->rowCount() > 0;
+    return $statement->fetch();
 }
 
 /** Queries the database to check if a user with $email exists.
@@ -59,7 +59,7 @@ function emailExists($email) {
 
     $statement = $db->prepare('SELECT * FROM Users WHERE Email = ?');
     $statement->execute([$email]);
-    return $statement->rowCount() > 0;
+    return $statement->fetch();
 }
 
 /** Gets ID by username
@@ -101,5 +101,17 @@ function groupIdHasPermissions($groupId, $permission) {
 
     $statement = $db->prepare('SELECT * FROM GroupsPermissions, Permissions WHERE GroupID = ? AND Name = ?');
     $statement->execute([$groupId, $permission]);
-    return $statement->rowCount() > 0;
+    return $statement->fetch();
+}
+
+/** Returns whether the id exists or not.
+ * @param $userId User id to search for.
+ * @return bool Returns true if the id exists in the database, returning false otherwise.
+ */
+function idExists($userId) {
+    global $db;
+
+    $statement = $db->prepare('SELECT ID FROM Users WHERE ID = ?');
+    $statement->execute([$userId]);
+    return $statement->fetch();
 }
