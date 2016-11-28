@@ -1,9 +1,10 @@
 CREATE TABLE Users (
   ID          INTEGER PRIMARY KEY,
-  Username    TEXT NOT NULL UNIQUE,
-  Password    TEXT NOT NULL,
-  Email       TEXT NOT NULL UNIQUE,
-  Name        TEXT NOT NULL,
+  Username    TEXT    NOT NULL UNIQUE,
+  Password    TEXT    NOT NULL,
+  Email       TEXT    NOT NULL UNIQUE,
+  Name        TEXT    NOT NULL,
+  GroupID     INTEGER NOT NULL REFERENCES UserGroups,
   DateOfBirth DATE,
   Gender      CHARACTER(1),
   Picture     TEXT

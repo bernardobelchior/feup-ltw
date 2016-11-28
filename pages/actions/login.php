@@ -19,4 +19,5 @@ function initializeSession($username) {
     $_SESSION['userId'] = getIdByUsername($username);
     $_SESSION['email'] = getUserField($_SESSION['userId'], 'Email');
     $_SESSION['name'] = getUserField($_SESSION['userId'], 'Name');
+    $_SESSION['groupId'] = getUserField($_SESSION['userId'], 'GroupID');
 }

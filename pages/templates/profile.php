@@ -27,7 +27,7 @@ $name = getUserField($id, 'Name');
         </div>
 
         <?php
-        if (isset($_SESSION['userId']) && (int)$_SESSION['userId'] === $id) {
+        if (groupIdHasPermissions((int)$_SESSION['groupId'], 'EDIT_ANY_PROFILE') || (int)$_SESSION['userId'] === $id) {
             echo '<div id="edit-profile">';
             echo '<form>';
             echo '<button type="submit" formaction="edit_profile.php">Edit Profile</button>';
