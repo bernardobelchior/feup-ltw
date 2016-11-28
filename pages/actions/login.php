@@ -8,7 +8,7 @@ $password = $_POST['password'];
 if ($username && $password) {
     if (login($username, $password)) {
         $_SESSION['username'] = $username;
-        $_SESSION['name'] = getUserRealName($username);
+        $_SESSION['name'] = getUserField($username, 'Name');
         header('Location: ../profile.php');
     } else
         header('Location: ../login.php');

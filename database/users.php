@@ -62,14 +62,15 @@ function emailExists($email) {
     return $statement->rowCount();
 }
 
-/** Returns the user's real name
+/** Returns the user's requested field
  * @param $username Username
- * @return string Returns the user's real name, if found. Returns null otherwise.
+ * @param $field Field
+ * @return string (TODO: Verify if is string) Returns the user's field, if found. Returns null otherwise.
  */
-function getUserRealName($username) {
+function getUserField($username, $field) {
    global $db;
 
    $statement = $db->prepare('SELECT * FROM Users WHERE Username = ?');
    $statement->execute([$username]);
-   return $statement->fetch()['Name'];
+   return $statement->fetch()[$field];
 }
