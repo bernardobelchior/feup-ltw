@@ -1,4 +1,4 @@
 <?php
-include('templates/header.php');
-include('templates/landing_page.html');
-include('templates/footer.html');
+include_once('templates/header.php');
+include_once('templates/landing_page.html');
+include_once('templates/footer.html');
