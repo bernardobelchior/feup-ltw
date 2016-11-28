@@ -17,6 +17,6 @@ if ($username && $password) {
 function initializeSession($username) {
     $_SESSION['username'] = $username;
     $_SESSION['userId'] = getIdByUsername($username);
-    $_SESSION['email'] = getUserField($username, 'Email');
-    $_SESSION['name'] = getUserField($username, 'Name');
+    $_SESSION['email'] = getUserField($_SESSION['userId'], 'Email');
+    $_SESSION['name'] = getUserField($_SESSION['userId'], 'Name');
 }

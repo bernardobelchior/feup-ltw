@@ -69,9 +69,9 @@ function emailExists($email) {
 function getIdByUsername($username) {
     global $db;
 
-    $statement = $db->prepare('SELECT ID FROM Users WHERE Name = ?');
+    $statement = $db->prepare('SELECT ID FROM Users WHERE Username = ?');
     $statement->execute([$username]);
-    return $statement->fetch() ['ID'];
+    return $statement->fetch()['ID'];
 }
 
 /** Returns the user's requested field. The field cannot be the user password.
