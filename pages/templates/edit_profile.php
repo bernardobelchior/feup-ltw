@@ -1,4 +1,5 @@
 <link rel="stylesheet" href="../css/edit_profile.min.css">
+<link rel="stylesheet" type="text/css" href="../css/common.min.css"/>
 <?php
 include_once('../database/users.php');
 if (groupIdHasPermissions($_SESSION['groupId'], 'EDIT_ANY_PROFILE') ||
@@ -6,8 +7,8 @@ if (groupIdHasPermissions($_SESSION['groupId'], 'EDIT_ANY_PROFILE') ||
 )
     $id = $_GET['id'];
 else {
-   header('HTTP/1.0 404 Not Found');
-   header('Location: 404.php');
+    header('HTTP/1.0 404 Not Found');
+    header('Location: 404.php');
 }
 ?>
 <script type="text/javascript" src="../js/edit_profile.js"></script>
