@@ -133,3 +133,15 @@ function updateUser($userId, $name, $email, $date, $gender) {
   $statement->execute();
   return $statement->errorCode();
 }
+
+function updateUserPassword($userId, $password) {
+  global $db;
+
+  $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+
+  $statement = $db->prepare('UPDATE Users SET Password = :password WHERE id = :id');
+  $statement->bindParam(':password', $hashed_password);
+  $statement->bindParam(':id', $userId);
+  $statement->execute();
+  return $statement->errorCode();
+}
