@@ -13,10 +13,12 @@ else {
 ?>
 <script type="text/javascript" src="../js/edit_profile.js"></script>
 
-<p>
-    Edit profile
-</p>
-
+<header id="page_title">
+  Edit Profile
+</header>
+<div id="general_info">
+    <div class="section_title">General Info</div>
+</div>
 <form id="form" method="post" action="actions/edit_profile.php" onsubmit="return validateDate();">
     <label id="username"> <?php echo getUserField($id, 'Username'); ?>
     </label>
@@ -26,7 +28,6 @@ else {
            value="<?php echo getUserField($id, 'DateOfBirth'); ?>"/>
 
     <select id="gender" name="gender" gender=<?php echo getUserField($id, 'Gender'); ?>>
-        <option value="">Undefined</option>
         <option value="M">Male</option>
         <option value="F">Female</option>
     </select>
