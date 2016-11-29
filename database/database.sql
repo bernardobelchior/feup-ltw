@@ -66,6 +66,7 @@ INSERT INTO UserGroups VALUES (NULL, 'REGULAR_USER');
 INSERT INTO Permissions VALUES (NULL, 'ADD_RESTAURANT');
 INSERT INTO Permissions VALUES (NULL, 'EDIT_RESTAURANT');
 INSERT INTO Permissions VALUES (NULL, 'REMOVE_RESTAURANT');
+INSERT INTO Permissions VALUES (NULL, 'ADD_ANY_RESTAURANT');
 INSERT INTO Permissions VALUES (NULL, 'EDIT_ANY_RESTAURANT');
 INSERT INTO Permissions VALUES (NULL, 'REMOVE_ANY_RESTAURANT');
 
@@ -104,20 +105,21 @@ INSERT INTO GroupsPermissions VALUES (NULL, 2, 14);
 INSERT INTO GroupsPermissions VALUES (NULL, 2, 15);
 INSERT INTO GroupsPermissions VALUES (NULL, 2, 16);
 INSERT INTO GroupsPermissions VALUES (NULL, 2, 17);
+INSERT INTO GroupsPermissions VALUES (NULL, 2, 18);
 
 /* Restaurant Owner Basic Permissions */
 INSERT INTO GroupsPermissions VALUES (NULL, 3, 1);
 INSERT INTO GroupsPermissions VALUES (NULL, 3, 2);
 INSERT INTO GroupsPermissions VALUES (NULL, 3, 3);
-INSERT INTO GroupsPermissions VALUES (NULL, 3, 6);
 INSERT INTO GroupsPermissions VALUES (NULL, 3, 7);
 INSERT INTO GroupsPermissions VALUES (NULL, 3, 8);
-INSERT INTO GroupsPermissions VALUES (NULL, 3, 12);
+INSERT INTO GroupsPermissions VALUES (NULL, 3, 9);
 INSERT INTO GroupsPermissions VALUES (NULL, 3, 13);
 INSERT INTO GroupsPermissions VALUES (NULL, 3, 14);
+INSERT INTO GroupsPermissions VALUES (NULL, 3, 15);
 
 /* Regular User Basic Permissions */
-INSERT INTO GroupsPermissions VALUES (NULL, 4, 6);
 INSERT INTO GroupsPermissions VALUES (NULL, 4, 7);
 INSERT INTO GroupsPermissions VALUES (NULL, 4, 8);
+INSERT INTO GroupsPermissions VALUES (NULL, 4, 9);
 

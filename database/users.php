@@ -97,7 +97,7 @@ function getUserField($userId, $field) {
 function groupIdHasPermissions($groupId, $permission) {
     global $db;
 
-    if(!isset($groupId))
+    if (!isset($groupId))
         $groupId = 1;
 
     $statement = $db->prepare('SELECT GroupID, PermissionsID, Name FROM GroupsPermissions, Permissions WHERE PermissionsID = Permissions.ID AND GroupID = ? AND Name = ?');
@@ -112,7 +112,7 @@ function groupIdHasPermissions($groupId, $permission) {
 function idExists($userId) {
     global $db;
 
-    if(!isset($userId))
+    if (!isset($userId))
         return false;
 
     $statement = $db->prepare('SELECT ID FROM Users WHERE ID = ?');
@@ -120,16 +120,26 @@ function idExists($userId) {
     return $statement->fetch();
 }
 
+/** Updates the user profile.
+ * @param $userId int User ID
+ * @param $name string User name
+ * @param $email string User email
+ * @param $date string Date of birth
+ * @param $gender string User gender
+ * @return string Returns the query error code.
+ */
 function updateUser($userId, $name, $email, $date, $gender) {
-  global $db;
+    global $db;
 
-  $statement = $db->prepare('UPDATE Users SET Name = :name, Email = :email, Gender = :gender, DateOfBirth = :date WHERE id = :id');
-  $statement->bindParam(':name', $name);
-  $statement->bindParam(':email', $email);
-  $statement->bindParam(':gender', $gender);
-  $statement->bindParam(':date', $date);
-  $statement->bindParam(':id', $userId);
+    $statement = $db->prepare('UPDATE Users SET Name = ?, Email = ?, Gender = ?, DateOfBirth = ? WHERE id = ?');
+    $statement->execute([$name, $email, $gender, $date, $userId]);
+    /*  $statement = $db->prepare('UPDATE Users SET Name = :name, Email = :email, Gender = :gender, DateOfBirth = :date WHERE id = :id');
+      $statement->bindParam(':name', $name);
+      $statement->bindParam(':email', $email);
+      $statement->bindParam(':gender', $gender);
+      $statement->bindParam(':date', $date);
+      $statement->bindParam(':id', $userId);
 
-  $statement->execute();
-  return $statement->errorCode();
+      $statement->execute();*/
+    return $statement->errorCode();
 }

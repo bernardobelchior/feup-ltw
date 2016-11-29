@@ -6,8 +6,8 @@ include_once('../database/users.php');
 $id = (int)$_GET['id'];
 
 if (!idExists($id)) {
-    echo '<p> User not found </p>';
-    die();
+    header('HTTP/1.0 404 Not Found');
+    header('Location: 404.php');
 }
 
 $username = getUserField($id, 'Username');
@@ -15,7 +15,7 @@ $email = getUserField($id, 'Email');
 $name = getUserField($id, 'Name');
 
 ?>
-<div id="profile">
+<div id="profile" class="container">
     <div id="profile-header">
         <div id="user-identification">
             <span id="name">
@@ -29,9 +29,7 @@ $name = getUserField($id, 'Name');
         <?php
         if (groupIdHasPermissions((int)$_SESSION['groupId'], 'EDIT_ANY_PROFILE') || (int)$_SESSION['userId'] === $id) {
             echo '<div id="edit-profile">';
-            echo '<form>';
-            echo '<button type="submit" formaction="edit_profile.php">Edit Profile</button>';
-            echo '</form>';
+            echo '<a href="edit_profile.php?id=' . $id . '"><button>Edit Profile</button></a>';
             echo '</div>';
         }
         ?>
@@ -45,4 +43,15 @@ $name = getUserField($id, 'Name');
     <div class="image">
         <img src="" alt="User profile picture"/>
     </div>
+
+</div>
+
+<div class="container" id="restaurants">
+    <?php
+    if (groupIdHasPermissions($_SESSION['groupId'], 'ADD_ANY_RESTAURANT') || (int)$_SESSION['userId'] === $id) {
+        echo '<a href="add_restaurant.php?id=' . $id . '">';
+        echo '<button type="submit">Add Restaurant</button>';
+        echo '</a>';
+    }
+    ?>
 </div>

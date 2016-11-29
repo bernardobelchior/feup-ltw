@@ -1,9 +1,11 @@
-#profile {
-  width: 90%;
+.container {
   margin: 1em auto;
   border: solid thin lightgray;
   padding: 1em;
+  width: 90%;
+}
 
+#profile {
   #profile-header {
     div {
       width: 49%;
