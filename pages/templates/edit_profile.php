@@ -5,6 +5,8 @@
 <!-- <link rel="stylesheet" href="../css/sign_up.css"> -->
 <?php session_start(); include_once('../database/users.php'); ?>
 <script type="text/javascript" src="../js/edit_profile.js"></script>
+<link rel="stylesheet" type="text/css" href="/css/common.min.css"/>
+<link rel="stylesheet" type="text/css" href="/css/common.min.css"/> 
 
 <form id="form" method="post" action="actions/edit_profile.php" onsubmit="return validateDate();">
   <label id="username"> <?php echo $_SESSION['username'];?> </label>

@@ -12,34 +12,31 @@
 <body>
 
 <div class="top-bar">
-    <div class="left">
-        <a href="../index.php">Home</a>
-    </div>
-
-    <div class="center">
-        <?php
-        if (isset($_SESSION['username'])) {
-            echo '<span>';
-            echo 'Hello, <a href="profile.php?id=' . $_SESSION['userId'] . '">' . $_SESSION['name'] . '</a>!';
-            echo '</span>';
-        }
-        ?>
-    </div>
-
-    <div class="right">
-        <?php
-        if (isset($_SESSION['username'])) {
-            echo '<form action="actions/logout.php">';
-            echo '<input id="login" type="submit" value="Logout"/>';
-            echo '</form>';
-        } else {
-            echo '<form action="login.php">';
-            echo '<input id="login" type="submit" value="Login"/>';
-            echo '</form>';
-            echo '<form action="sign_up.php">';
-            echo '<input id="sign-up" type="submit" value="Sign up"/>';
-            echo '</form>';
-        }
-        ?>
-    </div>
+    <ul>
+        <li id="home_button"><a href="../index.php">Home</a></li>
+        <li id="greeting">
+                <?php
+                if (isset($_SESSION['username'])) {
+                    echo 'Hello, <a href="profile.php?id=' . $_SESSION['userId'] . '">' . $_SESSION['name'] . '</a>!';
+                }
+                ?>
+        </li>
+        <li id="user_action">
+                <?php
+                if (isset($_SESSION['username'])) {
+                    echo '<form action="actions/logout.php">';
+                    echo '<input id="login" type="submit" value="Logout"/>';
+                    echo '</form>';
+                } else {
+                    echo '<form action="login.php">';
+                    echo '<input id="login" type="submit" value="Login"/>';
+                    echo '</form>';
+                    echo '<form action="sign_up.php">';
+                    echo '<input id="sign-up" type="submit" value="Sign up"/>';
+                    echo '</form>';
+                }
+                ?>
+        </li>
+    </ul>
 </div>
+<div id="spacing"></div>

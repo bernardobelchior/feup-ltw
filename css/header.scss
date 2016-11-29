@@ -1,24 +1,37 @@
 .top-bar {
-  div {
-    vertical-align: middle;
-    display: inline-block;
-    width: 32%;
+  background-color:#62AB93;
+  width: 100%;
+  height: 3em;
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+
+  ul{
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    overflow: hidden;
   }
 
-  .left {
-    text-align: left;
+  li{
+    display: inline-block ;
+    font-size: 1.2em;
+    padding: 0.5em 0.5em;
   }
 
-  .center {
-    text-align: center;
+  #home_button{
+    width: 75%;
   }
 
-  .right {
-    text-align: right;
-
-    form {
-      display: inline-block;
-      margin-left: 0.5em;
-    }
+  #greeting{
   }
+
+  #user_action{
+  }
+}
+
+#spacing{
+  margin-top: 3.5em;
 }
