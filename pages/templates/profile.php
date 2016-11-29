@@ -1,4 +1,5 @@
 <link rel="stylesheet" href="../css/profile.min.css">
+<link rel="stylesheet" href="../css/common.min.css">
 
 <?php
 include_once('../database/users.php');
@@ -49,7 +50,8 @@ $name = getUserField($id, 'Name');
 <div class="container" id="restaurants">
     <?php
     if (groupIdHasPermissions($_SESSION['groupId'], 'ADD_ANY_RESTAURANT') || (int)$_SESSION['userId'] === $id) {
-        echo '<a href="add_restaurant.php?id=' . $id . '">';
+        $_SESSION['ownerId'] = $id;
+        echo '<a href="add_restaurant.php">';
         echo '<button type="submit">Add Restaurant</button>';
         echo '</a>';
     }
