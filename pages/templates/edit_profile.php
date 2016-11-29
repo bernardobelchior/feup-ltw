@@ -8,11 +8,11 @@
 
 <form id="form" method="post" action="actions/edit_profile.php" onsubmit="return validateDate();">
   <label id="username"> <?php echo $_SESSION['username'];?> </label>
-  <input id="name" type="text" name="name" value=<?php echo getUserField($_SESSION['username'], 'Name');?> />
-  <input id="email" type="email" name="email" value=<?php echo getUserField($_SESSION['username'], 'Email');?> />
-  <input id="date" type="text" name="date" placeholder="yyyy-mm-dd" value=<?php echo getUserField($_SESSION['username'], 'DateOfBirth');?> />
+  <input id="name" type="text" name="name" value=<?php echo getUserField($_SESSION['userId'], 'Name');?> />
+  <input id="email" type="email" name="email" value=<?php echo getUserField($_SESSION['userId'], 'Email');?> />
+  <input id="date" type="text" name="date" placeholder="yyyy-mm-dd" value=<?php echo getUserField($_SESSION['userId'], 'DateOfBirth');?> />
 
-    <select id="gender" name="gender" gender=<?php echo getUserField($_SESSION['username'], 'Gender');?>>
+    <select id="gender" name="gender" gender=<?php echo getUserField($_SESSION['userId'], 'Gender');?>>
         <option value="">Undefined</option>
         <option value="M">Male</option>
         <option value="F">Female</option>

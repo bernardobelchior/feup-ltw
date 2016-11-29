@@ -13,7 +13,7 @@ $gender;
 $picture;
 
 
-if ($username && $password && $password_repeat && $email && $groupID && $name && $gender) {
+if ($username && $password && $password_repeat && $email && $groupID && $name) {
     if (strlen($username) < 8) {
         echo 'A username needs to be at least 8 characters long.';
         return;

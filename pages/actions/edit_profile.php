@@ -8,11 +8,9 @@ $date = $_POST['date'];
 $gender = $_POST['gender'];
 $picture;
 
-var_dump($date);
-
 if(updateUser($id, $name, $email, $date, $gender) == 0){
     $_SESSION['name'] = $name;
     $_SESSION['email'] = $email;
 }
 
-header('Location: ../profile.php');
+header('Location: ../profile.php?id=' . $_SESSION['userId']);
