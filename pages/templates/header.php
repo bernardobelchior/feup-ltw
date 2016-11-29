@@ -7,7 +7,7 @@
                 src="https://code.jquery.com/jquery-3.1.1.min.js"
                 integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
                 crossorigin="anonymous"></script>
-        <link rel="stylesheet" type="text/css" href="/css/header.css"/>
+        <link rel="stylesheet" type="text/css" href="/css/header.min.css"/>
     </head>
 <body>
 
@@ -20,7 +20,7 @@
         <?php
         if (isset($_SESSION['username'])) {
             echo '<span>';
-            echo 'Hello, ' . $_SESSION['name'] . '!';
+            echo 'Hello, <a href="profile.php?id=' . $_SESSION['userId'] . '">' . $_SESSION['name'] . '</a>!';
             echo '</span>';
         }
         ?>
@@ -43,4 +43,3 @@
         ?>
     </div>
 </div>
-<?php

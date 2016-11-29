@@ -7,11 +7,13 @@ $password = $_POST['password'];
 $password_repeat = $_POST['password-repeat'];
 $email = $_POST['email'];
 $name = $_POST['name'];
+$groupID = 4;
 $dateOfBirth;
 $gender;
 $picture;
 
-if ($username && $password && $password_repeat && $email && $name && $gender) {
+
+if ($username && $password && $password_repeat && $email && $groupID && $name && $gender) {
     if (strlen($username) < 8) {
         echo 'A username needs to be at least 8 characters long.';
         return;
@@ -39,7 +41,7 @@ if ($username && $password && $password_repeat && $email && $name && $gender) {
         return;
     }
 
-    if(createUser($username, $password, $email, $name, $dateOfBirth, $gender, $picture) == 0) {
+    if(createUser($username, $password, $email, $name, $groupID, $dateOfBirth, $gender, $picture) == 0) {
         //Logs the user in.
         include_once('login.php');
     }

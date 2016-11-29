@@ -7,9 +7,17 @@ $password = $_POST['password'];
 
 if ($username && $password) {
     if (login($username, $password)) {
-        $_SESSION['username'] = $username;
-        $_SESSION['name'] = getUserField($username, 'Name');
-        header('Location: ../profile.php');
+        initializeSession($username);
+        header('Location: ../profile.php?id=' . $_SESSION['userId']);
     } else
         header('Location: ../login.php');
+}
+
+
+function initializeSession($username) {
+    $_SESSION['username'] = $username;
+    $_SESSION['userId'] = getIdByUsername($username);
+    $_SESSION['email'] = getUserField($_SESSION['userId'], 'Email');
+    $_SESSION['name'] = getUserField($_SESSION['userId'], 'Name');
+    $_SESSION['groupId'] = getUserField($_SESSION['userId'], 'GroupID');
 }

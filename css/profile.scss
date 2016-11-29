@@ -1,0 +1,25 @@
+#profile {
+  width: 90%;
+  margin: 1em auto;
+  border: solid thin lightgray;
+  padding: 1em;
+
+  #profile-header {
+    div {
+      width: 49%;
+      display: inline-block;
+    }
+
+    #name {
+      font-weight: bold;
+    }
+
+    #edit-profile {
+      text-align: right;
+    }
+  }
+}
+
+img {
+  float: right;
+}
