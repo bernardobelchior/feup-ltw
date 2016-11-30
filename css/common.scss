@@ -1,3 +1,24 @@
-html{
-  background-color: #F9FCCF;
+body{
+  background-color: #EEF0C3;
+}
+
+.page_content{
+  background-color: #EFF1D4;
+  width: 80%;
+  position: relative;
+  left: 10%;
+  padding: 1em;
+  color: #555647;
+  border: 1px solid #d8dac0;
+}
+
+.page_title{
+  font-size: 1.5em;
+  color: #2B2C24;
+}
+
+.section_title{
+  font-size: 1.2em;
+  color: #47483E;
+  border-bottom: 1px solid #757667;
 }
