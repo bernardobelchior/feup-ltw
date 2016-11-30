@@ -1,12 +1,23 @@
 <?php
 include_once('../../database/users.php');
+include_once('../utils/utils.php');
+session_start(['cookie_httponly' => true]);
 
-session_start();
-$username = $_POST['username'];
-$password = $_POST['password'];
-$password_repeat = $_POST['password-repeat'];
-$email = $_POST['email'];
-$name = $_POST['name'];
+var_dump($_SESSION['token']);
+var_dump($_POST['token']);
+
+// Check if the user came from the Sign Up page.
+if($_SESSION['token'] !== $_POST['token']) {
+    header('HTTP/1.0 403 Not Found');
+    header('Location: ../403.php');
+    die();
+}
+
+$username = htmlspecialchars($_POST['username']);
+$password = htmlspecialchars($_POST['password']);
+$password_repeat = htmlspecialchars($_POST['password-repeat']);
+$email = htmlspecialchars($_POST['email']);
+$name = htmlspecialchars($_POST['name']);
 $groupID = 4;
 $dateOfBirth;
 $gender;
@@ -41,16 +52,12 @@ if ($username && $password && $password_repeat && $email && $groupID && $name) {
         return;
     }
 
+    $_SESSION['token'] = generate_random_token();
     if(createUser($username, $password, $email, $name, $groupID, $dateOfBirth, $gender, $picture) == 0) {
         //Logs the user in.
+        $_POST['token'] = $_SESSION['token'];
         include_once('login.php');
     }
-/*    else {
-        //May happen if the user refreshes the page after the form has been submitted.
-        if(usernameExists($username))
-            echo 'That username is already in use. Try a new one.';
-        elseif(emailExists($email))
-            echo 'That email is already in use. Use a different one.';
-
-    }*/
+    else
+        echo 'Merdou';
 }

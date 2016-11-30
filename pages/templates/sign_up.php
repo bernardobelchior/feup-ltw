@@ -1,3 +1,9 @@
+<?php
+include_once('utils/utils.php');
+
+$_SESSION['token'] = generate_random_token();
+?>
+
 <script src="/js/sign_up.js"></script>
 <link rel="stylesheet" href="../css/sign_up.min.css">
 
@@ -9,6 +15,7 @@
     <input id="name" type="text" name="name" placeholder="Name" required/>
 
     <!-- Upload picture -->
+    <input type="hidden" name="token" value="<?php echo $_SESSION['token']; ?>">
     <button type="submit">Submit</button>
     <span id="output"></span>
 </form>

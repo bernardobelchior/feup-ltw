@@ -1,18 +1,24 @@
 <?php
 include_once('../../database/restaurants.php');
-session_start();
+include_once('../utils/utils.php');
 
-$name = $_POST['name'];
-$address = $_POST['address'];
-$description = $_POST['description'];
-$ownerId = $_SESSION['ownerId'];
-//FIXME: Bug with insert
+session_start(['cookie_httponly' => true]);
+
+// Check if the user comes from the Add Restaurant page.
+if ($_SESSION['token'] !== $_POST['token']) {
+    header('HTTP/1.0 403 Not Found');
+    header('Location: ../403.php');
+    die();
+}
+
+$name = htmlspecialchars($_POST['name']);
+$address = htmlspecialchars($_POST['address']);
+$description = htmlspecialchars($_POST['description']);
+
+//Sets the owner. If no owner is set, the owner is the user signed in.
+$ownerId = isset($_SESSION['ownerId']) ? $_SESSION['ownerId'] : $_SESSION['userId'];
+
 if (isset($name) && isset($address))
-    var_dump(addRestaurant($ownerId, $name, $address, $description));
+    addRestaurant($ownerId, $name, $address, $description);
 
-var_dump($name);
-var_dump($address);
-var_dump($description);
-var_dump($ownerId);
-
-unset($_SESSION['ownerId']);
+$_SESSION['token'] = generate_random_token();

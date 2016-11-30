@@ -3,12 +3,15 @@
 
 <?php
 include_once('../database/users.php');
+include_once('utils/utils.php');
 
-$id = (int)$_GET['id'];
+$_SESSION['token'] = generate_random_token();
+$id = (int)htmlspecialchars($_GET['id']);
 
 if (!idExists($id)) {
     header('HTTP/1.0 404 Not Found');
     header('Location: 404.php');
+    die();
 }
 
 $username = getUserField($id, 'Username');
@@ -29,9 +32,13 @@ $name = getUserField($id, 'Name');
 
         <?php
         if (groupIdHasPermissions((int)$_SESSION['groupId'], 'EDIT_ANY_PROFILE') || (int)$_SESSION['userId'] === $id) {
-            echo '<div id="edit-profile">';
-            echo '<a href="edit_profile.php?id=' . $id . '"><button>Edit Profile</button></a>';
-            echo '</div>';
+            $_POST['token'] = $_SESSION['token'];
+            var_dump($_POST['token']);
+            echo '<form id="edit-profile" action="edit_profile.php" method="post">';
+            echo '<input type="hidden" name="id" value="' . $id . '">';
+            echo '<input type="hidden" name="token" value="' . $_SESSION['token'] . '">';
+            echo '<button type="submit">Edit Profile</button>';
+            echo '</form>';
         }
         ?>
     </div>

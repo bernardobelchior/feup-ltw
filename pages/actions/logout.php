@@ -1,8 +1,9 @@
 <?php
-session_start();
+session_start(['cookie_httponly' => true]);
 
 if (isset($_SESSION['username'])) {
     $_SESSION = array();
-    session_destroy();
+    session_regenerate_id(true);
     header('Location: ../logout.php');
+    die();
 }
