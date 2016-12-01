@@ -36,7 +36,7 @@ if (!groupIdHasPermissions($_SESSION['groupId'], 'EDIT_ANY_PROFILE') &&
     <label id="username"> <?php echo getUserField($id, 'Username'); ?>
     </label>
     <input type="hidden" name="id" value="<?php echo $id; ?>">
-    <input id="name" type="text" name="name" value="<?php echo /*getUserField($id, 'Name')*/htmlspecialchars('<body onload=alert(document.cookie)>'); ?>"/>
+    <input id="name" type="text" name="name" value="<?php echo getUserField($_SESSION['userId'], 'Name');?>"/>
     <input id="email" type="email" name="email" value="<?php echo getUserField($id, 'Email'); ?>"/>
     <input id="date" type="text" name="date" placeholder="yyyy-mm-dd"
            value="<?php echo getUserField($id, 'DateOfBirth'); ?>"/>
@@ -51,4 +51,22 @@ if (!groupIdHasPermissions($_SESSION['groupId'], 'EDIT_ANY_PROFILE') &&
     <span id="output"></span>
 </form>
 
-<button id="change_password">Change Password</button>
+<!-- Trigger/Open The Modal -->
+<button id="change-pass-btn">Change Password</button>
+
+<!-- The Modal -->
+<div id="change-pass-modal" class="modal">
+
+  <!-- Modal content -->
+  <div class="modal-content">
+    <span class="close">x</span>
+    <form id="change-pass-form" method="post" action="actions/change_password.php" onsubmit="return validateNewPassword();">
+      <input id="old-password" type="password" name="old-password" placeholder="Current Password"/>
+      <input id="new-password" type="password" name="new-password" placeholder="New Password"/>
+      <input id="new-password-repeat" type="password" name="new-password-repeat" placeholder="Repeat New Password"/>
+      <button type="submit">Change Password</button>
+      <span id="password-output"/>
+    </form>
+  </div>
+
+</div>
