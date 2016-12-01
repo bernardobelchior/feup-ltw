@@ -18,14 +18,24 @@
 
 }
 
-.restaurant-container {
-  @include container;
-  display: inline-block;
-  margin-right: 0.5rem;
-  vertical-align: middle;
+#restaurants {
+  overflow-x: scroll;
+  white-space: nowrap;
 
-  span {
-    display: block;
+  .restaurant-container {
+    @include container;
+    display: inline-block;
+    vertical-align: middle;
+    margin: 0 0;
+    overflow-x: hidden;
+
+    &:not(:first-child) {
+      margin-left: 0.5rem;
+    }
+
+    span {
+      display: block;
+    }
   }
 }
 
