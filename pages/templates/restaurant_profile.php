@@ -1,7 +1,7 @@
 <?php
 include_once('../database/restaurants.php');
 
-$id = $_GET['id'];
+$id = (int) htmlspecialchars($_GET['id']);
 
 if (!isset($id)) {
     header('HTTP/1.0 404 Not Found');
@@ -20,17 +20,18 @@ unset($restaurantInfo);
 <link rel="stylesheet" href="../css/common.min.css">
 
 <div id="restaurant-profile" class="container">
-    <span>
+    <!-- photo -->
+    <div>
         <?php echo $name; ?>
-    </span>
+    </div>
 
-    <span>
+    <div>
         <?php echo $address; ?>
-    </span>
+    </div>
 
-    <span>
+    <div>
         <?php echo $description; ?>
-    </span>
+    </div>
 </div>
 
 

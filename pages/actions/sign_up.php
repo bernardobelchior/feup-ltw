@@ -18,7 +18,7 @@ $password = htmlspecialchars($_POST['password']);
 $password_repeat = htmlspecialchars($_POST['password-repeat']);
 $email = htmlspecialchars($_POST['email']);
 $name = htmlspecialchars($_POST['name']);
-$groupID = 4;
+$groupID = 3; //Regular user group ID
 $dateOfBirth;
 $gender;
 $picture;
@@ -58,6 +58,4 @@ if ($username && $password && $password_repeat && $email && $groupID && $name) {
         $_POST['token'] = $_SESSION['token'];
         include_once('login.php');
     }
-    else
-        echo 'Merdou';
 }

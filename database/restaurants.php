@@ -36,7 +36,15 @@ function getRestaurantField($restaurantId, $field) {
 function getRestaurantInfo($restaurantId) {
     global $db;
 
-    $statement = $db->prepare('SELECT * FROM Restaurant WHERE ID = ?');
+    $statement = $db->prepare('SELECT * FROM Restaurants WHERE ID = ?');
     $statement->execute([$restaurantId]);
     return $statement->fetch();
+}
+
+function getUserRestaurants($ownerId) {
+    global $db;
+
+    $statement = $db->prepare('SELECT * FROM Restaurants WHERE OwnerID = ?');
+    $statement->execute([$ownerId]);
+    return $statement->fetchAll();
 }

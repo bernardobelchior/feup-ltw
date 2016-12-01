@@ -2,9 +2,13 @@ html {
   background-color: #F9FCCF;
 }
 
-.container {
+@mixin container {
   margin: 1em auto;
   border: solid thin lightgray;
   padding: 1em;
+}
+
+.container {
+  @include container;
   width: 90%;
 }

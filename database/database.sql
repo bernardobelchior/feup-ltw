@@ -59,8 +59,7 @@ CREATE TABLE Replies (
 /* User Groups */
 INSERT INTO UserGroups VALUES (NULL, 'ANONYMOUS');
 INSERT INTO UserGroups VALUES (NULL, 'ADMIN');
-INSERT INTO UserGroups VALUES (NULL, 'RESTAURANT_OWNER');
-INSERT INTO UserGroups VALUES (NULL, 'REGULAR_USER');
+INSERT INTO UserGroups VALUES (NULL, 'USER');
 
 /* Permissions */
 INSERT INTO Permissions VALUES (NULL, 'ADD_RESTAURANT');
@@ -107,7 +106,7 @@ INSERT INTO GroupsPermissions VALUES (NULL, 2, 16);
 INSERT INTO GroupsPermissions VALUES (NULL, 2, 17);
 INSERT INTO GroupsPermissions VALUES (NULL, 2, 18);
 
-/* Restaurant Owner Basic Permissions */
+/* User Basic Permissions */
 INSERT INTO GroupsPermissions VALUES (NULL, 3, 1);
 INSERT INTO GroupsPermissions VALUES (NULL, 3, 2);
 INSERT INTO GroupsPermissions VALUES (NULL, 3, 3);
@@ -117,9 +116,3 @@ INSERT INTO GroupsPermissions VALUES (NULL, 3, 9);
 INSERT INTO GroupsPermissions VALUES (NULL, 3, 13);
 INSERT INTO GroupsPermissions VALUES (NULL, 3, 14);
 INSERT INTO GroupsPermissions VALUES (NULL, 3, 15);
-
-/* Regular User Basic Permissions */
-INSERT INTO GroupsPermissions VALUES (NULL, 4, 7);
-INSERT INTO GroupsPermissions VALUES (NULL, 4, 8);
-INSERT INTO GroupsPermissions VALUES (NULL, 4, 9);
-

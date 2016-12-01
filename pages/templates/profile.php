@@ -1,8 +1,10 @@
 <link rel="stylesheet" href="../css/profile.min.css">
 <link rel="stylesheet" href="../css/common.min.css">
+<script type="application/javascript" src="../js/profile.js"></script>
 
 <?php
 include_once('../database/users.php');
+include_once('../database/restaurants.php');
 include_once('utils/utils.php');
 
 $_SESSION['token'] = generateRandomToken();
@@ -54,11 +56,26 @@ $name = getUserField($id, 'Name');
 
 <div class="container" id="restaurants">
     <?php
+
+    /* Show all the restaurant the user has. */
+    $restaurants = getUserRestaurants($_SESSION['userId']);
+
+    foreach ($restaurants as $restaurant) {
+        echo '<div class="restaurant-container" onclick="openRestaurantProfile(' . $restaurant['ID'] . ')">';
+        // echo image
+        echo '<span>' . (string)$restaurant['Name'] . '</span>';
+        echo '<span>' . (string)$restaurant['Address'] . '</span>';
+        echo '</div>';
+    }
+
+    /* Shows the add restaurant button if the user has permission to add a restaurant. */
     if (groupIdHasPermissions($_SESSION['groupId'], 'ADD_ANY_RESTAURANT') || (int)$_SESSION['userId'] === $id) {
         $_SESSION['ownerId'] = $id;
+        echo '<div class="restaurant-container">';
         echo '<a href="add_restaurant.php">';
         echo '<button type="submit">Add Restaurant</button>';
         echo '</a>';
+        echo '</div>';
     }
     ?>
 </div>
