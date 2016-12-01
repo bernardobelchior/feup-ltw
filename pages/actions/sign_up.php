@@ -18,7 +18,6 @@ $password = htmlspecialchars($_POST['password']);
 $password_repeat = htmlspecialchars($_POST['password-repeat']);
 $email = htmlspecialchars($_POST['email']);
 $name = htmlspecialchars($_POST['name']);
-$groupID = 3; //Regular user group ID
 $dateOfBirth;
 $gender;
 $picture;
@@ -53,7 +52,7 @@ if ($username && $password && $password_repeat && $email && $groupID && $name) {
     }
 
     $_SESSION['token'] = generateRandomToken();
-    if(createUser($username, $password, $email, $name, $groupID, $dateOfBirth, $gender, $picture) == 0) {
+    if(createUser($username, $password, $email, $name, $dateOfBirth, $gender, $picture) == 0) {
         //Logs the user in.
         $_POST['token'] = $_SESSION['token'];
         include_once('login.php');

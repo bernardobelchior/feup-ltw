@@ -1,23 +1,24 @@
 <?php
 include_once('connection.php');
+$USER_GROUP_ID = 3; //Regular user group ID.
 
 /**
- * Adds the user to the database.
+ * Adds the user to the database. The user is created in the USER group.
  * @param $username string User's chosen name to use as login
  * @param $password string User's password, it is assumed that it is already hashed.
  * @param $email string User email
  * @param $name string User real life name
- * @param $groupId int ID of the user's permission group.
  * @param $dateOfBirth string User's date of birth
  * @param $gender string User's gender
  * @param $picture string User profile picture path.
  * @return Error code (0 if ok).
  */
-function createUser($username, $password, $email, $name, $groupId, $dateOfBirth, $gender, $picture) {
+function createUser($username, $password, $email, $name, $dateOfBirth, $gender, $picture) {
     global $db;
+    global $USER_GROUP_ID;
 
     $statement = $db->prepare('INSERT INTO Users VALUES(NULL, ?, ?, ?, ?, ?, ?, ?, ?)');
-    $statement->execute([$username, $password, $email, $name, $groupId, $dateOfBirth, $gender, $picture]);
+    $statement->execute([$username, $password, $email, $name, $USER_GROUP_ID, $dateOfBirth, $gender, $picture]);
     return $statement->errorCode(); //Returns 0 even if the insertion failed due to repeated username or email.
 }
 
