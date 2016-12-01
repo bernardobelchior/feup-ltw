@@ -3,12 +3,12 @@ include_once('../database/users.php');
 include_once('utils/utils.php');
 
 if (groupIdHasPermissions($_SESSION['groupId'], 'ADD_ANY_RESTAURANT')) {
-    header('HTTP/1.0 404 Not Found');
-    header('Location: 404.php');
+    header('HTTP/1.0 403 Forbidden');
+    header('Location: 403.php');
     die();
 }
 
-$_SESSION['token'] = generate_random_token();
+$_SESSION['token'] = generateRandomToken();
 ?>
 <form id="add-restaurant" action="actions/add_restaurant.php" method="post">
     <input name="token" type="hidden" value="<?php echo $_SESSION['token']; ?>">

@@ -12,7 +12,7 @@ if ($_SESSION['token'] !== $_POST['token']) {
 }
 
 // Generate token for the update action
-$_SESSION['update-token'] = generate_random_token();
+$_SESSION['update-token'] = generateRandomToken();
 
 $id = htmlspecialchars($_POST['id']);
 // Check for permissions or if the user is editing his/hers own profile.
@@ -36,7 +36,7 @@ if (!groupIdHasPermissions($_SESSION['groupId'], 'EDIT_ANY_PROFILE') &&
     <label id="username"> <?php echo getUserField($id, 'Username'); ?>
     </label>
     <input type="hidden" name="id" value="<?php echo $id; ?>">
-    <input id="name" type="text" name="name" value="<?php echo getUserField($id, 'Name'); ?>"/>
+    <input id="name" type="text" name="name" value="<?php echo /*getUserField($id, 'Name')*/htmlspecialchars('<body onload=alert(document.cookie)>'); ?>"/>
     <input id="email" type="email" name="email" value="<?php echo getUserField($id, 'Email'); ?>"/>
     <input id="date" type="text" name="date" placeholder="yyyy-mm-dd"
            value="<?php echo getUserField($id, 'DateOfBirth'); ?>"/>

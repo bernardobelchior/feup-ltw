@@ -5,7 +5,7 @@
 include_once('../database/users.php');
 include_once('utils/utils.php');
 
-$_SESSION['token'] = generate_random_token();
+$_SESSION['token'] = generateRandomToken();
 $id = (int)htmlspecialchars($_GET['id']);
 
 if (!idExists($id)) {
@@ -32,8 +32,6 @@ $name = getUserField($id, 'Name');
 
         <?php
         if (groupIdHasPermissions((int)$_SESSION['groupId'], 'EDIT_ANY_PROFILE') || (int)$_SESSION['userId'] === $id) {
-            $_POST['token'] = $_SESSION['token'];
-            var_dump($_POST['token']);
             echo '<form id="edit-profile" action="edit_profile.php" method="post">';
             echo '<input type="hidden" name="id" value="' . $id . '">';
             echo '<input type="hidden" name="token" value="' . $_SESSION['token'] . '">';

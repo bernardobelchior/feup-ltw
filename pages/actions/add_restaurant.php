@@ -21,4 +21,4 @@ $ownerId = isset($_SESSION['ownerId']) ? $_SESSION['ownerId'] : $_SESSION['userI
 if (isset($name) && isset($address))
     addRestaurant($ownerId, $name, $address, $description);
 
-$_SESSION['token'] = generate_random_token();
+$_SESSION['token'] = generateRandomToken();

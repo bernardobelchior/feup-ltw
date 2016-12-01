@@ -1,7 +1,7 @@
 <?php
 include_once('utils/utils.php');
 
-$_SESSION['token'] = generate_random_token();
+$_SESSION['token'] = generateRandomToken();
 ?>
 
 <script src="/js/sign_up.js"></script>

@@ -52,7 +52,7 @@ if ($username && $password && $password_repeat && $email && $groupID && $name) {
         return;
     }
 
-    $_SESSION['token'] = generate_random_token();
+    $_SESSION['token'] = generateRandomToken();
     if(createUser($username, $password, $email, $name, $groupID, $dateOfBirth, $gender, $picture) == 0) {
         //Logs the user in.
         $_POST['token'] = $_SESSION['token'];

@@ -1,5 +1,6 @@
 <?php
 session_start(['cookie_httponly' => true]);
+
 include_once('../../database/users.php');
 include_once('../utils/utils.php');
 
@@ -10,7 +11,7 @@ if ($_SESSION['update-token'] !== $_POST['update-token']) {
     die();
 }
 
-$_SESSION['update-token'] = generate_random_token();
+$_SESSION['update-token'] = generateRandomToken();
 
 $id = htmlspecialchars($_POST['id']);
 

@@ -2,16 +2,6 @@
 include_once('../../database/users.php');
 session_start(['cookie_httponly' => true]);
 
-var_dump($_SESSION['token']);
-var_dump($_POST['token']);
-
-// Check if the user came from a valid page.
-if($_SESSION['token'] !== $_POST['token']) {
-    header('HTTP/1.0 403 Not Found');
-//    header('Location: ../403.php');
-    die();
-}
-
 $username = htmlspecialchars($_POST['username']);
 $password = htmlspecialchars($_POST['password']);
 
@@ -25,7 +15,6 @@ if ($username && $password) {
         die();
     }
 }
-
 
 function initializeSession($username) {
     session_regenerate_id(true);
