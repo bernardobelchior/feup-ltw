@@ -3,11 +3,8 @@ include_once('../../database/users.php');
 include_once('../utils/utils.php');
 session_start(['cookie_httponly' => true]);
 
-var_dump($_SESSION['token']);
-var_dump($_POST['token']);
-
 // Check if the user came from the Sign Up page.
-if($_SESSION['token'] !== $_POST['token']) {
+if ($_SESSION['token'] !== $_POST['token']) {
     header('HTTP/1.0 403 Not Found');
     header('Location: ../403.php');
     die();
@@ -23,7 +20,7 @@ $gender;
 $picture;
 
 
-if ($username && $password && $password_repeat && $email && $groupID && $name) {
+if ($username && $password && $password_repeat && $email && $name) {
     if (strlen($username) < 8) {
         echo 'A username needs to be at least 8 characters long.';
         return;
@@ -51,10 +48,8 @@ if ($username && $password && $password_repeat && $email && $groupID && $name) {
         return;
     }
 
-    $_SESSION['token'] = generateRandomToken();
-    if(createUser($username, $password, $email, $name, $dateOfBirth, $gender, $picture) == 0) {
+    if (createUser($username, $password, $email, $name, $dateOfBirth, $gender, $picture) == 0) {
         //Logs the user in.
-        $_POST['token'] = $_SESSION['token'];
         include_once('login.php');
     }
 }

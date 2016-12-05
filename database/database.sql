@@ -5,7 +5,7 @@ CREATE TABLE Users (
   Email       TEXT    NOT NULL UNIQUE,
   Name        TEXT    NOT NULL,
   GroupID     INTEGER NOT NULL REFERENCES UserGroups,
-  DateOfBirth DATE,
+  DateOfBirth INTEGER, /* Unix timestamp */
   Gender      CHARACTER(1),
   Picture     TEXT
 );
@@ -44,8 +44,9 @@ CREATE TABLE Reviews (
   ID           INTEGER PRIMARY KEY,
   RestaurantID INTEGER NOT NULL REFERENCES Restaurants,
   ReviewerID   INTEGER NOT NULL REFERENCES Users,
+  Title        TEXT    NOT NULL,
   Score        TINYINT NOT NULL,
-  Date         DATE    NOT NULL,
+  Date         INTEGER NOT NULL, /* Unix timestamp */
   Comment      TEXT
 );
 
@@ -53,7 +54,7 @@ CREATE TABLE Replies (
   ID       INTEGER PRIMARY KEY,
   ReviewID INTEGER NOT NULL REFERENCES Reviews,
   Text     TEXT    NOT NULL,
-  Date     DATE    NOT NULL
+  Date     INTEGER NOT NULL /* Unix timestamp */
 );
 
 /* User Groups */
