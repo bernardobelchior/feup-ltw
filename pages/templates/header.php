@@ -9,31 +9,36 @@
             crossorigin="anonymous"></script>
     <script src="https://use.fontawesome.com/490d8b8016.js"></script>
     <link rel="stylesheet" type="text/css" href="/css/header.min.css"/>
+    <script src="/js/header.js"></script>
 </head>
 <body>
-
+<div class="overlay"></div>
 <div class="top-bar">
     <ul>
         <li id="home_button"><a href="../index.php">Home</a></li>
-        <li id="greeting">
             <?php
             if (isset($_SESSION['username'])) {
-                echo 'Hello, <a href="profile.php?id=' . $_SESSION['userId'] . '">' . $_SESSION['name'] . '</a>!';
+                echo '<li id="greeting">
+                    Hello, <a href="profile.php?id=' . $_SESSION['userId'] . '">' . $_SESSION['name'] . '</a>!
+                    </li>';
             }
             ?>
-        </li>
         <li id="user_action">
             <?php
             if (isset($_SESSION['username'])) {
-                echo '<form action="actions/logout.php">';
+                echo '<form id="logout_form" action="actions/logout.php">';
                 echo '<button id="logout" type="submit"><i class="fa fa-sign-out" aria-hidden="true"></i> Logout</button>';
                 echo '</form>';
             } else {
-                echo '<form action="login.php">';
-                echo '<button id="login" type="submit"><i class="fa fa-sign-in" aria-hidden="true"></i> Login</button>';
+                echo '<span id="user_login">';
+                echo '<span id="login_text">Log In</span>';
+                echo '<form id="login_form" method="post" action="actions/login.php">';
+                    echo '<input type="text" name="username" placeholder="Your Username"/>';
+                    echo '<input type="password" name="password" placeholder="Your Password"/>';
+                    echo '<button id="enter" type="submit">Enter</button>';
                 echo '</form>';
-                echo '<form action="sign_up.php">';
-                echo '<button id="sign-up" type="submit"><i class="fa fa-sign-up" aria-hidden="true"></i> Sign Up</button>';
+                echo '</span>';
+                echo '<span id="sign_up_text">Not a Member?</span>';
                 echo '</form>';
             }
             ?>
