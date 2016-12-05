@@ -1,3 +1,5 @@
+<link rel="stylesheet" type="text/css" href="/css/common.min.css"/>
+
 <form method="post" action="actions/login.php">
     <input type="text" name="username" placeholder="Username"/>
     <input type="password" name="password" placeholder="Password"/>

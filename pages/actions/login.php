@@ -12,7 +12,7 @@ if ($username && $password) {
         die();
     } else {
         $_SESSION['error'] = 'The username and the password do not match.';
-        header('Location: ../login.php');
+        header('Location: ../../index.php');
         die();
     }
 }

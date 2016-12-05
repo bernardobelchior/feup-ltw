@@ -1,5 +1,14 @@
+html, body{
+  min-height: 100%;
+}
+
 body{
   background-color: #EEF0C3;
+  position: relative;
+}
+
+#spacing {
+  margin-top: 3em;
 }
 
 .page_content{
