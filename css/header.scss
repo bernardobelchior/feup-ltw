@@ -1,13 +1,15 @@
 .top-bar {
-  background-color:#62AB93;
+  background-color: #62AB93;
   width: 100%;
   height: 3em;
   position: fixed;
   top: 0px;
   left: 0px;
   right: 0px;
+  border-bottom: 1px solid #447c67;
+  z-index: 1;
 
-  ul{
+  ul {
     list-style-type: none;
     margin: 0;
     padding: 0;
@@ -15,27 +17,30 @@
     overflow: hidden;
   }
 
-  li{
-    display: inline-block ;
-    font-size: 1.2em;
-    padding: 0.5em 0.5em;
+  li {
+    display: inline-block;
+    padding: 0.7em;
   }
 
-  #home_button{
+  #home_button {
+    margin-right: 65%;
   }
 
-  #greeting{
+  #greeting {
+    padding-right: 0em;
   }
 
-  #user_action{
+  #user_action {
+    padding-left: 0em;
     float: right;
 
-    form button {
-      padding: 0;
+    form {
+      display: inline-block;
+      padding-left: 0;
     }
   }
 }
 
-#spacing{
-  margin-top: 3.5em;
+#spacing {
+  margin-top: 3em;
 }

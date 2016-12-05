@@ -21,28 +21,31 @@ $email = getUserField($id, 'Email');
 $name = getUserField($id, 'Name');
 
 ?>
-<div id="profile" class="container">
-    <div id="profile-header">
-        <div id="user-identification">
-            <span id="name">
-                <?php echo $name; ?>
-            </span>
-            <span id="username">
-                (<?php echo $username; ?>)
-            </span>
+<div class="page_content">
+    <header>
+        <span id="user_picture"></span>
+        <div id="user_realname">
+            <strong>
+                <?php echo $name ?>
+            </strong>
         </div>
-
-        <?php
-        if (groupIdHasPermissions((int)$_SESSION['groupId'], 'EDIT_ANY_PROFILE') || (int)$_SESSION['userId'] === $id) {
-            echo '<form id="edit-profile" action="edit_profile.php" method="post">';
-            echo '<input type="hidden" name="id" value="' . $id . '">';
-            echo '<input type="hidden" name="token" value="' . $_SESSION['token'] . '">';
-            echo '<button type="submit">Edit Profile</button>';
-            echo '</form>';
-        }
-        ?>
+        <div id="user_username">
+            <?php echo $username ?>
+        </div>
+    </header>
+    <div id="profile" class="container">
+        <div id="profile-header">
+            <?php
+            if (groupIdHasPermissions((int)$_SESSION['groupId'], 'EDIT_ANY_PROFILE') || (int)$_SESSION['userId'] === $id) {
+                echo '<form id="edit-profile" action="edit_profile.php" method="post">';
+                echo '<input type="hidden" name="id" value="' . $id . '">';
+                echo '<input type="hidden" name="token" value="' . $_SESSION['token'] . '">';
+                echo '<button type="submit">Edit Profile</button>';
+                echo '</form>';
+            }
+            ?>
+        </div>
     </div>
-
     <div>
         <span id="email">Email: </span>
         <span> <?php echo $email; ?></span>
@@ -51,6 +54,8 @@ $name = getUserField($id, 'Name');
     <div class="image">
         <img src="" alt="User profile picture"/>
     </div>
+
+</div>
 
 </div>
 

@@ -1,0 +1,47 @@
+body{
+  background-color: #faffd7;
+}
+
+#search {
+  margin-right: 0%;
+  margin-left: 0%;
+
+  form {
+    margin-left: 0%;
+    margin-right: 0%;
+    margin-top: 0.1em;
+    input {
+      width: 90%;
+    }
+  }
+}
+
+section{
+  margin-top: 2em;
+
+  .section_header{
+    font-size: 1.5em;
+    display: block;
+    font-weight: bold;
+  }
+
+  .section_subtitle{
+    margin-top: 0.1em;
+    padding-left: 1em;
+    font-size: 1.2em;
+    display: block;
+  }
+
+  article{
+    margin:1em;
+  }
+}
+
+#categories{
+  li{
+    display: inline-table;
+    padding: 0.1em;
+  }
+}
+
+
