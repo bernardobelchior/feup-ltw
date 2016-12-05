@@ -11,6 +11,7 @@ if ($username && $password) {
         header('Location: ../profile.php?id=' . $_SESSION['userId']);
         die();
     } else {
+        $_SESSION['error'] = 'The username and the password do not match.';
         header('Location: ../login.php');
         die();
     }
