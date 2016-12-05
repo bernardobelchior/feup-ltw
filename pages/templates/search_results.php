@@ -10,7 +10,7 @@ $orderedRestaurants = searchRestaurants($query);
 $orderedUsers = searchUsers($query);
 ?>
 
-<script src="../js/search_results.js"></script>
+<script src="../js/common.js"></script>
 <link rel="stylesheet" type="text/css" href="../css/search_results.min.css"/>
 
 <div id="restaurants" class="container">

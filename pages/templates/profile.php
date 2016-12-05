@@ -1,6 +1,6 @@
 <link rel="stylesheet" href="../css/profile.min.css">
 <link rel="stylesheet" href="../css/common.min.css">
-<script type="application/javascript" src="../js/profile.js"></script>
+<script type="application/javascript" src="../js/common.js"></script>
 
 <?php
 include_once('../database/users.php');

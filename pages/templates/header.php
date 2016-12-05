@@ -45,6 +45,11 @@
     </ul>
 </div>
 <div id="spacing"></div>
+<!-- TODO: Check for $_SESSION['signup-error'].
+ If it is set, then there was an error in signup and the signup form should open
+ immediately.
+Don't forget to unset it afterwards.
+ -->
 <div class="overlay" hidden="hidden">
     <div id="sign_up_overlay">
         <script src="/js/sign_up.js"></script>

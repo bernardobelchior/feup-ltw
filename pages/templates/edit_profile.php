@@ -6,7 +6,7 @@ include_once('utils/utils.php');
 
 // Check if the user did not come from the profile page.
 if ($_SESSION['token'] !== $_POST['token']) {
-    header('HTTP/1.0 403 Not Found');
+    header('HTTP/1.0 403 Forbidden');
     header('Location: 403.php');
     die();
 }

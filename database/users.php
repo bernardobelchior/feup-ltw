@@ -17,7 +17,7 @@ function createUser($username, $password, $email, $name) {
 
     $statement = $db->prepare('INSERT INTO Users VALUES(NULL, ?, ?, ?, ?, ?, NULL, NULL, NULL)');
     $statement->execute([$username, $password, $email, $name, $USER_GROUP_ID]);
-    return $statement->errorInfo(); //Returns 0 even if the insertion failed due to repeated username or email.
+    return $statement->errorInfo();
 }
 
 /**

@@ -112,3 +112,42 @@ function searchRestaurants($query) {
     $statement->execute();
     return $statement->fetchAll();
 }
+
+/** Gets the restaurant owner ID from the review ID.
+ * @param $reviewId int Review ID.
+ * @return array Restaurant Owner ID
+ */
+function getRestaurantOwnerFromReview($reviewId){
+    global $db;
+
+    $statement = $db->prepare('SELECT OwnerID FROM Reviews, Restaurants WHERE Reviews.RestaurantID = Restaurants.ID AND Reviews.ID = ?');
+    $statement->execute([$reviewId]);
+    return $statement->fetch()['OwnerID'];
+}
+
+/** Adds the reply to the database.
+ * @param $reviewId int Review ID.
+ * @param $reply string Reply text.
+ * @return array Error info.
+ */
+function addReply($reviewId, $replierId, $reply) {
+    global $db;
+
+    $statement = $db->prepare('INSERT INTO Replies VALUES(NULL, ?, ?, ?, ?)');
+    $statement->execute([$reviewId, $replierId, $reply, time()]);
+    return $statement->errorInfo();
+}
+
+/** Gets all replies to the given review.
+ * @param $reviewId int Review ID
+ * @return array All replies
+ */
+function getAllReplies($reviewId) {
+    global $db;
+
+    // Possibly sort by Date? Not sure if needed because the replies are inserted
+    // into the table in the same order as they should be displayed
+    $statement = $db->prepare('SELECT * FROM Replies WHERE ReviewID = ?');
+    $statement->execute([$reviewId]);
+    return $statement->fetchAll();
+}

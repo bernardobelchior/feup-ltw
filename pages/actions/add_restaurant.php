@@ -6,7 +6,7 @@ session_start(['cookie_httponly' => true]);
 
 // Check if the user comes from the Add Restaurant page.
 if ($_SESSION['token'] !== $_POST['token']) {
-    header('HTTP/1.0 403 Not Found');
+    header('HTTP/1.0 403 Forbidden');
     header('Location: ../403.php');
     die();
 }
