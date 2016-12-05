@@ -92,3 +92,23 @@ function restaurantIdExists($restaurantId) {
     $statement->execute([$restaurantId]);
     return $statement->fetch();
 }
+
+/** Searches all restaurants with any of the words present in query separated by a space.
+ * The query is assumed to have been trimmed (no whitespaces at the beginning or end)
+ * and only a single space between words.
+ * The statement checks for lower case names, so the query MUST be lower case
+ * in order to make it case insensitive.
+ * @param $query string The search string.
+ * @return array All results.
+ */
+function searchRestaurants($query) {
+    global $db;
+
+    //Prepare the query to search for each word individually
+    $where = '"%' . str_replace(' ', '%" OR LOWER(Name) LIKE "%', $query) . '%"';
+
+    // Not sure why, but using the execute([$where]) does not work, this is a workaround.
+    $statement = $db->prepare('SELECT ID, Name, Address FROM Restaurants WHERE LOWER(Name) LIKE' . $where);
+    $statement->execute();
+    return $statement->fetchAll();
+}

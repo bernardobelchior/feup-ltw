@@ -9,16 +9,13 @@ if ($_SESSION['token'] !== $_POST['token']) {
     header('Location: ../403.php');
     die();
 }
+$_SESSION['token'] = generateRandomToken();
 
 $username = htmlspecialchars($_POST['username']);
 $password = htmlspecialchars($_POST['password']);
 $password_repeat = htmlspecialchars($_POST['password-repeat']);
 $email = htmlspecialchars($_POST['email']);
 $name = htmlspecialchars($_POST['name']);
-$dateOfBirth;
-$gender;
-$picture;
-
 
 if ($username && $password && $password_repeat && $email && $name) {
     if (strlen($username) < 8) {
@@ -48,8 +45,13 @@ if ($username && $password && $password_repeat && $email && $name) {
         return;
     }
 
-    if (createUser($username, $password, $email, $name, $dateOfBirth, $gender, $picture) == 0) {
+    if (($result = createUser($username, $password, $email, $name)) == 0) {
+        echo ' ok';
+        die();
         //Logs the user in.
         include_once('login.php');
     }
+
+    var_dump($result);
+    die();
 }

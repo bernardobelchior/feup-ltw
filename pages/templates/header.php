@@ -8,7 +8,7 @@
             integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
             crossorigin="anonymous"></script>
     <script src="https://use.fontawesome.com/490d8b8016.js"></script>
-    <link rel="stylesheet" type="text/css" href="/css/header.min.css"/>
+    <link rel="stylesheet" type="text/css" href="../css/header.min.css"/>
 </head>
 <body>
 
