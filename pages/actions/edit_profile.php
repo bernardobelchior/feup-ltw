@@ -6,7 +6,7 @@ include_once('../utils/utils.php');
 
 // If the user didn't come from the edit profile page.
 if ($_SESSION['update-token'] !== $_POST['update-token']) {
-    header('HTTP/1.0 403 Not Found');
+    header('HTTP/1.0 403 Forbidden');
     header('Location: ../403.php');
     die();
 }
@@ -28,7 +28,6 @@ $name = htmlspecialchars($_POST['name']);
 $email = htmlspecialchars($_POST['email']);
 $date = htmlspecialchars($_POST['date']);
 $gender = htmlspecialchars($_POST['gender']);
-$picture;
 
 if (updateUser($id, $name, $email, $date, $gender) == 0) {
     $_SESSION['name'] = $name;

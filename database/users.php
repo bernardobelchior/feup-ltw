@@ -1,6 +1,7 @@
 <?php
 include_once('connection.php');
 $USER_GROUP_ID = 3; //Regular user group ID.
+//FIXME: All statements that return errorCode() should return errorInfo() as it gives more information.
 
 /**
  * Adds the user to the database. The user is created in the USER group.
@@ -134,25 +135,33 @@ function updateUser($userId, $name, $email, $date, $gender) {
 
     $statement = $db->prepare('UPDATE Users SET Name = ?, Email = ?, Gender = ?, DateOfBirth = ? WHERE id = ?');
     $statement->execute([$name, $email, $gender, $date, $userId]);
-    /*  $statement = $db->prepare('UPDATE Users SET Name = :name, Email = :email, Gender = :gender, DateOfBirth = :date WHERE id = :id');
-      $statement->bindParam(':name', $name);
-      $statement->bindParam(':email', $email);
-      $statement->bindParam(':gender', $gender);
-      $statement->bindParam(':date', $date);
-      $statement->bindParam(':id', $userId);
-
-      $statement->execute();*/
     return $statement->errorCode();
 }
 
+/** Updates the user password
+ * @param $userId int User ID
+ * @param $password string User password. Not hashed.
+ * @return string Returns error code.
+ */
 function updateUserPassword($userId, $password) {
   global $db;
 
   $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
-  $statement = $db->prepare('UPDATE Users SET Password = :password WHERE id = :id');
-  $statement->bindParam(':password', $hashed_password);
-  $statement->bindParam(':id', $userId);
-  $statement->execute();
+  $statement = $db->prepare('UPDATE Users SET Password = ? WHERE id = ?');
+  $statement->execute([$hashed_password, $userId]);
   return $statement->errorCode();
+}
+
+/**
+ * @param $userId int User ID
+ * @param $picturePath string Picture path
+ * @return array Statement error info.
+ */
+function changeProfilePicture($userId, $picturePath) {
+   global $db;
+
+   $statement = $db->prepare('UPDATE Users SET Picture = ? WHERE ID = ?;');
+   $statement->execute([$picturePath, $userId]);
+   return $statement->errorInfo();
 }

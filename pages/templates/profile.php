@@ -19,6 +19,10 @@ if (!idExists($id)) {
 $username = getUserField($id, 'Username');
 $email = getUserField($id, 'Email');
 $name = getUserField($id, 'Name');
+$profile_picture = getUserField($id, 'Picture');
+
+if($profile_picture === null)
+    $profile_picture = 'profile_pictures/facebook-avatar.jpg';
 
 ?>
 <div class="page_content">
@@ -52,7 +56,7 @@ $name = getUserField($id, 'Name');
     </div>
 
     <div class="image">
-        <img src="" alt="User profile picture"/>
+        <img src="<?php echo '../' . $profile_picture; ?>" alt="User profile picture"/>
     </div>
 
 </div>
