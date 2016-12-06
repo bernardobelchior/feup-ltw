@@ -5,7 +5,7 @@ include_once('../utils/utils.php');
 include_once('../../database/users.php');
 
 // If the user didn't come from a valid page.
-if ($_SESSION['update-token'] !== $_POST['update-token']) {
+if ($_SESSION['token'] !== $_POST['token']) {
     header('HTTP/1.0 403 Forbidden');
     header('Location: ../403.php');
     die();

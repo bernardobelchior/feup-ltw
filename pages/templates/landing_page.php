@@ -1,8 +1,8 @@
-<p>
-    Hello! This is the index.
-</p>
+<link rel="stylesheet" type="text/css" href="../css/landing_page.min.css"/>
 
-<form action="search_results.php" method="get">
-    <input type="text" name="query" required/>
-    <button type="submit">Search</button>
-</form>
+<div id="search">
+    <form action="search_results.php" method="get">
+        <input id="search-box" type="text" name="query" required/>
+        <button type="submit">Search</button>
+    </form>
+</div>

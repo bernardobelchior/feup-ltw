@@ -29,22 +29,21 @@
                 echo '<button id="logout" type="submit"><i class="fa fa-sign-out" aria-hidden="true"></i> Logout</button>';
                 echo '</form>';
             } else {
-                echo '<span id="user_login">';
+                echo '<div id="user_login">';
                 echo '<span id="login_text">Log In</span>';
                 echo '<form id="login_form" method="post" action="actions/login.php">';
                 echo '<input type="text" name="username" placeholder="Your Username"/>';
                 echo '<input type="password" name="password" placeholder="Your Password"/>';
                 echo '<button id="enter" type="submit">Enter</button>';
                 echo '</form>';
-                echo '</span>';
+                echo '</div>';
                 echo '<span id="sign_up_text">Not a Member?</span>';
-                echo '</form>';
             }
             ?>
         </li>
     </ul>
 </div>
-<div id="spacing"></div>
+
 <!-- TODO: Check for $_SESSION['signup-error'].
  If it is set, then there was an error in signup and the signup form should open
  immediately.
@@ -56,7 +55,7 @@ Don't forget to unset it afterwards.
         <?php
         include_once('utils/utils.php');
 
-        $_SESSION['token'] = generateRandomToken();
+        $_SESSION['signup-token'] = generateRandomToken();
         ?>
 
 
@@ -71,7 +70,7 @@ Don't forget to unset it afterwards.
                 <input id="name" type="text" name="name" placeholder="Name" required/>
 
                 <!-- Upload picture -->
-                <input type="hidden" name="token" value="<?php echo $_SESSION['token']; ?>">
+                <input type="hidden" name="signup-token" value="<?php echo $_SESSION['signup-token']; ?>">
                 <button type="submit">Submit</button>
                 <span id="output"></span>
             </form>

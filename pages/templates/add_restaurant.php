@@ -10,7 +10,9 @@ if (groupIdHasPermissions($_SESSION['groupId'], 'ADD_ANY_RESTAURANT')) {
 
 $_SESSION['token'] = generateRandomToken();
 ?>
-<form id="add-restaurant" action="actions/add_restaurant.php" method="post">
+<link rel="stylesheet" type="text/css" href="../css/common.min.css"/>
+
+<form id="add-restaurant" class="container" action="actions/add_restaurant.php" method="post">
     <input name="token" type="hidden" value="<?php echo $_SESSION['token']; ?>">
     <input name="name" type="text" placeholder="Name" required>
     <input name="address" type="text" placeholder="Address" required>

@@ -4,7 +4,7 @@ include_once('../utils/utils.php');
 session_start(['cookie_httponly' => true]);
 
 // Check if the user came from the Sign Up page.
-if ($_SESSION['token'] !== $_POST['token']) {
+if ($_SESSION['signup-token'] !== $_POST['signup-token']) {
     header('HTTP/1.0 403 Forbidden');
     header('Location: ../403.php');
     die();

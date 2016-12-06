@@ -3,6 +3,5 @@ function openUserProfile(userId) {
 }
 
 function openRestaurantProfile(restaurantId) {
-    console.log('oi');
     window.location = 'restaurant_profile.php?id=' + restaurantId;
 }
