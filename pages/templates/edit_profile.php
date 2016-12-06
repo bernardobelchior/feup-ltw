@@ -104,6 +104,4 @@ if (!groupIdHasPermissions($_SESSION['groupId'], 'EDIT_ANY_PROFILE') &&
                 <span id="password-output"/>
             </form>
         </div>
-
-        <button id="change_password">Change Password</button>
     </div>
