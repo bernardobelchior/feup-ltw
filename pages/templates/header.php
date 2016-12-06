@@ -29,16 +29,15 @@
                 echo '<button id="logout" type="submit"><i class="fa fa-sign-out" aria-hidden="true"></i> Logout</button>';
                 echo '</form>';
             } else {
-                echo '<span id="user_login">';
+                echo '<div id="user_login">';
                 echo '<span id="login_text">Log In</span>';
                 echo '<form id="login_form" method="post" action="actions/login.php">';
                 echo '<input type="text" name="username" placeholder="Your Username"/>';
                 echo '<input type="password" name="password" placeholder="Your Password"/>';
                 echo '<button id="enter" type="submit">Enter</button>';
                 echo '</form>';
-                echo '</span>';
+                echo '</div>';
                 echo '<span id="sign_up_text">Not a Member?</span>';
-                echo '</form>';
             }
             ?>
         </li>
