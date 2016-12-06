@@ -4,5 +4,5 @@ function openUserProfile(userId) {
 
 function openRestaurantProfile(restaurantId) {
     console.log('oi');
-    window.location.pathname = 'pages/restaurant_profile.php?id=' + restaurantId;
+    window.location = 'restaurant_profile.php?id=' + restaurantId;
 }
