@@ -7,7 +7,7 @@ include_once('../utils/utils.php');
 // If the user didn't come from the edit profile page.
 if ($_SESSION['update-token'] !== $_POST['update-token']) {
     header('HTTP/1.0 403 Forbidden');
-    header('Location: ../403.php');
+    header('Location: ../index.php?page=403.html');
     die();
 }
 
@@ -20,7 +20,7 @@ if (!groupIdHasPermissions($_SESSION['groupId'], 'EDIT_ANY_PROFILE') &&
     $id !== $_SESSION['userId']
 ) {
     header('HTTP/1.0 404 Not Found');
-    header('Location: 404.php');
+    header('Location: ../index.php?page=404.html');
     die();
 }
 
@@ -34,5 +34,5 @@ if (updateUser($id, $name, $email, $date, $gender) == 0) {
     $_SESSION['email'] = $email;
 }
 
-header('Location: ../profile.php?id=' . $id);
+header('Location: ../index.php?page=profile.php&id=' . $id);
 die();

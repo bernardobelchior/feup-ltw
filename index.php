@@ -1,4 +1,3 @@
 <?php
-header('Location: pages/landing_page.php');
+header('Location: pages/index.php?page=landing_page.php');
 die();
-

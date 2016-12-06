@@ -8,7 +8,7 @@ $id = (int)htmlspecialchars($_GET['id']);
 
 if (!idExists($id)) {
     header('HTTP/1.0 404 Not Found');
-    header('Location: 404.php');
+    header('Location: index.php?page=404.html');
     die();
 }
 
@@ -43,7 +43,7 @@ if ($profile_picture === null)
     <div>
         <?php
         if (groupIdHasPermissions((int)$_SESSION['groupId'], 'EDIT_ANY_PROFILE') || (int)$_SESSION['userId'] === $id) {
-            echo '<form id="edit-profile" action="edit_profile.php" method="post">';
+            echo '<form id="edit-profile" action="index.php?page=edit_profile.php" method="post">';
             echo '<input type="hidden" name="id" value="' . $id . '">';
             echo '<input type="hidden" name="token" value="' . $_SESSION['token'] . '">';
             echo '<button type="submit">Edit Profile</button>';
@@ -75,7 +75,7 @@ if ($profile_picture === null)
     if (groupIdHasPermissions($_SESSION['groupId'], 'ADD_ANY_RESTAURANT') || (int)$_SESSION['userId'] === $id) {
         $_SESSION['ownerId'] = $id;
         echo '<div class="restaurant-container">';
-        echo '<a href="add_restaurant.php">';
+        echo '<a href="index.php?page=add_restaurant.php">';
         echo '<button type="submit">Add Restaurant</button>';
         echo '</a>';
         echo '</div>';
