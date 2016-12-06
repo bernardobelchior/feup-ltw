@@ -55,7 +55,7 @@ Don't forget to unset it afterwards.
         <?php
         include_once('utils/utils.php');
 
-        $_SESSION['token'] = generateRandomToken();
+        $_SESSION['signup-token'] = generateRandomToken();
         ?>
 
 
@@ -70,7 +70,7 @@ Don't forget to unset it afterwards.
                 <input id="name" type="text" name="name" placeholder="Name" required/>
 
                 <!-- Upload picture -->
-                <input type="hidden" name="token" value="<?php echo $_SESSION['token']; ?>">
+                <input type="hidden" name="signup-token" value="<?php echo $_SESSION['signup-token']; ?>">
                 <button type="submit">Submit</button>
                 <span id="output"></span>
             </form>

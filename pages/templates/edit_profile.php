@@ -1,5 +1,3 @@
-<link rel="stylesheet" href="../css/edit_profile.min.css">
-<link rel="stylesheet" type="text/css" href="../css/common.min.css"/>
 <?php
 include_once('../database/users.php');
 include_once('utils/utils.php');
@@ -12,7 +10,7 @@ if ($_SESSION['token'] !== $_POST['token']) {
 }
 
 // Generate token for the update action
-$_SESSION['update-token'] = generateRandomToken();
+$_SESSION['token'] = generateRandomToken();
 
 $id = htmlspecialchars($_POST['id']);
 // Check for permissions or if the user is editing his/hers own profile.
@@ -24,9 +22,12 @@ if (!groupIdHasPermissions($_SESSION['groupId'], 'EDIT_ANY_PROFILE') &&
     die();
 }
 ?>
+
+<link rel="stylesheet" href="../css/edit_profile.min.css">
+<link rel="stylesheet" type="text/css" href="../css/common.min.css"/>
 <script type="text/javascript" src="../js/edit_profile.js"></script>
 
-<div class="page_content">
+<div class="container">
     <header class="page_title"><strong>Edit Profile</strong></header>
     <div id="general_info">
         <div class="section_title">General Info</div>
@@ -79,7 +80,7 @@ if (!groupIdHasPermissions($_SESSION['groupId'], 'EDIT_ANY_PROFILE') &&
     <!---->
 
     <form action="actions/upload_photo.php" method="post" enctype="multipart/form-data">
-        <input type="hidden" name="update-token" value="<?php echo $_SESSION['update-token']; ?>"/>
+        <input type="hidden" name="update-token" value="<?php echo $_SESSION['token']; ?>"/>
         <input type="hidden" name="id" value="<?php echo $id; ?>">
         Photo: <input type="file" name="photo" accept="image/*" required/>
         <button type="submit">Upload Photo</button>
