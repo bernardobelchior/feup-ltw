@@ -27,18 +27,24 @@ unset($restaurantInfo);
 <link rel="stylesheet" href="../css/restaurant_profile.min.css">
 
 <div id="restaurant-profile" class="container">
+    <ul id="profile_attr_list">
+      <li id="name">
+          <span class="list_attr_name"><strong>Name</strong></span>
+          <span class="list_attr_content"><?php echo $name; ?></span>
+          <span class="edit_link">Edit</span>
+      </li>
+      <li id="address">
+          <span class="list_attr_name"><strong>Address</strong></span>
+          <span class="list_attr_content"><?php echo $address; ?></span>
+          <span class="edit_link">Edit</span>
+      </li>
+      <li id="description">
+          <span class="list_attr_name"><strong>Description</strong></span>
+          <span class="list_attr_content"><?php echo $description; ?></span>
+          <span class="edit_link">Edit</span>
+      </li>
+    </ul>
     <!-- photo -->
-    <div>
-        Name: <?php echo $name; ?>
-    </div>
-
-    <div>
-        Address: <?php echo $address; ?>
-    </div>
-
-    <div>
-        Description: <?php echo $description; ?>
-    </div>
 </div>
 
 <div id="reviews" class="container">
@@ -70,12 +76,12 @@ unset($restaurantInfo);
 
             if ($ownerId === $_SESSION['userId'] || groupIdHasPermissions($_SESSION['groupId'], 'ADD_REPLY')) {
                 echo '<form method="post" action="actions/add_reply.php">
-                
-                <input type="hidden" name="review-id" value="' . $review['ID'] . '"> 
-                <input type="hidden" name="token" value="' . $_SESSION['token'] . '"> 
+
+                <input type="hidden" name="review-id" value="' . $review['ID'] . '">
+                <input type="hidden" name="token" value="' . $_SESSION['token'] . '">
                 <textarea name="reply" placeholder="Reply"></textarea>
                 <button type="submit">Reply</button>
-                
+
                 </form>';
             }
 
