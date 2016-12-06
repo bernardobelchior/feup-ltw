@@ -43,7 +43,7 @@
         </li>
     </ul>
 </div>
-<div id="spacing"></div>
+
 <!-- TODO: Check for $_SESSION['signup-error'].
  If it is set, then there was an error in signup and the signup form should open
  immediately.

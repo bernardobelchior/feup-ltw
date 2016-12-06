@@ -1,26 +1,17 @@
 body {
+  background-color: #EEF0C3;
   margin: 0;
 }
 
 .top-bar {
   background-color: #62AB93;
   width: 100%;
-  //  height: 3em;
-  //  position: fixed;
-  //  top: 0px;
-  //  left: 0px;
-  //  right: 0px;
   border-bottom: 1px solid #447c67;
   margin-bottom: 2em;
-  //  z-index: 1;
 
   ul {
     list-style-type: none;
     margin: 0;
-    //   padding: 0;
-    //    height: inherit;
-//    width: 100%;
-    //    overflow: hidden;
     display: flex;
     justify-content: space-between;
   }
@@ -28,20 +19,12 @@ body {
   li {
     display: inline;
     padding: 0.75em 0;
-//    margin: 0.5em;
     a {
       vertical-align: text-bottom;
     }
   }
 
-  #greeting {
-//    padding-right: 0;
-  }
-
   #user_action {
-    //    padding-left: 0;
- //   float: right;
-    //display: inline;
     color: #16382c;
 
     #user_login {
