@@ -2,25 +2,25 @@
 include_once('../database/users.php');
 include_once('utils/utils.php');
 
-// Check if the user did not come from the profile page.
-if ($_SESSION['token'] !== $_POST['token']) {
+// Generate token for the update action
+$_SESSION['token'] = generateRandomToken();
+
+$id = htmlspecialchars($_GET['id']);
+// Check for permissions or if the user is editing his/hers own profile.
+if (!groupIdHasPermissions($_SESSION['groupId'], 'EDIT_ANY_PROFILE') &&
+    $id !== $_SESSION['userId']
+) {
     header('HTTP/1.0 403 Forbidden');
     header('Location: index.php?page=403.html');
     die();
 }
 
-// Generate token for the update action
-$_SESSION['token'] = generateRandomToken();
-
-$id = htmlspecialchars($_POST['id']);
-// Check for permissions or if the user is editing his/hers own profile.
-if (!groupIdHasPermissions($_SESSION['groupId'], 'EDIT_ANY_PROFILE') &&
-    $id !== $_SESSION['userId']
-) {
+if (!idExists($id)) {
     header('HTTP/1.0 404 Not Found');
     header('Location: index.php?page=404.html');
     die();
 }
+
 ?>
 
 <link rel="stylesheet" href="../css/edit_profile.min.css">

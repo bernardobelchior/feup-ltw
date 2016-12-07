@@ -3,7 +3,6 @@ include_once('../database/users.php');
 include_once('../database/restaurants.php');
 include_once('utils/utils.php');
 
-$_SESSION['token'] = generateRandomToken();
 $id = (int)htmlspecialchars($_GET['id']);
 
 if (!idExists($id)) {
@@ -42,13 +41,8 @@ if ($profile_picture === null)
 
     <div>
         <?php
-        if (groupIdHasPermissions((int)$_SESSION['groupId'], 'EDIT_ANY_PROFILE') || (int)$_SESSION['userId'] === $id) {
-            echo '<form id="edit-profile" action="index.php?page=edit_profile.php" method="post">';
-            echo '<input type="hidden" name="id" value="' . $id . '">';
-            echo '<input type="hidden" name="token" value="' . $_SESSION['token'] . '">';
-            echo '<button type="submit">Edit Profile</button>';
-            echo '</form>';
-        }
+        if (groupIdHasPermissions((int)$_SESSION['groupId'], 'EDIT_ANY_PROFILE') || (int)$_SESSION['userId'] === $id)
+            echo '<a id="edit-profile" href="index.php?page=edit_profile.php&id=' . $id . '"><button>Edit Profile</button></a>';
         ?>
 
         <img id="profile-picture" src="<?php echo '../' . $profile_picture; ?>" alt="User profile picture"/>
