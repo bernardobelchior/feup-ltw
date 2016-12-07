@@ -15,7 +15,9 @@
 <body>
 <div class="top-bar">
     <ul>
-        <li id="home_button"><a href="../index.php">Home</a></li>
+        <li id="home_button"><a href="../index.php">
+                <img src="/res/eatr.png" alt="W3Schools.com"> </a>
+        </li>
         <li id="user_header">
         <?php
         if (isset($_SESSION['username'])) {

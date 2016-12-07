@@ -32,6 +32,13 @@ body {
 
   #home_button{
     min-width: 50%;
+    padding: 4px 4px;
+
+    img{
+      float:left;
+      width: 64px;
+      height: 40px;
+    }
   }
 
   #user_header{
