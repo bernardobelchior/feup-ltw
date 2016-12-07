@@ -1,7 +1,3 @@
-<link rel="stylesheet" href="../css/profile.min.css">
-<link rel="stylesheet" href="../css/common.min.css">
-<script type="application/javascript" src="../js/profile.js"></script>
-
 <?php
 include_once('../database/users.php');
 include_once('../database/restaurants.php');
@@ -19,42 +15,44 @@ if (!idExists($id)) {
 $username = getUserField($id, 'Username');
 $email = getUserField($id, 'Email');
 $name = getUserField($id, 'Name');
+$profile_picture = getUserField($id, 'Picture');
+
+if ($profile_picture === null)
+    $profile_picture = 'profile_pictures/facebook-avatar.jpg';
 
 ?>
-<div class="page_content">
-    <header>
-        <span id="user_picture"></span>
-        <div id="user_realname">
-            <strong>
-                <?php echo $name ?>
-            </strong>
+
+<link rel="stylesheet" href="../css/profile.min.css">
+<link rel="stylesheet" href="../css/common.min.css">
+<script type="application/javascript" src="../js/common.js"></script>
+
+<div id="profile" class="container">
+    <div>
+        <div id="name">
+            <?php echo $name ?>
         </div>
-        <div id="user_username">
+
+        <div id="username">
             <?php echo $username ?>
         </div>
-    </header>
-    <div id="profile" class="container">
-        <div id="profile-header">
-            <?php
-            if (groupIdHasPermissions((int)$_SESSION['groupId'], 'EDIT_ANY_PROFILE') || (int)$_SESSION['userId'] === $id) {
-                echo '<form id="edit-profile" action="edit_profile.php" method="post">';
-                echo '<input type="hidden" name="id" value="' . $id . '">';
-                echo '<input type="hidden" name="token" value="' . $_SESSION['token'] . '">';
-                echo '<button type="submit">Edit Profile</button>';
-                echo '</form>';
-            }
-            ?>
-        </div>
-    </div>
-    <div>
+
         <span id="email">Email: </span>
         <span> <?php echo $email; ?></span>
     </div>
 
-    <div class="image">
-        <img src="" alt="User profile picture"/>
-    </div>
+    <div>
+        <?php
+        if (groupIdHasPermissions((int)$_SESSION['groupId'], 'EDIT_ANY_PROFILE') || (int)$_SESSION['userId'] === $id) {
+            echo '<form id="edit-profile" action="edit_profile.php" method="post">';
+            echo '<input type="hidden" name="id" value="' . $id . '">';
+            echo '<input type="hidden" name="token" value="' . $_SESSION['token'] . '">';
+            echo '<button type="submit">Edit Profile</button>';
+            echo '</form>';
+        }
+        ?>
 
+        <img id="profile-picture" src="<?php echo '../' . $profile_picture; ?>" alt="User profile picture"/>
+    </div>
 </div>
 
 </div>

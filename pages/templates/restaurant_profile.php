@@ -5,7 +5,6 @@ include_once('utils/utils.php');
 
 $id = (int)htmlspecialchars($_GET['id']);
 
-
 if (!isset($id) || !restaurantIdExists($id)) {
     header('HTTP/1.0 404 Not Found');
     header('Location: 404.php');
@@ -13,12 +12,14 @@ if (!isset($id) || !restaurantIdExists($id)) {
 }
 
 $_SESSION['token'] = generateRandomToken();
+$_SESSION['restaurantId'] = $id;
 
 $restaurantInfo = getRestaurantInfo($id);
 $ownerId = $restaurantInfo['OwnerID'];
 $name = $restaurantInfo['Name'];
 $address = $restaurantInfo['Address'];
 $description = $restaurantInfo['Description'];
+$_SESSION['ownerId'] = $ownerId;
 unset($restaurantInfo);
 ?>
 
@@ -55,6 +56,29 @@ unset($restaurantInfo);
             echo '<div>' . strftime('%d/%b/%G %R', $review['Date']) . '</div>';
             echo '<p>' . $review['Comment'] . '</p>';
 
+            $replies = getAllReplies($review['ID']);
+
+            foreach ($replies as $reply) {
+                echo '<div class="container">';
+
+                echo '<span>' . getUserField($reply['ReplierID'], 'Name') . ' </span>';
+                echo '<span>' . strftime('%d/%b/%G %R', $reply['Date']) . '</span>';
+                echo '<p>' . $reply['Text'] . '</p>';
+
+                echo '</div>';
+            }
+
+            if ($ownerId === $_SESSION['userId'] || groupIdHasPermissions($_SESSION['groupId'], 'ADD_REPLY')) {
+                echo '<form method="post" action="actions/add_reply.php">
+                
+                <input type="hidden" name="review-id" value="' . $review['ID'] . '"> 
+                <input type="hidden" name="token" value="' . $_SESSION['token'] . '"> 
+                <textarea name="reply" placeholder="Reply"></textarea>
+                <button type="submit">Reply</button>
+                
+                </form>';
+            }
+
             echo '</div>';
         }
 
@@ -64,7 +88,6 @@ unset($restaurantInfo);
         if ($ownerId !== $_SESSION['userId'] ||
             groupIdHasPermissions($_SESSION['groupId'], 'ADD_REVIEW_TO_OWN_RESTAURANT')
         ) {
-            $_SESSION['restaurantId'] = $id;
             echo '<form id="add-review" action="actions/add_review.php" method="post">
         <input type="hidden" name="token" value="' . $_SESSION['token'] . '">
         <input type="text" name="title" placeholder="Title">

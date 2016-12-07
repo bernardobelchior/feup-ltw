@@ -1,58 +1,57 @@
+body {
+  background-color: #EEF0C3;
+  margin: 0;
+}
+
 .top-bar {
   background-color: #62AB93;
   width: 100%;
-  height: 3em;
-  position: fixed;
-  top: 0px;
-  left: 0px;
-  right: 0px;
   border-bottom: 1px solid #447c67;
-  z-index: 1;
+  margin-bottom: 2em;
 
   ul {
     list-style-type: none;
     margin: 0;
-    padding: 0;
-    width: 100%;
-    overflow: hidden;
+    display: flex;
+    justify-content: space-between;
   }
 
   li {
     display: inline;
-    padding: 0.7em;
+    padding: 0.75em 0;
+    a {
+      vertical-align: text-bottom;
+    }
   }
-
-  #greeting {
-    padding-right: 0;
-  }
-
 
   #user_action {
-    text-align: right;
-    padding-left: 0;
-    float: right;
     color: #16382c;
 
-    span{
-      padding-right: 10px;
-    }
-
-    #user_login{
-    }
-
-    form{
+    #user_login {
       display: inline;
 
-      *{
+      span {
+        padding-right: 10px;
+      }
+    }
+
+    #sign_up_text {
+      padding-left: 0.5em;
+    }
+
+    form {
+      display: inline;
+
+      * {
         margin-right: 10px;
       }
 
     }
   }
 
-  #login_form{
+  #login_form {
     width: 30%;
-    input{
+    input {
       width: 22%;
     }
   }
@@ -74,34 +73,34 @@
   padding: 2em;
   border: 2px solid #c9c488;
   border-radius: 10%;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   background: #EAF363;
   background: linear-gradient(#f0eba2, #f0eba2, #D2CD8E);
   max-width: 15%;
 
-  .overlay_title{
+  .overlay_title {
     font-size: 1em;
     text-align: center;
     padding-bottom: 5%;
   }
 
-  form{
+  form {
     text-align: center;
-    display:block;
+    display: block;
     width: 100%;
 
-    label{
+    label {
       text-align: left;
     }
 
-    input{
+    input {
       margin: 0.2em;
       margin-bottom: 0.6em;
       font-size: 0.8em;
       display: block;
     }
 
-    #output{
+    #output {
       display: block;
       padding-top: 15px;
       color: #764a34;
@@ -110,7 +109,7 @@
   }
 }
 
-.overlay{
+.overlay {
   position: absolute;
   top: 0;
   left: 0;
@@ -119,5 +118,5 @@
   width: 100%;
   height: 100%;
   z-index: 10;
-  background-color: rgba(0,0,0,0.6);
+  background-color: rgba(0, 0, 0, 0.6);
 }

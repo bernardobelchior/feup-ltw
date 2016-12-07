@@ -51,10 +51,11 @@ CREATE TABLE Reviews (
 );
 
 CREATE TABLE Replies (
-  ID       INTEGER PRIMARY KEY,
-  ReviewID INTEGER NOT NULL REFERENCES Reviews,
-  Text     TEXT    NOT NULL,
-  Date     INTEGER NOT NULL /* Unix timestamp */
+  ID        INTEGER PRIMARY KEY,
+  ReviewID  INTEGER NOT NULL REFERENCES Reviews,
+  ReplierID INTEGER NOT NULL REFERENCES Users,
+  Text      TEXT    NOT NULL,
+  Date      INTEGER NOT NULL /* Unix timestamp */
 );
 
 /* User Groups */

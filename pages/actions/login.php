@@ -7,11 +7,13 @@ $password = htmlspecialchars($_POST['password']);
 
 if ($username && $password) {
     if (login($username, $password)) {
+        unset($_SESSION['login-error']);
         initializeSession($username);
         header('Location: ../profile.php?id=' . $_SESSION['userId']);
         die();
     } else {
-        header('Location: ../login.php');
+        $_SESSION['login-error'] = 'The username and the password do not match.';
+        header('Location: ../../index.php');
         die();
     }
 }

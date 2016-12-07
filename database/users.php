@@ -1,6 +1,7 @@
 <?php
 include_once('connection.php');
 $USER_GROUP_ID = 3; //Regular user group ID.
+//FIXME: All statements that return errorCode() should return errorInfo() as it gives more information.
 
 /**
  * Adds the user to the database. The user is created in the USER group.
@@ -8,18 +9,15 @@ $USER_GROUP_ID = 3; //Regular user group ID.
  * @param $password string User's password, it is assumed that it is already hashed.
  * @param $email string User email
  * @param $name string User real life name
- * @param $dateOfBirth string User's date of birth
- * @param $gender string User's gender
- * @param $picture string User profile picture path.
- * @return Error code (0 if ok).
+ * @return array Error info.
  */
-function createUser($username, $password, $email, $name, $dateOfBirth, $gender, $picture) {
+function createUser($username, $password, $email, $name) {
     global $db;
     global $USER_GROUP_ID;
 
-    $statement = $db->prepare('INSERT INTO Users VALUES(NULL, ?, ?, ?, ?, ?, ?, ?, ?)');
-    $statement->execute([$username, $password, $email, $name, $USER_GROUP_ID, $dateOfBirth, $gender, $picture]);
-    return $statement->errorCode(); //Returns 0 even if the insertion failed due to repeated username or email.
+    $statement = $db->prepare('INSERT INTO Users VALUES(NULL, ?, ?, ?, ?, ?, NULL, NULL, NULL)');
+    $statement->execute([$username, $password, $email, $name, $USER_GROUP_ID]);
+    return $statement->errorInfo();
 }
 
 /**
@@ -134,25 +132,54 @@ function updateUser($userId, $name, $email, $date, $gender) {
 
     $statement = $db->prepare('UPDATE Users SET Name = ?, Email = ?, Gender = ?, DateOfBirth = ? WHERE id = ?');
     $statement->execute([$name, $email, $gender, $date, $userId]);
-    /*  $statement = $db->prepare('UPDATE Users SET Name = :name, Email = :email, Gender = :gender, DateOfBirth = :date WHERE id = :id');
-      $statement->bindParam(':name', $name);
-      $statement->bindParam(':email', $email);
-      $statement->bindParam(':gender', $gender);
-      $statement->bindParam(':date', $date);
-      $statement->bindParam(':id', $userId);
-
-      $statement->execute();*/
     return $statement->errorCode();
 }
 
+/** Updates the user password
+ * @param $userId int User ID
+ * @param $password string User password. Not hashed.
+ * @return string Returns error code.
+ */
 function updateUserPassword($userId, $password) {
   global $db;
 
   $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
-  $statement = $db->prepare('UPDATE Users SET Password = :password WHERE id = :id');
-  $statement->bindParam(':password', $hashed_password);
-  $statement->bindParam(':id', $userId);
-  $statement->execute();
+  $statement = $db->prepare('UPDATE Users SET Password = ? WHERE id = ?');
+  $statement->execute([$hashed_password, $userId]);
   return $statement->errorCode();
+}
+
+/**
+ * @param $userId int User ID
+ * @param $picturePath string Picture path
+ * @return array Statement error info.
+ */
+function changeProfilePicture($userId, $picturePath) {
+   global $db;
+
+   $statement = $db->prepare('UPDATE Users SET Picture = ? WHERE ID = ?;');
+   $statement->execute([$picturePath, $userId]);
+   return $statement->errorInfo();
+}
+
+/** Searches all users with any of the words present in query separated by a space.
+ * The query is assumed to have been trimmed (no whitespaces at the beginning or end)
+ * and only a single space between words.
+ * The statement checks for lower case names, so the query MUST be lower case
+ * in order to make it case insensitive.
+ * @param $query string The search string.
+ * @return array All results.
+ */
+function searchUsers($query) {
+    global $db;
+
+    //Prepare the query to search for each word individually
+    $nameWhere = '"%' . str_replace(' ', '%" OR LOWER(Name) LIKE "%', $query) . '%"';
+    $usernameWhere = '"%' . str_replace(' ', '%" OR LOWER(Username) LIKE "%', $query) . '%"';
+
+    // Not sure why, but using the execute([$where]) does not work, this is a workaround.
+    $statement = $db->prepare('SELECT ID, Username, Name FROM Users WHERE LOWER(Name) LIKE' . $nameWhere . ' OR LOWER(Username) LIKE' . $usernameWhere);
+    $statement->execute();
+    return $statement->fetchAll();
 }
