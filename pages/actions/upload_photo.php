@@ -7,7 +7,7 @@ include_once('../../database/users.php');
 // If the user didn't come from a valid page.
 if ($_SESSION['token'] !== $_POST['token']) {
     header('HTTP/1.0 403 Forbidden');
-    header('Location: ../403.php');
+    header('Location: ../index.php?page=403.html');
     die();
 }
 
@@ -17,13 +17,13 @@ $_SESSION['token'] = generateRandomToken();
 $_POST['token'] = $_SESSION['token'];
 if (!$_FILES['photo']['name']) {
     echo 'No file uploaded.';
-    header('Location: ../edit_profile.php');
+    header('Location: ../index.php?page=edit_profile.php');
     die();
 }
 
 if ($_FILES['photo']['error']) {
     echo 'Error uploading';
-    header('Location: ../edit_profile.php');
+    header('Location: ../index.php?page=edit_profile.php');
     die();
 }
 
@@ -34,5 +34,5 @@ var_dump(changeProfilePicture($id, $picturePath));
 var_dump(getUserField($id, 'Picture'));
 
 die();
-header('Location: ../profile.php?id=' . $id);
+header('Location: ../index.php?page=profile.php&id=' . $id);
 die();

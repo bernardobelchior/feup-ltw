@@ -7,7 +7,7 @@ $id = (int)htmlspecialchars($_GET['id']);
 
 if (!isset($id) || !restaurantIdExists($id)) {
     header('HTTP/1.0 404 Not Found');
-    header('Location: 404.php');
+    header('Location: index.php?page=404.html');
     die();
 }
 
@@ -70,12 +70,12 @@ unset($restaurantInfo);
 
             if ($ownerId === $_SESSION['userId'] || groupIdHasPermissions($_SESSION['groupId'], 'ADD_REPLY')) {
                 echo '<form method="post" action="actions/add_reply.php">
-                
-                <input type="hidden" name="review-id" value="' . $review['ID'] . '"> 
-                <input type="hidden" name="token" value="' . $_SESSION['token'] . '"> 
+
+                <input type="hidden" name="review-id" value="' . $review['ID'] . '">
+                <input type="hidden" name="token" value="' . $_SESSION['token'] . '">
                 <textarea name="reply" placeholder="Reply"></textarea>
                 <button type="submit">Reply</button>
-                
+
                 </form>';
             }
 

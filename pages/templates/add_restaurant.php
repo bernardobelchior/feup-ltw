@@ -4,7 +4,7 @@ include_once('utils/utils.php');
 
 if (groupIdHasPermissions($_SESSION['groupId'], 'ADD_ANY_RESTAURANT')) {
     header('HTTP/1.0 403 Forbidden');
-    header('Location: 403.php');
+    header('Location: index.php?page=403.html');
     die();
 }
 

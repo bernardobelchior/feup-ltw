@@ -20,7 +20,8 @@
         <?php
         if (isset($_SESSION['username'])) {
             echo '<span id="greeting">
-                    Hello, <a href="profile.php?id=' . $_SESSION['userId'] . '">' . $_SESSION['name'] . '</a>!
+                    Hello, <a href="index.php?page=profile.php&id=' . $_SESSION['userId'] . '">
+                    <strong>' . $_SESSION['name'] . '</strong></a>!
                     </span>';
         }
         ?>

@@ -9,7 +9,7 @@ if ($username && $password) {
     if (login($username, $password)) {
         unset($_SESSION['login-error']);
         initializeSession($username);
-        header('Location: ../profile.php?id=' . $_SESSION['userId']);
+        header('Location: ../index.php?page=profile.php&id=' . $_SESSION['userId']);
         die();
     } else {
         $_SESSION['login-error'] = 'The username and the password do not match.';

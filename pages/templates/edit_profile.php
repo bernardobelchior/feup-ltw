@@ -5,7 +5,7 @@ include_once('utils/utils.php');
 // Check if the user did not come from the profile page.
 if ($_SESSION['token'] !== $_POST['token']) {
     header('HTTP/1.0 403 Forbidden');
-    header('Location: 403.php');
+    header('Location: index.php?page=403.html');
     die();
 }
 
@@ -18,7 +18,7 @@ if (!groupIdHasPermissions($_SESSION['groupId'], 'EDIT_ANY_PROFILE') &&
     $id !== $_SESSION['userId']
 ) {
     header('HTTP/1.0 404 Not Found');
-    header('Location: 404.php');
+    header('Location: index.php?page=404.html');
     die();
 }
 ?>
