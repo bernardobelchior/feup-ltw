@@ -1,1 +1,15 @@
 @import "common";
+
+#body {
+  margin: auto;
+  width: 80%;
+}
+
+.search-container {
+  @include container;
+  padding: auto 0;
+}
+
+#users {
+  display: none;
+}
