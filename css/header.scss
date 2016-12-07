@@ -1,13 +1,18 @@
 body {
   background-color: #EEF0C3;
+  background: linear-gradient(to right, #f6f3ae, #fcfcd6, #f6f3ae);
   margin: 0;
+  font-family: 'Roboto', sans-serif;
 }
 
 .top-bar {
-  background-color: #62AB93;
-  width: 100%;
+  background: linear-gradient(to right ,#5da58b,#447C67);
+  min-width: 100%;
+  max-height: 3em;
   border-bottom: 1px solid #447c67;
   margin-bottom: 2em;
+  overflow: hidden;
+
 
   ul {
     list-style-type: none;
@@ -20,12 +25,31 @@ body {
     display: inline;
     padding: 0.75em 0;
     a {
+      text-decoration: none;
       vertical-align: text-bottom;
+    }
+
+    a:visited {
+      color: #e9ffee;
+    }
+  }
+
+  #home_button{
+    min-width: 50%;
+  }
+
+  #user_header{
+    float: right;
+    color: #e9ffee;
+    max-height: 1em;
+    padding-top: 8px;
+    span{
+      padding-right: 10px;
     }
   }
 
   #user_action {
-    color: #16382c;
+    color: #e9ffee;
 
     #user_login {
       display: inline;
