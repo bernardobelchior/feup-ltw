@@ -9,20 +9,25 @@
             crossorigin="anonymous"></script>
     <script src="https://use.fontawesome.com/490d8b8016.js"></script>
     <link rel="stylesheet" type="text/css" href="../css/header.min.css"/>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway|Roboto">
     <script src="/js/header.js"></script>
 </head>
 <body>
 <div class="top-bar">
     <ul>
-        <li id="home_button"><a href="../index.php">Home</a></li>
+        <li id="home_button"><a href="../index.php">
+                <img src="/res/eatr.png" alt="W3Schools.com"> </a>
+        </li>
+        <li id="user_header">
         <?php
         if (isset($_SESSION['username'])) {
-            echo '<li id="greeting">
-                    Hello, <a href="index.php?page=profile.php&id=' . $_SESSION['userId'] . '">' . $_SESSION['name'] . '</a>!
-                    </li>';
+            echo '<span id="greeting">
+                    Hello, <a href="index.php?page=profile.php&id=' . $_SESSION['userId'] . '">
+                    <strong>' . $_SESSION['name'] . '</strong></a>!
+                    </span>';
         }
         ?>
-        <li id="user_action">
+        <span id="user_action">
             <?php
             if (isset($_SESSION['username'])) {
                 echo '<form id="logout_form" action="actions/logout.php">';
@@ -40,6 +45,7 @@
                 echo '<span id="sign_up_text">Not a Member?</span>';
             }
             ?>
+        </span>
         </li>
     </ul>
 </div>
