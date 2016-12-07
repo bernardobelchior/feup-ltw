@@ -8,7 +8,6 @@ body {
 .top-bar {
   background: linear-gradient(to right ,#5da58b,#447C67);
   min-width: 100%;
-  max-height: 3em;
   border-bottom: 1px solid #447c67;
   margin-bottom: 2em;
   overflow: hidden;
@@ -41,8 +40,8 @@ body {
   #user_header{
     float: right;
     color: #e9ffee;
-    max-height: 1em;
     padding-top: 8px;
+    display: inline;
     span{
       padding-right: 10px;
     }
