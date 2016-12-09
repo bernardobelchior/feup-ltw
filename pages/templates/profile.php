@@ -49,8 +49,6 @@ if ($profile_picture === null)
     </div>
 </div>
 
-</div>
-
 <div class="container" id="restaurants">
     <?php
 

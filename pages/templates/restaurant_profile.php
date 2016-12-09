@@ -75,11 +75,11 @@ unset($restaurantInfo);
         foreach ($reviews as $review) {
             echo '<div id="review' . $review['ID'] . '" class="review-container">';
 
-            echo '<span>' . $review['Title'] . ' </span>';
-            echo '<span>' . $review['Score'] . ' </span>';
-            echo '<span>' . getUserField($review['ReviewerID'], 'Name') . '</span>';
-            echo '<div>' . strftime('%d/%b/%G %R', $review['Date']) . '</div>';
-            echo '<p>' . $review['Comment'] . '</p>';
+            echo '<span class="review-title">' . $review['Title'] . ' </span>';
+            echo '<span class="review-score">' . getStarsHTML($review['Score']) . ' </span><br/>';
+            echo '<span class="reviewer-name">' . getUserField($review['ReviewerID'], 'Name') . '</span>';
+            echo '<span class="review-date"> - ' . strftime('%d/%b/%G %R', $review['Date']) . '</span>';
+            echo '<p class="review-comment">' . $review['Comment'] . '</p>';
 
             $replies = getAllReplies($review['ID']);
 
@@ -87,11 +87,11 @@ unset($restaurantInfo);
                 echo '<a href="#review' . $review['ID'] . '" class="toggle-replies">Show replies</a>';
 
                 foreach ($replies as $reply) {
-                    echo '<div class="container reply" hidden="hidden">';
+                    echo '<div class="reply" hidden="hidden">';
 
-                    echo '<span>' . getUserField($reply['ReplierID'], 'Name') . ' </span>';
-                    echo '<span>' . strftime('%d/%b/%G %R', $reply['Date']) . '</span>';
-                    echo '<p>' . $reply['Text'] . '</p>';
+                    echo '<div class="reply-name">' . getUserField($reply['ReplierID'], 'Name') . ' </div>';
+                    echo '<div class="reply-date">' . strftime('%d/%b/%G %R', $reply['Date']) . '</div>';
+                    echo '<p class="reply-text">' . $reply['Text'] . '</p>';
 
                     echo '</div>';
                 }
@@ -99,11 +99,11 @@ unset($restaurantInfo);
 
 
             if ($ownerId === $_SESSION['userId'] || groupIdHasPermissions($_SESSION['groupId'], 'ADD_REPLY')) {
-                echo '<form method="post" action="actions/add_reply.php">
+                echo '<form class="add-reply" method="post" action="actions/add_reply.php">
 
                 <input type="hidden" name="review-id" value="' . $review['ID'] . '">
                 <input type="hidden" name="token" value="' . $_SESSION['token'] . '">
-                <textarea name="reply" placeholder="Reply"></textarea>
+                <textarea name="reply" placeholder="Reply" rows="2"></textarea>
                 <button type="submit">Reply</button>
                 
                 </form>';
