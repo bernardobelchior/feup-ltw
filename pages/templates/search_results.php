@@ -13,6 +13,7 @@ $orderedUsers = searchUsers($query);
 <script src="../js/common.js"></script>
 <link rel="stylesheet" type="text/css" href="../css/search_results.min.css"/>
 <link rel="stylesheet" type="text/css" href="../css/common.min.css"/>
+<script src="../js/search_results.js"></script>
 
 <div id="body">
     <div id="search">
@@ -23,35 +24,42 @@ $orderedUsers = searchUsers($query);
         </form>
     </div>
 
-    <div id="restaurants" class="search-container">
-        <?php
-        if (count($orderedRestaurants) > 0) {
-            foreach ($orderedRestaurants as $restaurant) {
-                echo '
+    <div id="search-results">
+        <ul id="search-tabs">
+            <li class="tab active" id="restaurants-tab"><a href="#restaurants">Restaurants</a></li>
+            <li class="tab" id="users-tab"><a href="#users">Users</a></li>
+        </ul>
+
+        <div id="restaurants" class="search-container">
+            <?php
+            if (count($orderedRestaurants) > 0) {
+                foreach ($orderedRestaurants as $restaurant) {
+                    echo '
        <div class="container search-result" onclick="openRestaurantProfile(' . $restaurant['ID'] . ')">
             <span>' . $restaurant['Name'] . '</span> 
             <span>' . $restaurant['Address'] . '</span>
        </div>';
+                }
+            } else {
+                echo '<span>No results found.</span>';
             }
-        } else {
-            echo '<span>No results found.</span>';
-        }
-        ?>
-    </div>
+            ?>
+        </div>
 
-    <div id="users" class="search-container">
-        <?php
-        if (count($orderedUsers) > 0) {
-            foreach ($orderedUsers as $user) {
-                echo '
+        <div id="users" class="search-container">
+            <?php
+            if (count($orderedUsers) > 0) {
+                foreach ($orderedUsers as $user) {
+                    echo '
        <div class="container search-result" onclick="openUserProfile(' . $user['ID'] . ')">
             <span>' . $user['Name'] . '</span> 
             <span>' . $user['Username'] . '</span>
        </div>';
+                }
+            } else {
+                echo '<span>No results found.</span>';
             }
-        } else {
-            echo '<span>No results found.</span>';
-        }
-        ?>
+            ?>
+        </div>
     </div>
 </div>
