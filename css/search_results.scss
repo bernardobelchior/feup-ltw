@@ -29,6 +29,31 @@
       background-color: green;
     }
   }
+
+  #restaurants {
+    .restaurant-name {
+      font-weight: bold;
+      font-size: 125%;
+    }
+
+    .restaurant-average {
+      padding-left: 0.4em;
+    }
+
+    .restaurant-address {
+      font-size: 90%;
+    }
+  }
+
+  #users {
+    #user-name {
+      font-weight: bold;
+    }
+
+    #user-username {
+
+    }
+  }
 }
 
 .search-container {

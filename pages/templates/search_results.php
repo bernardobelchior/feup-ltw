@@ -2,6 +2,7 @@
 include_once('../database/search.php');
 include_once('../database/restaurants.php');
 include_once('../database/users.php');
+include_once('utils/utils.php');
 
 $query = normalizeQuery(htmlspecialchars($_GET['query']));
 
@@ -36,8 +37,9 @@ $orderedUsers = searchUsers($query);
                 foreach ($orderedRestaurants as $restaurant) {
                     echo '
        <div class="container search-result" onclick="openRestaurantProfile(' . $restaurant['ID'] . ')">
-            <span>' . $restaurant['Name'] . '</span> 
-            <span>' . $restaurant['Address'] . '</span>
+            <span class="restaurant-name">' . $restaurant['Name'] . '</span> 
+            <span class="restaurant-average">' . getStarsHTML(getRestaurantAverageRating($restaurant['ID'])) . '</span>
+            <div class="restaurant-address">' . $restaurant['Address'] . '</div>
        </div>';
                 }
             } else {
@@ -52,8 +54,8 @@ $orderedUsers = searchUsers($query);
                 foreach ($orderedUsers as $user) {
                     echo '
        <div class="container search-result" onclick="openUserProfile(' . $user['ID'] . ')">
-            <span>' . $user['Name'] . '</span> 
-            <span>' . $user['Username'] . '</span>
+            <span id="user-name">' . $user['Name'] . '</span> 
+            <div id="user-username">' . $user['Username'] . '</div>
        </div>';
                 }
             } else {

@@ -3,6 +3,8 @@ $(document).ready(function () {
 });
 
 function activateTab(event) {
+    event.preventDefault();
+
     $(this).siblings('.active').removeClass('active').on('click', activateTab);
     let tab = $(this).children().attr('href');
 
