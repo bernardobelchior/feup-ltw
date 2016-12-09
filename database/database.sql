@@ -58,6 +58,8 @@ CREATE TABLE Replies (
   Date      INTEGER NOT NULL /* Unix timestamp */
 );
 
+INSERT INTO Users VALUES (NULL, 'admin', '$2y$10$.q./d7RNBpt9ccSQvi9En.d0N4gnZWS5lgD.v76TQaVgn6srGm./6', 'admin@admin.pt', 'Admin', 2, NULL, NULL, NULL);
+
 /* User Groups */
 INSERT INTO UserGroups VALUES (NULL, 'ANONYMOUS');
 INSERT INTO UserGroups VALUES (NULL, 'ADMIN');

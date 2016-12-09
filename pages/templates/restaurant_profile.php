@@ -25,19 +25,44 @@ unset($restaurantInfo);
 
 <link rel="stylesheet" href="../css/common.min.css">
 <link rel="stylesheet" href="../css/restaurant_profile.min.css">
+<script src="../js/restaurant_profile.js"></script>
 
 <div id="restaurant-profile" class="container">
     <!-- photo -->
-    <div>
-        Name: <?php echo $name; ?>
+    <div id="restaurant-info">
+        <div id="restaurant-header">
+            <span id="restaurant-name"><?php echo $name; ?></span>
+            <span id="average">
+                <?php echo getStarsHTML(getRestaurantAverageRating($id)); ?>
+            </span>
+        </div>
+
+        <div id="restaurant-address">
+            <?php echo $address; ?>
+        </div>
+
+        <p id="restaurant-description">
+            <?php echo $description; ?>
+        </p>
     </div>
 
-    <div>
-        Address: <?php echo $address; ?>
-    </div>
+    <div id="restaurant-gallery">
+        <?php
+        $photos = getRestaurantPhotos($id);
 
-    <div>
-        Description: <?php echo $description; ?>
+        if (count($photos) > 0) {
+            echo '<i id="left-arrow" class="fa fa-chevron-left fa-4x" aria-hidden="true"></i>
+            <div>';
+
+            foreach ($photos as $photo) {
+                echo '<img class="photo" src="' . '../' . $photo['Path'] . '" alt="Restaurant photo"></img>';
+            }
+
+            echo '</div>
+            <i id="right-arrow" class="fa fa-chevron-right fa-4x" aria-hidden="true"></i>';
+        }
+        ?>
+
     </div>
 </div>
 
@@ -48,7 +73,7 @@ unset($restaurantInfo);
     if (sizeof($reviews) > 0) {
 
         foreach ($reviews as $review) {
-            echo '<div class="review-container">';
+            echo '<div id="review' . $review['ID'] . '" class="review-container">';
 
             echo '<span>' . $review['Title'] . ' </span>';
             echo '<span>' . $review['Score'] . ' </span>';
@@ -58,15 +83,20 @@ unset($restaurantInfo);
 
             $replies = getAllReplies($review['ID']);
 
-            foreach ($replies as $reply) {
-                echo '<div class="container">';
+            if (count($replies) > 0) {
+                echo '<a href="#review' . $review['ID'] . '" class="toggle-replies">Show replies</a>';
 
-                echo '<span>' . getUserField($reply['ReplierID'], 'Name') . ' </span>';
-                echo '<span>' . strftime('%d/%b/%G %R', $reply['Date']) . '</span>';
-                echo '<p>' . $reply['Text'] . '</p>';
+                foreach ($replies as $reply) {
+                    echo '<div class="container reply" hidden="hidden">';
 
-                echo '</div>';
+                    echo '<span>' . getUserField($reply['ReplierID'], 'Name') . ' </span>';
+                    echo '<span>' . strftime('%d/%b/%G %R', $reply['Date']) . '</span>';
+                    echo '<p>' . $reply['Text'] . '</p>';
+
+                    echo '</div>';
+                }
             }
+
 
             if ($ownerId === $_SESSION['userId'] || groupIdHasPermissions($_SESSION['groupId'], 'ADD_REPLY')) {
                 echo '<form method="post" action="actions/add_reply.php">
@@ -75,13 +105,15 @@ unset($restaurantInfo);
                 <input type="hidden" name="token" value="' . $_SESSION['token'] . '">
                 <textarea name="reply" placeholder="Reply"></textarea>
                 <button type="submit">Reply</button>
-
+                
                 </form>';
             }
 
             echo '</div>';
         }
 
+    } else {
+        echo '<span>No reviews yet :(</span>';
     }
 
     if (groupIdHasPermissions($_SESSION['groupId'], 'ADD_REVIEW')) {

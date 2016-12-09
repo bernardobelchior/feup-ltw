@@ -1,5 +1,46 @@
 @import "common";
 
+#restaurant-profile {
+  display: flex;
+  justify-content: space-between;
+
+  #restaurant-header {
+    border-bottom: 1px solid #62AB93;
+
+    #restaurant-name {
+      font-weight: bold;
+      font-size: 200%;
+    }
+
+    #average {
+      padding-left: 0.6em;
+
+      i {
+        font-size: 175%;
+        vertical-align: middle;
+      }
+    }
+  }
+
+  #restaurant-address {
+    margin-top: 0.5em;
+  }
+
+  #restaurant-description {
+    border: 1px solid #62AB93;
+  }
+
+  #restaurant-gallery {
+    display: flex;
+    align-items: center;
+
+    i {
+      padding: 0 0.2em;
+      cursor: pointer;
+    }
+  }
+}
+
 .review-container {
   @include container;
   margin-top: 0;

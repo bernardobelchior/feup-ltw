@@ -163,3 +163,40 @@ function getRestaurantByName($restaurantName) {
     $statement->execute([$restaurantName]);
     return $statement->fetch()['ID'];
 }
+
+/** Adds the photo provided to the respective restaurant.
+ * @param $restaurantId int Restaurant ID.
+ * @param $photoPath string Path to photo.
+ * @return array Statement's error info.
+ */
+function addPhoto($restaurantId, $photoPath) {
+    global $db;
+
+    $statement = $db->prepare('INSERT INTO RestaurantPhotos VALUES (NULL, ?, ?)');
+    $statement->execute([$restaurantId, $photoPath]);
+    return $statement->errorInfo();
+}
+
+/** Gets all photos related to that restaurant.
+ * @param $restaurantId int Restaurant ID.
+ * @return array Array of paths to photos.
+ */
+function getRestaurantPhotos($restaurantId) {
+   global $db;
+
+   $statement = $db->prepare('SELECT Path FROM RestaurantPhotos WHERE RestaurantID = ?');
+   $statement->execute([$restaurantId]);
+   return $statement->fetchAll();
+}
+
+/** Gets the average restaurant rating.
+ * @param $restaurantId Restaurant ID.
+ * @return float Average rating
+ */
+function getRestaurantAverageRating($restaurantId) {
+    global $db;
+
+    $statement = $db->prepare('SELECT AVG(Score) FROM Reviews WHERE RestaurantID = ?');
+    $statement->execute([$restaurantId]);
+    return $statement->fetch()['AVG(Score)'];
+}
