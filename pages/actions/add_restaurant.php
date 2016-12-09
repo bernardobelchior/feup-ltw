@@ -21,12 +21,22 @@ $ownerId = isset($_SESSION['ownerId']) ? $_SESSION['ownerId'] : $_SESSION['userI
 if (isset($name) && isset($address)) {
     $result = addRestaurant($ownerId, $name, $address, $description);
 
-    if($result[1] === 0) //If an error ocurred, print the error message.
-        echo $result[2];
-    else {
-        header('Location: ../index.php?page=profile.php&id=' . $_SESSION['userId']);
-        die();
+    if ($result === null) { //If an error ocurred, store the error message.
+        $_SESSION['addRestaurantError'] = $result[2];
+    } else {
+        $id = getRestaurantByName($name);
+
+        if(!file_exists('../../restaurant_pictures/' . $id))
+            mkdir('../../restaurant_pictures/' . $id, 0777, true);
+
+        for ($i = 0; $i < count($_FILES['photos']['name']); $i++) {
+            $extension = pathinfo($_FILES['photos']['name'][$i], PATHINFO_EXTENSION);
+            $picturePath = 'restaurant_pictures/' . $id . '/' . $i . '.' . $extension;
+            move_uploaded_file($_FILES['photos']['tmp_name'][$i], '../../' . $picturePath);
+        }
     }
 }
 
 $_SESSION['token'] = generateRandomToken();
+header('Location: ../index.php?page=profile.php&id=' . $_SESSION['userId']);
+die();

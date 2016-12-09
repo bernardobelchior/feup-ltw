@@ -151,3 +151,15 @@ function getAllReplies($reviewId) {
     $statement->execute([$reviewId]);
     return $statement->fetchAll();
 }
+
+/** Returns the restaurant ID with the given name.
+ * @param $restaurantName string Restaurant name
+ * @return mixed ID if the restaurant is found, null otherwise.
+ */
+function getRestaurantByName($restaurantName) {
+    global $db;
+
+    $statement = $db->prepare('SELECT ID FROM Restaurants WHERE Name = ?');
+    $statement->execute([$restaurantName]);
+    return $statement->fetch()['ID'];
+}
