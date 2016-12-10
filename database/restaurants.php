@@ -4,15 +4,19 @@ include_once('connection.php');
 /** Adds the restaurant to the Restaurants table.
  * @param $ownerId int Restaurant's owner ID.
  * @param $name string Restaurant name.
- * @param $address string Restaurant's address
+ * @param $lat float Latitude
+ * @param $long float Longitude
  * @param $description string Restaurant's description.
+ * @param $costForTwo integer Cost for two
+ * @param $phoneNumber integer Phone number
  * @return string Returns the query error code.
  */
-function addRestaurant($ownerId, $name, $address, $description) {
+function addRestaurant($ownerId, $name, $lat, $long, $description, $costForTwo, $phoneNumber) {
     global $db;
 
-    $statement = $db->prepare('INSERT INTO Restaurants VALUES(NULL, ?, ?, ?, ?)');
-    $statement->execute([$ownerId, $name, $address, $description]);
+    $statement = $db->prepare('INSERT INTO Restaurants VALUES(NULL, ?, ?, ?, ?, ?, ?, ?)');
+    var_dump($statement);
+    $statement->execute([$ownerId, $name, $lat, $long, $description, $costForTwo, $phoneNumber]);
     return $statement->errorInfo(); //Returns 0 even if the insertion failed due to repeated username or email.
 }
 
@@ -117,7 +121,7 @@ function searchRestaurants($query) {
  * @param $reviewId int Review ID.
  * @return array Restaurant Owner ID
  */
-function getRestaurantOwnerFromReview($reviewId){
+function getRestaurantOwnerFromReview($reviewId) {
     global $db;
 
     $statement = $db->prepare('SELECT OwnerID FROM Reviews, Restaurants WHERE Reviews.RestaurantID = Restaurants.ID AND Reviews.ID = ?');
@@ -182,11 +186,11 @@ function addPhoto($restaurantId, $photoPath) {
  * @return array Array of paths to photos.
  */
 function getRestaurantPhotos($restaurantId) {
-   global $db;
+    global $db;
 
-   $statement = $db->prepare('SELECT Path FROM RestaurantPhotos WHERE RestaurantID = ?');
-   $statement->execute([$restaurantId]);
-   return $statement->fetchAll();
+    $statement = $db->prepare('SELECT Path FROM RestaurantPhotos WHERE RestaurantID = ?');
+    $statement->execute([$restaurantId]);
+    return $statement->fetchAll();
 }
 
 /** Gets the average restaurant rating.
@@ -199,4 +203,28 @@ function getRestaurantAverageRating($restaurantId) {
     $statement = $db->prepare('SELECT AVG(Score) FROM Reviews WHERE RestaurantID = ?');
     $statement->execute([$restaurantId]);
     return $statement->fetch()['AVG(Score)'];
+}
+
+/** Gets all categories
+ * @return array All categories
+ */
+function getAllCategories() {
+    global $db;
+
+    $statement = $db->prepare('SELECT * FROM Categories');
+    $statement->execute();
+    return $statement->fetchAll();
+}
+
+/** Adds category to restaurant
+ * @param $restaurantId int Restaurant ID
+ * @param $categoryId int Category ID
+ * @return array Statement error info
+ */
+function addCategoryToRestaurant($restaurantId, $categoryId) {
+    global $db;
+
+    $statement = $db->prepare('INSERT INTO RestaurantsCategories VALUES (NULL, ?, ?)');
+    $statement->execute([$restaurantId, $categoryId]);
+    return $statement->errorInfo();
 }

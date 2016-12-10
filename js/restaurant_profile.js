@@ -18,6 +18,10 @@ $(document).ready(function () {
 
 function nextImage() {
     let currentImage = $('#restaurant-gallery img:not(:hidden):first');
+
+    if (!currentImage.siblings().length)
+        return;
+
     currentImage.hide();
 
     let next = currentImage.next('img');
@@ -28,8 +32,13 @@ function nextImage() {
     next.show();
 }
 
+
 function previousImage() {
     let currentImage = $('#restaurant-gallery img:not(:hidden):first');
+
+    if (!currentImage.siblings().length)
+        return;
+
     currentImage.hide();
 
     let prev = currentImage.prev('img');
@@ -77,5 +86,5 @@ function clickStar() {
 }
 
 function validateForm() {
-   return true;
+    return true;
 }
