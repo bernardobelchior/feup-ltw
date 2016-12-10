@@ -26,7 +26,11 @@ unset($restaurantInfo);
 <link rel="stylesheet" href="../css/common.min.css">
 <link rel="stylesheet" href="../css/restaurant_profile.min.css">
 
+<script type="text/javascript" src="../js/edit_restaurant.js"></script>
+
 <div id="restaurant-profile" class="container">
+  <input type="hidden" id="token" name="token" value="<?php echo $_SESSION['token']; ?>"/>
+  <input type="hidden" id="restaurant_id" name="restaurant_id" value="<?php echo $id; ?>"/>
     <ul id="profile_attr_list">
       <li id="name">
           <span class="list_attr_name"><strong>Name</strong></span>

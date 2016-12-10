@@ -151,3 +151,44 @@ function getAllReplies($reviewId) {
     $statement->execute([$reviewId]);
     return $statement->fetchAll();
 }
+
+/**
+ * Updates the Name field of a given restaurant
+ * @param $id int Restaurant Id
+ * @param $value string New name for the restaurant
+ */
+function updateRestaurantName($id, $value){
+  updateRestaurantField($id, 'Name', $value);
+}
+
+/**
+ * Updates the Address field of a given restaurant
+ * @param $id int Restaurant Id
+ * @param $value string New address for the restaurant
+ */
+function updateRestaurantAddress($id, $value){
+  updateRestaurantField($id, 'Address', $value);
+}
+
+/**
+ * Updates the Description field of a given restaurant
+ * @param $id int Restaurant Id
+ * @param $value string New description for the restaurant
+ */
+function updateRestaurantDescription($id, $value){
+  updateRestaurantField($id, 'Description', $value);
+}
+
+/**
+ * Updates the given field of a given restaurant
+ * @param $id int Restaurant Id
+ * @param $field string given field to change
+ * @param $value string New address for the restaurant
+ */
+function updateRestaurantField($id, $field, $value){
+  global $db;
+
+  $statement = $db->prepare('UPDATE Restaurants SET ' . $field . ' = ? WHERE id = ?');
+  $statement->execute([$value, $id]);
+  return $statement->errorCode();
+}
