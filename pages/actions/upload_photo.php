@@ -28,20 +28,14 @@ if ($_FILES['photo']['error']) {
     die();
 }
 
-foreach($_FILES as $file){
-    $validExtensions = array('.jpg', '.png', '.jpeg');
-    $extension = pathinfo($_FILES['photo']['name'], PATHINFO_EXTENSION);
+$extension = pathinfo($_FILES['photo']['name'], PATHINFO_EXTENSION);
 
-    if(!in_array($extension,$validExtensions)){
-        echo 'Invalid file type';
-        break;
-    }
-
-    $manipulator = new ImageManipulator($file['tmp_name']);
-    $width = $manipulator->getWidth();
-    $height = $manipulator->getHeight();
-    $centerX = round($width/2);
-    $centerY = round($height/2);
+$file =  $_FILES['photo']['tmp_name'];
+$manipulator = new ImageManipulator($file);
+$width = $manipulator->getWidth();
+$height = $manipulator->getHeight();
+$centerX = round($width / 2);
+$centerY = round($height / 2);
 
 
 //    //for 32x32 img
@@ -68,18 +62,17 @@ foreach($_FILES as $file){
 //    $picturePath = $newNamePrefix.$file['name'];
 //    $manipulator->save($picturePath);
 
-    //for 256x256 img
-    $x1_256 = $centerX - 128;
-    $y1_256 = $centerY - 128;
+//for 256x256 img
+$x1_256 = $centerX - 128;
+$y1_256 = $centerY - 128;
 
-    $x2_256 = $centerX + 128;
-    $y2_256 = $centerY + 128;
+$x2_256 = $centerX + 128;
+$y2_256 = $centerY + 128;
 
-    $newNamePrefix = '256_';
-    $newImage = $manipulator->crop($x1_256,$y1_256, $x2_256, $y2_256);
-    $picturePath = 'profile_pictures/'.$newNamePrefix.$id;
-    $manipulator->save('../../'.$picturePath);
-}
+$newNamePrefix = '256_';
+$newImage = $manipulator->crop($x1_256, $y1_256, $x2_256, $y2_256);
+$picturePath = 'profile_pictures/' . $newNamePrefix . $id.'.'.$extension;
+$manipulator->save('../../' . $picturePath);
 
 
 //$picturePath = 'profile_pictures/' . $id . '.' . $extension;
@@ -87,6 +80,5 @@ foreach($_FILES as $file){
 var_dump(changeProfilePicture($id, $picturePath));
 var_dump(getUserField($id, 'Picture'));
 
-die();
 header('Location: ../index.php?page=profile.php&id=' . $id);
 die();
