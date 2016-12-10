@@ -75,7 +75,6 @@
     textarea {
       margin-right: 1em;
       width: 100%;
-      height: 6em;
       resize: none;
       overflow-y: scroll;
     }
@@ -97,6 +96,21 @@
 
     .reply-text {
       word-wrap: break-word;
+    }
+  }
+
+  #add-review {
+    #review-stars {
+      font-size: 125%;
+      margin-left: 0.5em;
+      cursor: pointer;
+    }
+
+    #review-comment {
+      margin-top: 0.3em;
+      display: block;
+      resize: none;
+      overflow-y: scroll;
     }
   }
 }

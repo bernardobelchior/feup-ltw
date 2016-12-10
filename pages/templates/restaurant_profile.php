@@ -103,7 +103,7 @@ unset($restaurantInfo);
 
                 <input type="hidden" name="review-id" value="' . $review['ID'] . '">
                 <input type="hidden" name="token" value="' . $_SESSION['token'] . '">
-                <textarea name="reply" placeholder="Reply" rows="2"></textarea>
+                <textarea name="reply" placeholder="Reply" rows="3"></textarea>
                 <button type="submit">Reply</button>
                 
                 </form>';
@@ -120,12 +120,13 @@ unset($restaurantInfo);
         if ($ownerId !== $_SESSION['userId'] ||
             groupIdHasPermissions($_SESSION['groupId'], 'ADD_REVIEW_TO_OWN_RESTAURANT')
         ) {
-            echo '<form id="add-review" action="actions/add_review.php" method="post">
+            echo '<form id="add-review" action="actions/add_review.php" method="post" onsubmit="return validateForm()">
         <input type="hidden" name="token" value="' . $_SESSION['token'] . '">
-        <input type="text" name="title" placeholder="Title">
-        <input type="number" name="score" min="1" max="5" required>
-        <textarea name="comment" placeholder="Comment(optional)"></textarea>
-        <button type="submit">Submit</button>
+        <input id="review-title" type="text" name="title" placeholder="Title" required>
+        <input id="review-score" type="number" min="1" max="5" name="score" placeholder="Score" required>
+        <span id="review-stars" hidden="hidden">' . getStarsHTML(0) . '</span>
+        <textarea id="review-comment" name="comment" placeholder="Comment(optional)" rows="4" cols="50"></textarea>
+        <button type="submit">Send review</button>
     </form>';
         }
     }

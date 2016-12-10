@@ -27,18 +27,18 @@ function getStarsHTML($value) {
     $i = 0;
     for (; $i < $fullStars; $i++) {
         $html = $html . '
-            <i class="fa fa-star" aria-hidden="true"></i>';
+            <i class="star fa fa-star" aria-hidden="true"></i>';
     }
 
     if ($halfStar) {
         $html = $html . '
-            <i class="fa fa-star-half-o" aria-hidden="true"></i>';
+            <i class="star fa fa-star-half-o" aria-hidden="true"></i>';
         $i++;
     }
 
     for (; $i < 5; $i++) {
         $html = $html . '
-            <i class="fa fa-star-o" aria-hidden="true"></i>';
+            <i class="star fa fa-star-o" aria-hidden="true"></i>';
     }
 
     return $html;
