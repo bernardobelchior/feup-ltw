@@ -77,7 +77,7 @@ unset($restaurantInfo);
 
             echo '<span class="review-title">' . $review['Title'] . ' </span>';
             echo '<span class="review-score">' . getStarsHTML($review['Score']) . ' </span><br/>';
-            echo '<a href="index.php?page=profile.php&id=' . $review['ReviewerID'] .'" class="reviewer-name">' . getUserField($review['ReviewerID'], 'Name') . '</a>';
+            echo '<a href="index.php?page=profile.php&id=' . $review['ReviewerID'] . '" class="reviewer-name">' . getUserField($review['ReviewerID'], 'Name') . '</a>';
             echo '<span class="review-date"> - ' . strftime('%d/%b/%G %R', $review['Date']) . '</span>';
             echo '<p class="review-comment">' . $review['Comment'] . '</p>';
 
@@ -89,7 +89,12 @@ unset($restaurantInfo);
                 foreach ($replies as $reply) {
                     echo '<div class="reply" hidden="hidden">';
 
-                    echo '<div class="reply-name">' . getUserField($reply['ReplierID'], 'Name') . ' </div>';
+                    // If the replier is the owner of the restaurant,
+                    // reply in name of the restaurant
+                    if ($reply['ReplierID'] === $ownerId)
+                        echo '<a href="index.php?page=restaurant_profile.php&id=' . $id . '" class="reply-name replier-restaurant">' . $name . ' </a>';
+                    else
+                        echo '<a href="index.php?page=profile.php&id=' . $reply['ReplierID'] . '" class="reply-name">' . getUserField($reply['ReplierID'], 'Name') . ' </a>';
                     echo '<div class="reply-date">' . strftime('%d/%b/%G %R', $reply['Date']) . '</div>';
                     echo '<p class="reply-text">' . $reply['Text'] . '</p>';
 
