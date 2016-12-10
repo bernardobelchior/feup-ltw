@@ -18,6 +18,8 @@ $restaurantInfo = getRestaurantInfo($id);
 $ownerId = $restaurantInfo['OwnerID'];
 $name = $restaurantInfo['Name'];
 $address = $restaurantInfo['Address'];
+$phoneNumber = $restaurantInfo['TelephoneNumber'];
+$costForTwo = $restaurantInfo['CostForTwo'];
 $description = $restaurantInfo['Description'];
 $_SESSION['ownerId'] = $ownerId;
 unset($restaurantInfo);
@@ -28,42 +30,51 @@ unset($restaurantInfo);
 <script src="../js/restaurant_profile.js"></script>
 
 <div id="restaurant-profile" class="container">
-    <!-- photo -->
-    <div id="restaurant-info">
-        <div id="restaurant-header">
-            <span id="restaurant-name"><?php echo $name; ?></span>
-            <span id="average">
+    <div id="restaurant-profile-header">
+        <div id="restaurant-info">
+            <div id="restaurant-header">
+                <span id="restaurant-name"><?php echo $name; ?></span>
+                <span id="average">
                 <?php echo getStarsHTML(getRestaurantAverageRating($id)); ?>
             </span>
+            </div>
+
+            <div id="restaurant-cost-for-two">
+                Cost for two: <?php echo $costForTwo; ?>€
+            </div>
+
+            <div id="restaurant-phone-number">
+                Phone number: <?php echo $phoneNumber; ?>
+            </div>
+
+            <p id="restaurant-description">
+                <?php echo $description; ?>
+            </p>
         </div>
 
-        <div id="restaurant-address">
-            <?php echo $address; ?>
-        </div>
+        <div id="restaurant-gallery">
+            <?php
+            $photos = getRestaurantPhotos($id);
 
-        <p id="restaurant-description">
-            <?php echo $description; ?>
-        </p>
-    </div>
-
-    <div id="restaurant-gallery">
-        <?php
-        $photos = getRestaurantPhotos($id);
-
-        if (count($photos) > 0) {
-            echo '<i id="left-arrow" class="fa fa-chevron-left fa-4x" aria-hidden="true"></i>
+            if (count($photos) > 0) {
+                echo '<i id="left-arrow" class="fa fa-chevron-left fa-4x" aria-hidden="true"></i>
             <div>';
 
-            foreach ($photos as $photo) {
-                echo '<img class="photo" src="' . '../' . $photo['Path'] . '" alt="Restaurant photo"></img>';
-            }
+                foreach ($photos as $photo) {
+                    echo '<img class="photo" src="' . '../' . $photo['Path'] . '" alt="Restaurant photo"></img>';
+                }
 
-            echo '</div>
+                echo '</div>
             <i id="right-arrow" class="fa fa-chevron-right fa-4x" aria-hidden="true"></i>';
-        }
-        ?>
+            }
+            ?>
 
+        </div>
     </div>
+
+    <iframe id="map" frameborder="0"
+            src="https://www.google.com/maps/embed/v1/place?q=<?php echo $address; ?>&key=AIzaSyCdqMmRf8c1f_yTgtjt7zT_5tdO5UOPka4"
+            allowfullscreen></iframe>
 </div>
 
 <div id="reviews" class="container">

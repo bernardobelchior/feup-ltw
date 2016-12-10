@@ -4,19 +4,20 @@ include_once('connection.php');
 /** Adds the restaurant to the Restaurants table.
  * @param $ownerId int Restaurant's owner ID.
  * @param $name string Restaurant name.
- * @param $lat float Latitude
- * @param $long float Longitude
+ * @param $address string Restaurant's address.
  * @param $description string Restaurant's description.
  * @param $costForTwo integer Cost for two
  * @param $phoneNumber integer Phone number
  * @return string Returns the query error code.
+ * @internal param float $lat Latitude
+ * @internal param float $long Longitude
  */
-function addRestaurant($ownerId, $name, $lat, $long, $description, $costForTwo, $phoneNumber) {
+function addRestaurant($ownerId, $name, $address, $description, $costForTwo, $phoneNumber) {
     global $db;
 
-    $statement = $db->prepare('INSERT INTO Restaurants VALUES(NULL, ?, ?, ?, ?, ?, ?, ?)');
+    $statement = $db->prepare('INSERT INTO Restaurants VALUES(NULL, ?, ?, ?, ?, ?, ?)');
     var_dump($statement);
-    $statement->execute([$ownerId, $name, $lat, $long, $description, $costForTwo, $phoneNumber]);
+    $statement->execute([$ownerId, $name, $address, $description, $costForTwo, $phoneNumber]);
     return $statement->errorInfo(); //Returns 0 even if the insertion failed due to repeated username or email.
 }
 

@@ -30,8 +30,7 @@ CREATE TABLE Restaurants (
   ID              INTEGER PRIMARY KEY,
   OwnerID         INTEGER NOT NULL REFERENCES Users,
   Name            TEXT    NOT NULL,
-  Latitude        REAL    NOT NULL,
-  Longitude       REAL    NOT NULL,
+  Address         TEXT    NOT NULL,
   Description     TEXT,
   CostForTwo      INTEGER,
   TelephoneNumber INTEGER

@@ -13,7 +13,6 @@ $_SESSION['token'] = generateRandomToken();
 ?>
 <link rel="stylesheet" type="text/css" href="../css/common.min.css"/>
 <link rel="stylesheet" type="text/css" href="../css/add_restaurant.min.css"/>
-<script src="../js/add_restaurant.js"></script>
 
 <form id="add-restaurant" class="container" action="actions/add_restaurant.php" method="post"
       enctype="multipart/form-data" onsubmit="return validateForm()">
@@ -29,7 +28,7 @@ $_SESSION['token'] = generateRandomToken();
         $categories = getAllCategories();
 
         foreach ($categories as $category) {
-            echo '<li class="category-box"><input type="checkbox" name="categories[]" value="' . $category['ID'] . '">' . $category['Name'] . '</li>';
+            echo '<li class="category-box"><label><input type="checkbox" name="categories[]" value="' . $category['ID'] . '">' . $category['Name'] . '</label></li>';
         }
         ?>
     </ul>

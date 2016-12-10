@@ -1,43 +1,55 @@
 @import "common";
 
 #restaurant-profile {
-  display: flex;
-  justify-content: space-between;
+  #restaurant-profile-header {
+    display: flex;
+    justify-content: space-between;
 
-  #restaurant-header {
-    border-bottom: 1px solid #62AB93;
+    #restaurant-header {
+      border-bottom: 1px solid #62AB93;
 
-    #restaurant-name {
-      font-weight: bold;
-      font-size: 200%;
+      #restaurant-name {
+        font-weight: bold;
+        font-size: 200%;
+      }
+
+      #average {
+        padding-left: 0.6em;
+
+        .star {
+          font-size: 200%;
+          vertical-align: middle;
+        }
+      }
     }
 
-    #average {
-      padding-left: 0.6em;
+    #restaurant-cost-for-two {
+
+    }
+
+    #restaurant-phone-number {
+
+    }
+
+    #restaurant-description {
+      border: 1px solid #62AB93;
+    }
+
+    #restaurant-gallery {
+      display: flex;
+      align-items: center;
 
       i {
-        font-size: 175%;
-        vertical-align: middle;
+        padding: 0 0.2em;
+        cursor: pointer;
       }
     }
   }
 
-  #restaurant-address {
-    margin-top: 0.5em;
-  }
-
-  #restaurant-description {
-    border: 1px solid #62AB93;
-  }
-
-  #restaurant-gallery {
-    display: flex;
-    align-items: center;
-
-    i {
-      padding: 0 0.2em;
-      cursor: pointer;
-    }
+  #map {
+    padding-top: 1em;
+    height: 20em;
+    width: 100%;
   }
 }
 

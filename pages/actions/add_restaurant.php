@@ -20,18 +20,8 @@ $phoneNumber = htmlspecialchars($_POST['phone-number']);
 //Sets the owner. If no owner is set, the owner is the user signed in.
 $ownerId = isset($_SESSION['ownerId']) ? $_SESSION['ownerId'] : $_SESSION['userId'];
 
-do {
-    $return = json_decode(
-        file_get_contents('https://maps.googleapis.com/maps/api/geocode/json?key=AIzaSyD7KJgIHnXcB3sJkzMPMz4PsGTqvWpEByA&address=' . urlencode($address)),
-        true);
-} while ($return['status'] !== 'OK');
-
-$location = $return['results'][0]['geometry']['location'];
-$lat = floatval($location['lat']);
-$long = floatval($location['lng']);
-
 if (isset($name) && isset($address)) {
-    $result = addRestaurant($ownerId, $name, $lat, $long, $description, $costForTwo, $phoneNumber);
+    $result = addRestaurant($ownerId, $name, $address, $description, $costForTwo, $phoneNumber);
 
     if ($result === null) { //If an error occurred, store the error message.
         $_SESSION['addRestaurantError'] = $result[2];
