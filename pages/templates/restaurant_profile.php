@@ -77,7 +77,7 @@ unset($restaurantInfo);
 
             echo '<span class="review-title">' . $review['Title'] . ' </span>';
             echo '<span class="review-score">' . getStarsHTML($review['Score']) . ' </span><br/>';
-            echo '<span class="reviewer-name">' . getUserField($review['ReviewerID'], 'Name') . '</span>';
+            echo '<a href="index.php?page=profile.php&id=' . $review['ReviewerID'] .'" class="reviewer-name">' . getUserField($review['ReviewerID'], 'Name') . '</a>';
             echo '<span class="review-date"> - ' . strftime('%d/%b/%G %R', $review['Date']) . '</span>';
             echo '<p class="review-comment">' . $review['Comment'] . '</p>';
 
