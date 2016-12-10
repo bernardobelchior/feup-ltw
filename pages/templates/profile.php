@@ -25,6 +25,9 @@ if ($profile_picture === null)
 <link rel="stylesheet" href="../css/common.min.css">
 <script type="application/javascript" src="../js/common.js"></script>
 
+<div class="profile_picture_container">
+    <img id="profile_picture" alt="User's Profile Picture" src="<?php echo '../' . $profile_picture; ?>"/>
+</div>
 <div class="page_content">
     <div id="profile" class="container">
         <div>
@@ -32,12 +35,11 @@ if ($profile_picture === null)
                 <?php echo $name ?>
             </div>
 
-            <div id="username">
+            <div id="username" hidden>
                 <?php echo $username ?>
             </div>
 
-            <span id="email">Email: </span>
-            <span> <?php echo $email; ?></span>
+            <div> <?php echo $email; ?></div>
         </div>
 
         <div>

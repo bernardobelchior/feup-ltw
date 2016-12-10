@@ -82,7 +82,9 @@ if (!idExists($id)) {
     <form action="actions/upload_photo.php" method="post" enctype="multipart/form-data">
         <input type="hidden" name="update-token" value="<?php echo $_SESSION['token']; ?>"/>
         <input type="hidden" name="id" value="<?php echo $id; ?>">
-        Photo: <input type="file" name="photo" accept="image/*" required/>
+
+        Photo: <input id="photo" type="file" name="photo" accept="image/*" required/>
+        <output id="filesInfo"></output>
         <button type="submit">Upload Photo</button>
     </form>
 
