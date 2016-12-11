@@ -35,23 +35,12 @@
   justify-content: center;
   width: 100%;
 
-  form {
-    display: flex;
-    justify-content: center;
+  #search-box {
+    text-align: center;
     width: inherit;
+  }
 
-    * {
-      font-size: 200%;
-    }
-
-    #search-box {
-      text-align: center;
-      width: inherit;
-    }
-
-    button {
-      margin-left: 0.5em;
-    }
-
+  button {
+    margin-left: 0.5em;
   }
 }

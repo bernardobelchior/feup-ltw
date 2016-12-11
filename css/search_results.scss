@@ -63,6 +63,20 @@
   margin-top: 0;
 }
 
+#search-box {
+  width: 100%;
+}
+
+#categories {
+  list-style: none;
+  padding-left: 0;
+
+  .category-box {
+    min-width: 25%;
+    display: inline-block;
+  }
+}
+
 #users {
   display: none;
 }

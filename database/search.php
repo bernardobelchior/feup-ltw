@@ -1,17 +1,19 @@
 <?php
+include_once('restaurants.php');
+include_once('users.php');
+include_once('search_utils.php');
 
-/** Normalizes the query by trimming whitespaces, making everything lower case and
- * substituting newlines, tabs and multiple spaces by a single space.
- * @param $query string Input query
- * @return string
- */
-function normalizeQuery($query) {
-    // Remove whitespace at the beginning and end of the query.
-    $normalizedQuery = trim($query);
+$query = htmlspecialchars($_GET['query']);
+$categories = $_GET['categories'];
 
-    // Substitutes multiple spaces, tabs and newlines for a unique space.
-    $normalizedQuery = preg_replace(array('/\s{2,}/', '/[\t\n]/'), ' ', $normalizedQuery);
-
-    // Make the query lower cased, as the search functions need a lower case query.
-    return strtolower($normalizedQuery);
+if (isset($categories)) {
+    foreach ($categories as $category)
+        $category = htmlspecialchars($category);
 }
+
+$query = normalizeQuery($query);
+
+$restaurants = searchRestaurants($query, $categories);
+$users = searchUsers($query);
+
+echo json_encode(['restaurants' => $restaurants, 'users' => $users]);

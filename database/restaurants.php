@@ -16,7 +16,6 @@ function addRestaurant($ownerId, $name, $address, $description, $costForTwo, $ph
     global $db;
 
     $statement = $db->prepare('INSERT INTO Restaurants VALUES(NULL, ?, ?, ?, ?, ?, ?)');
-    var_dump($statement);
     $statement->execute([$ownerId, $name, $address, $description, $costForTwo, $phoneNumber]);
     return $statement->errorInfo(); //Returns 0 even if the insertion failed due to repeated username or email.
 }
@@ -104,16 +103,32 @@ function restaurantIdExists($restaurantId) {
  * The statement checks for lower case names, so the query MUST be lower case
  * in order to make it case insensitive.
  * @param $query string The search string.
+ * @param $categories array Optional categories to restrict the search.
  * @return array All results.
  */
-function searchRestaurants($query) {
+function searchRestaurants($query, $categories) {
     global $db;
 
     //Prepare the query to search for each word individually
-    $where = '"%' . str_replace(' ', '%" OR LOWER(Name) LIKE "%', $query) . '%"';
+    if ($query === '')
+        $where = '"%"';
+    else
+        $where = '"%' . str_replace(' ', '%" OR LOWER(Name) LIKE "%', $query) . '%"';
+
+    if (is_array($categories)) {
+        $categoryQuery = ' AND (';
+
+        $i = 0;
+        for (; $i < count($categories) - 1; $i++) {
+            $categoryQuery .= 'CategoryID = ' . $categories[$i] . ' OR ';
+        }
+
+        $categoryQuery .= 'CategoryID = ' . $categories[$i] . ')';
+        $statement = $db->prepare('SELECT Restaurants.ID, Name, Address FROM Restaurants INNER JOIN RestaurantsCategories ON Restaurants.ID = RestaurantID WHERE LOWER(Name) LIKE ' . $where . $categoryQuery);
+    } else
+        $statement = $db->prepare('SELECT ID, Name, Address FROM Restaurants WHERE LOWER(Name) LIKE ' . $where);
 
     // Not sure why, but using the execute([$where]) does not work, this is a workaround.
-    $statement = $db->prepare('SELECT ID, Name, Address FROM Restaurants WHERE LOWER(Name) LIKE' . $where);
     $statement->execute();
     return $statement->fetchAll();
 }
@@ -228,4 +243,16 @@ function addCategoryToRestaurant($restaurantId, $categoryId) {
     $statement = $db->prepare('INSERT INTO RestaurantsCategories VALUES (NULL, ?, ?)');
     $statement->execute([$restaurantId, $categoryId]);
     return $statement->errorInfo();
+}
+
+/** Gets all categories that the given restaurant belongs to.
+ * @param $restaurantId int Restaurant ID.
+ * @return array Array of categories.
+ */
+function getRestaurantCategories($restaurantId) {
+    global $db;
+
+    $statement = $db->prepare('SELECT * FROM RestaurantsCategories INNER JOIN Categories ON RestaurantsCategories.CategoryID = Categories.ID WHERE RestaurantsCategories.RestaurantID = ?');
+    $statement->execute([$restaurantId]);
+    return $statement->fetchAll();
 }
