@@ -1,4 +1,3 @@
-
 .top-bar {
   background: linear-gradient(to right ,#5da58b,#447C67);
   min-width: 100%;
@@ -6,12 +5,10 @@
   margin-bottom: 2em;
   overflow: hidden;
 
-
   ul {
     list-style-type: none;
     margin: 0;
-    display: flex;
-    justify-content: space-between;
+    display: inline;
   }
 
   li {
@@ -29,61 +26,68 @@
     padding: 4px 4px;
 
     img{
+      padding-left: 10px;
+      padding-top: 4px;
       float:left;
       width: 64px;
       height: 40px;
     }
   }
 
-  #user_header{
+  #user-zone{
     float: right;
-    color: #e9ffee;
-    padding-top: 8px;
-    display: inline;
-    span{
-      padding-right: 10px;
-    }
-  }
 
-  #user_action {
-    color: #e9ffee;
-
-    #user_login {
+    #user_header{
+      color: #e9ffee;
+      padding-top: 12px;
       display: inline;
-
-      span {
+      span{
         padding-right: 10px;
       }
     }
 
-    #sign_up_text {
-      padding-left: 0.5em;
-    }
+    #user_action {
+      color: #e9ffee;
 
-    form {
-      display: inline;
+      #user_login {
+        display: inline;
 
-      * {
-        margin-right: 10px;
+        span {
+          padding-right: 10px;
+        }
       }
 
+      #sign_up_text {
+        padding-left: 0.5em;
+      }
+
+      form {
+        display: inline;
+
+        * {
+          margin-right: 10px;
+        }
+
+      }
+    }
+
+
+    #login_form {
+      width: 30%;
+      input {
+        width: 22%;
+      }
+    }
+
+    #sign_up_text {
+      cursor: pointer;
+    }
+
+    #sign_up_text:hover {
+      color: #ffffff;
     }
   }
 
-  #login_form {
-    width: 30%;
-    input {
-      width: 22%;
-    }
-  }
-
-  #sign_up_text {
-    cursor: pointer;
-  }
-
-  #sign_up_text:hover {
-    color: #ffffff;
-  }
 }
 
 #sign_up_overlay {
@@ -131,7 +135,7 @@
 }
 
 .overlay {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   padding: 0;

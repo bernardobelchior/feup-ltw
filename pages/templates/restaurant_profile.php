@@ -18,6 +18,8 @@ $restaurantInfo = getRestaurantInfo($id);
 $ownerId = $restaurantInfo['OwnerID'];
 $name = $restaurantInfo['Name'];
 $address = $restaurantInfo['Address'];
+$phoneNumber = $restaurantInfo['TelephoneNumber'];
+$costForTwo = $restaurantInfo['CostForTwo'];
 $description = $restaurantInfo['Description'];
 $_SESSION['ownerId'] = $ownerId;
 unset($restaurantInfo);
@@ -25,20 +27,54 @@ unset($restaurantInfo);
 
 <link rel="stylesheet" href="../css/common.min.css">
 <link rel="stylesheet" href="../css/restaurant_profile.min.css">
+<script src="../js/restaurant_profile.js"></script>
 
 <div id="restaurant-profile" class="container">
-    <!-- photo -->
-    <div>
-        Name: <?php echo $name; ?>
+    <div id="restaurant-profile-header">
+        <div id="restaurant-info">
+            <div id="restaurant-header">
+                <span id="restaurant-name"><?php echo $name; ?></span>
+                <span id="average">
+                <?php echo getStarsHTML(getRestaurantAverageRating($id)); ?>
+            </span>
+            </div>
+
+            <div id="restaurant-cost-for-two">
+                Cost for two: <?php echo $costForTwo; ?>€
+            </div>
+
+            <div id="restaurant-phone-number">
+                Phone number: <?php echo $phoneNumber; ?>
+            </div>
+
+            <p id="restaurant-description">
+                <?php echo $description; ?>
+            </p>
+        </div>
+
+        <div id="restaurant-gallery">
+            <?php
+            $photos = getRestaurantPhotos($id);
+
+            if (count($photos) > 0) {
+                echo '<i id="left-arrow" class="fa fa-chevron-left fa-4x" aria-hidden="true"></i>
+            <div>';
+
+                foreach ($photos as $photo) {
+                    echo '<img class="photo" src="' . '../' . $photo['Path'] . '" alt="Restaurant photo"></img>';
+                }
+
+                echo '</div>
+            <i id="right-arrow" class="fa fa-chevron-right fa-4x" aria-hidden="true"></i>';
+            }
+            ?>
+
+        </div>
     </div>
 
-    <div>
-        Address: <?php echo $address; ?>
-    </div>
-
-    <div>
-        Description: <?php echo $description; ?>
-    </div>
+    <iframe id="map" frameborder="0"
+            src="https://www.google.com/maps/embed/v1/place?q=<?php echo $address; ?>&key=AIzaSyCdqMmRf8c1f_yTgtjt7zT_5tdO5UOPka4"
+            allowfullscreen></iframe>
 </div>
 
 <div id="reviews" class="container">
@@ -48,52 +84,65 @@ unset($restaurantInfo);
     if (sizeof($reviews) > 0) {
 
         foreach ($reviews as $review) {
-            echo '<div class="review-container">';
+            echo '<div id="review' . $review['ID'] . '" class="review-container">';
 
-            echo '<span>' . $review['Title'] . ' </span>';
-            echo '<span>' . $review['Score'] . ' </span>';
-            echo '<span>' . getUserField($review['ReviewerID'], 'Name') . '</span>';
-            echo '<div>' . strftime('%d/%b/%G %R', $review['Date']) . '</div>';
-            echo '<p>' . $review['Comment'] . '</p>';
+            echo '<span class="review-title">' . $review['Title'] . ' </span>';
+            echo '<span class="review-score">' . getStarsHTML($review['Score']) . ' </span><br/>';
+            echo '<a href="index.php?page=profile.php&id=' . $review['ReviewerID'] . '" class="reviewer-name">' . getUserField($review['ReviewerID'], 'Name') . '</a>';
+            echo '<span class="review-date"> - ' . strftime('%d/%b/%G %R', $review['Date']) . '</span>';
+            echo '<p class="review-comment">' . $review['Comment'] . '</p>';
 
             $replies = getAllReplies($review['ID']);
 
-            foreach ($replies as $reply) {
-                echo '<div class="container">';
+            if (count($replies) > 0) {
+                echo '<a href="#review' . $review['ID'] . '" class="toggle-replies">Show replies</a>';
 
-                echo '<span>' . getUserField($reply['ReplierID'], 'Name') . ' </span>';
-                echo '<span>' . strftime('%d/%b/%G %R', $reply['Date']) . '</span>';
-                echo '<p>' . $reply['Text'] . '</p>';
+                foreach ($replies as $reply) {
+                    echo '<div class="reply" hidden="hidden">';
 
-                echo '</div>';
+                    // If the replier is the owner of the restaurant,
+                    // reply in name of the restaurant
+                    if ($reply['ReplierID'] === $ownerId)
+                        echo '<a href="index.php?page=restaurant_profile.php&id=' . $id . '" class="reply-name replier-restaurant">' . $name . ' </a>';
+                    else
+                        echo '<a href="index.php?page=profile.php&id=' . $reply['ReplierID'] . '" class="reply-name">' . getUserField($reply['ReplierID'], 'Name') . ' </a>';
+                    echo '<div class="reply-date">' . strftime('%d/%b/%G %R', $reply['Date']) . '</div>';
+                    echo '<p class="reply-text">' . $reply['Text'] . '</p>';
+
+                    echo '</div>';
+                }
             }
 
+
             if ($ownerId === $_SESSION['userId'] || groupIdHasPermissions($_SESSION['groupId'], 'ADD_REPLY')) {
-                echo '<form method="post" action="actions/add_reply.php">
+                echo '<form class="add-reply" method="post" action="actions/add_reply.php">
 
                 <input type="hidden" name="review-id" value="' . $review['ID'] . '">
                 <input type="hidden" name="token" value="' . $_SESSION['token'] . '">
-                <textarea name="reply" placeholder="Reply"></textarea>
+                <textarea name="reply" placeholder="Reply" rows="3"></textarea>
                 <button type="submit">Reply</button>
-
+                
                 </form>';
             }
 
             echo '</div>';
         }
 
+    } else {
+        echo '<span>No reviews yet :(</span>';
     }
 
     if (groupIdHasPermissions($_SESSION['groupId'], 'ADD_REVIEW')) {
         if ($ownerId !== $_SESSION['userId'] ||
             groupIdHasPermissions($_SESSION['groupId'], 'ADD_REVIEW_TO_OWN_RESTAURANT')
         ) {
-            echo '<form id="add-review" action="actions/add_review.php" method="post">
+            echo '<form id="add-review" action="actions/add_review.php" method="post" onsubmit="return validateForm()">
         <input type="hidden" name="token" value="' . $_SESSION['token'] . '">
-        <input type="text" name="title" placeholder="Title">
-        <input type="number" name="score" min="1" max="5" required>
-        <textarea name="comment" placeholder="Comment(optional)"></textarea>
-        <button type="submit">Submit</button>
+        <input id="review-title" type="text" name="title" placeholder="Title" required>
+        <input id="review-score" type="number" min="1" max="5" name="score" placeholder="Score" required>
+        <span id="review-stars" hidden="hidden">' . getStarsHTML(0) . '</span>
+        <textarea id="review-comment" name="comment" placeholder="Comment(optional)" rows="4" cols="50"></textarea>
+        <button type="submit">Send review</button>
     </form>';
         }
     }

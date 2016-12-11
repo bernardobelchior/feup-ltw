@@ -10,6 +10,8 @@ body {
   max-width: 80%;
   min-height: 90%;
   background: linear-gradient(to right, #f0e8da, #f0e8da, #EFF1D4,#f0e8da, #f0e8da);
+  background-color: #EFF1D4;
+  width: 80%;
   position: relative;
   left: 10%;
   padding: 1em;
@@ -17,12 +19,12 @@ body {
   border: 3px solid #d8dac0;
 }
 
-.page_title{
+.page_title {
   font-size: 1.5em;
   color: #2B2C24;
 }
 
-.section_title{
+.section_title {
   font-size: 1.2em;
   color: #47483E;
   border-bottom: 1px solid #757667;
@@ -33,4 +35,30 @@ body {
 
 .container {
   @include container;
+}
+
+#search {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+
+  form {
+    display: flex;
+    justify-content: center;
+    width: inherit;
+
+    * {
+      font-size: 200%;
+    }
+
+    #search-box {
+      text-align: center;
+      width: inherit;
+    }
+
+    button {
+      margin-left: 0.5em;
+    }
+
+  }
 }

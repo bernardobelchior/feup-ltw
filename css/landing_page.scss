@@ -1,19 +1,4 @@
-#search {
-  display: flex;
-  justify-content: center;
-
-  form {
-    display: flex;
-    justify-content: center;
-    width: 80%;
-
-    #search-box {
-      width: 80%;
-    }
-
-    button {
-        margin-left: 0.5em;
-    }
-
-  }
+#body {
+  width: 80%;
+  margin: auto;
 }

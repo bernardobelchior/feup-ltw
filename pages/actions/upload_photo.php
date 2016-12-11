@@ -15,7 +15,7 @@ if ($_SESSION['token'] !== $_POST['token']) {
 $id = htmlspecialchars($_POST['id']);
 
 $_SESSION['token'] = generateRandomToken();
-$_POST['token'] = $_SESSION['token'];
+
 if (!$_FILES['photo']['name']) {
     echo 'No file uploaded.';
     header('Location: ../index.php?page=edit_profile.php');
@@ -79,6 +79,21 @@ $manipulator->save('../../' . $picturePath);
 //move_uploaded_file($_FILES['photo']['tmp_name'], '../../' . $picturePath);
 var_dump(changeProfilePicture($id, $picturePath));
 var_dump(getUserField($id, 'Picture'));
+
+$picturePath = 'profile_pictures/' . $newNamePrefix . $id . '.' . $extension;
+
+// Delete old picture. move_upload_file only overwrites the old picture if it has the same extension. This prevents
+// having a lot of old pictures laying around.
+
+$oldPicture = getUserField($id, 'Picture');
+
+if ($oldPicture !== null)
+    unlink('../../' . $oldPicture);
+
+
+//If the file has been moved correctly, update the path in the database
+if (move_uploaded_file($_FILES['photo']['tmp_name'], '../../' . $picturePath))
+    changeProfilePicture($id, $picturePath);
 
 header('Location: ../index.php?page=profile.php&id=' . $id);
 die();

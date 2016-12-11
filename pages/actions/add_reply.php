@@ -23,5 +23,5 @@ $reply = htmlspecialchars($_POST['reply']);
 
 addReply($reviewId, $_SESSION['userId'], $reply);
 
-header('Location: ../index.php?page=restaurant_profile&id=' . $_SESSION['restaurantId']);
+header('Location: ../index.php?page=restaurant_profile.php&id=' . $_SESSION['restaurantId']);
 die();

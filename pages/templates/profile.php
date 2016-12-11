@@ -68,5 +68,5 @@ if ($profile_picture === null)
         }
         ?>
     </div>
-
 </div>
+

@@ -5,15 +5,13 @@ include_once('../../database/users.php');
 include_once('../utils/utils.php');
 
 // If the user didn't come from the edit profile page.
-if ($_SESSION['update-token'] !== $_POST['update-token']) {
+if ($_SESSION['token'] !== $_POST['token']) {
     header('HTTP/1.0 403 Forbidden');
     header('Location: ../index.php?page=403.html');
     die();
 }
 
-$_SESSION['update-token'] = generateRandomToken();
-
-$id = htmlspecialchars($_POST['id']);
+$id = htmlspecialchars($_POST['profile_id']);
 
 // Check for permissions or if the user is editing his/hers own profile.
 if (!groupIdHasPermissions($_SESSION['groupId'], 'EDIT_ANY_PROFILE') &&
@@ -24,15 +22,22 @@ if (!groupIdHasPermissions($_SESSION['groupId'], 'EDIT_ANY_PROFILE') &&
     die();
 }
 
-$name = htmlspecialchars($_POST['name']);
-$email = htmlspecialchars($_POST['email']);
-$date = htmlspecialchars($_POST['date']);
-$gender = htmlspecialchars($_POST['gender']);
+$type = $_POST['type'];
+$value = $_POST['value'];
 
-if (updateUser($id, $name, $email, $date, $gender) == 0) {
-    $_SESSION['name'] = $name;
-    $_SESSION['email'] = $email;
+if($type == 'name')
+  updateName($id, $value);
+else if($type == 'gender')
+  updateGender($id, $value);
+else if($type == 'email') {
+  if(emailExists($value)){
+    header('HTTP/1.0 403 Forbidden');
+    exit;
+  }
+  updateEmail($id, $value);
 }
+else if($type == 'dob')
+  updateDateOfBirth($id, $value);
 
-header('Location: ../index.php?page=profile.php&id=' . $id);
+
 die();

@@ -4,15 +4,20 @@ include_once('connection.php');
 /** Adds the restaurant to the Restaurants table.
  * @param $ownerId int Restaurant's owner ID.
  * @param $name string Restaurant name.
- * @param $address string Restaurant's address
+ * @param $address string Restaurant's address.
  * @param $description string Restaurant's description.
+ * @param $costForTwo integer Cost for two
+ * @param $phoneNumber integer Phone number
  * @return string Returns the query error code.
+ * @internal param float $lat Latitude
+ * @internal param float $long Longitude
  */
-function addRestaurant($ownerId, $name, $address, $description) {
+function addRestaurant($ownerId, $name, $address, $description, $costForTwo, $phoneNumber) {
     global $db;
 
-    $statement = $db->prepare('INSERT INTO Restaurants VALUES(NULL, ?, ?, ?, ?)');
-    $statement->execute([$ownerId, $name, $address, $description]);
+    $statement = $db->prepare('INSERT INTO Restaurants VALUES(NULL, ?, ?, ?, ?, ?, ?)');
+    var_dump($statement);
+    $statement->execute([$ownerId, $name, $address, $description, $costForTwo, $phoneNumber]);
     return $statement->errorInfo(); //Returns 0 even if the insertion failed due to repeated username or email.
 }
 
@@ -117,7 +122,7 @@ function searchRestaurants($query) {
  * @param $reviewId int Review ID.
  * @return array Restaurant Owner ID
  */
-function getRestaurantOwnerFromReview($reviewId){
+function getRestaurantOwnerFromReview($reviewId) {
     global $db;
 
     $statement = $db->prepare('SELECT OwnerID FROM Reviews, Restaurants WHERE Reviews.RestaurantID = Restaurants.ID AND Reviews.ID = ?');
@@ -150,4 +155,77 @@ function getAllReplies($reviewId) {
     $statement = $db->prepare('SELECT * FROM Replies WHERE ReviewID = ?');
     $statement->execute([$reviewId]);
     return $statement->fetchAll();
+}
+
+/** Returns the restaurant ID with the given name.
+ * @param $restaurantName string Restaurant name
+ * @return mixed ID if the restaurant is found, null otherwise.
+ */
+function getRestaurantByName($restaurantName) {
+    global $db;
+
+    $statement = $db->prepare('SELECT ID FROM Restaurants WHERE Name = ?');
+    $statement->execute([$restaurantName]);
+    return $statement->fetch()['ID'];
+}
+
+/** Adds the photo provided to the respective restaurant.
+ * @param $restaurantId int Restaurant ID.
+ * @param $photoPath string Path to photo.
+ * @return array Statement's error info.
+ */
+function addPhoto($restaurantId, $photoPath) {
+    global $db;
+
+    $statement = $db->prepare('INSERT INTO RestaurantPhotos VALUES (NULL, ?, ?)');
+    $statement->execute([$restaurantId, $photoPath]);
+    return $statement->errorInfo();
+}
+
+/** Gets all photos related to that restaurant.
+ * @param $restaurantId int Restaurant ID.
+ * @return array Array of paths to photos.
+ */
+function getRestaurantPhotos($restaurantId) {
+    global $db;
+
+    $statement = $db->prepare('SELECT Path FROM RestaurantPhotos WHERE RestaurantID = ?');
+    $statement->execute([$restaurantId]);
+    return $statement->fetchAll();
+}
+
+/** Gets the average restaurant rating.
+ * @param $restaurantId Restaurant ID.
+ * @return float Average rating
+ */
+function getRestaurantAverageRating($restaurantId) {
+    global $db;
+
+    $statement = $db->prepare('SELECT AVG(Score) FROM Reviews WHERE RestaurantID = ?');
+    $statement->execute([$restaurantId]);
+    return $statement->fetch()['AVG(Score)'];
+}
+
+/** Gets all categories
+ * @return array All categories
+ */
+function getAllCategories() {
+    global $db;
+
+    $statement = $db->prepare('SELECT * FROM Categories');
+    $statement->execute();
+    return $statement->fetchAll();
+}
+
+/** Adds category to restaurant
+ * @param $restaurantId int Restaurant ID
+ * @param $categoryId int Category ID
+ * @return array Statement error info
+ */
+function addCategoryToRestaurant($restaurantId, $categoryId) {
+    global $db;
+
+    $statement = $db->prepare('INSERT INTO RestaurantsCategories VALUES (NULL, ?, ?)');
+    $statement->execute([$restaurantId, $categoryId]);
+    return $statement->errorInfo();
 }

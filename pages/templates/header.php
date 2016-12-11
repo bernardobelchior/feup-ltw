@@ -18,16 +18,19 @@
         <li id="home_button"><a href="../index.php">
                 <img src="/res/eatr.png" alt="W3Schools.com"> </a>
         </li>
+        <li id="user-zone">
+        <ul>
         <li id="user_header">
-        <?php
-        if (isset($_SESSION['username'])) {
-            echo '<span id="greeting">
+            <?php
+            if (isset($_SESSION['username'])) {
+                echo '<span id="greeting">
                     Hello, <a href="index.php?page=profile.php&id=' . $_SESSION['userId'] . '">
                     <strong>' . $_SESSION['name'] . '</strong></a>!
                     </span>';
-        }
-        ?>
-        <span id="user_action">
+            }
+            ?>
+        </li>
+        <li id="user_action">
             <?php
             if (isset($_SESSION['username'])) {
                 echo '<form id="logout_form" action="actions/logout.php">';
@@ -45,7 +48,8 @@
                 echo '<span id="sign_up_text">Not a Member?</span>';
             }
             ?>
-        </span>
+        </li>
+        </ul>
         </li>
     </ul>
 </div>
@@ -70,7 +74,8 @@ Don't forget to unset it afterwards.
             <form id="sign_up_form" method="post" action="actions/sign_up.php" onsubmit="return validateForm();">
                 <input id="username" type="text" name="username" placeholder="Username" required/>
                 <input id="password" type="password" name="password" placeholder="Password" required/>
-                <input id="password-repeat" type="password" name="password-repeat" placeholder="Repeat your Password"
+                <input id="password-repeat" type="password" name="password-repeat"
+                       placeholder="Repeat your Password"
                        required/>
                 <input id="email" type="email" name="email" placeholder="Email" required/>
                 <input id="name" type="text" name="name" placeholder="Name" required/>
@@ -83,3 +88,4 @@ Don't forget to unset it afterwards.
         </div>
     </div>
 </div>
+

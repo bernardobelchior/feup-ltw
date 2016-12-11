@@ -27,12 +27,26 @@ CREATE TABLE GroupsPermissions (
 );
 
 CREATE TABLE Restaurants (
-  ID          INTEGER PRIMARY KEY,
-  OwnerID     INTEGER NOT NULL REFERENCES Users,
-  Name        TEXT    NOT NULL,
-  Address     TEXT,
-  Description TEXT
+  ID              INTEGER PRIMARY KEY,
+  OwnerID         INTEGER NOT NULL REFERENCES Users,
+  Name            TEXT    NOT NULL,
+  Address         TEXT    NOT NULL,
+  Description     TEXT,
+  CostForTwo      INTEGER,
+  TelephoneNumber INTEGER
 );
+
+CREATE TABLE Categories (
+  ID   INTEGER PRIMARY KEY,
+  Name TEXT NOT NULL
+);
+
+CREATE TABLE RestaurantsCategories (
+  ID           INTEGER PRIMARY KEY,
+  RestaurantID INTEGER NOT NULL REFERENCES Restaurants,
+  CategoryID   INTEGER NOT NULL REFERENCES Categories
+);
+
 
 CREATE TABLE RestaurantPhotos (
   ID           INTEGER PRIMARY KEY,
@@ -57,6 +71,10 @@ CREATE TABLE Replies (
   Text      TEXT    NOT NULL,
   Date      INTEGER NOT NULL /* Unix timestamp */
 );
+
+INSERT INTO Users VALUES
+  (NULL, 'admin', '$2y$10$.q./d7RNBpt9ccSQvi9En.d0N4gnZWS5lgD.v76TQaVgn6srGm./6', 'admin@admin.pt', 'Admin', 2, NULL,
+   NULL, NULL);
 
 /* User Groups */
 INSERT INTO UserGroups VALUES (NULL, 'ANONYMOUS');
@@ -118,3 +136,14 @@ INSERT INTO GroupsPermissions VALUES (NULL, 3, 9);
 INSERT INTO GroupsPermissions VALUES (NULL, 3, 13);
 INSERT INTO GroupsPermissions VALUES (NULL, 3, 14);
 INSERT INTO GroupsPermissions VALUES (NULL, 3, 15);
+
+/* Categories */
+INSERT INTO Categories VALUES (NULL, 'Sushi');
+INSERT INTO Categories VALUES (NULL, 'Mediterranean');
+INSERT INTO Categories VALUES (NULL, 'Chinese');
+INSERT INTO Categories VALUES (NULL, 'Indian');
+INSERT INTO Categories VALUES (NULL, 'Native American');
+INSERT INTO Categories VALUES (NULL, 'Greek');
+INSERT INTO Categories VALUES (NULL, 'Portuguese');
+INSERT INTO Categories VALUES (NULL, 'Indonesian');
+
