@@ -96,8 +96,20 @@ unset($restaurantInfo);
         foreach ($reviews as $review) {
             echo '<div id="review' . $review['ID'] . '" class="review-container">';
 
+            echo '<div class="review-header">';
+            echo '<div class="review-header-left">';
             echo '<span class="review-title">' . $review['Title'] . ' </span>';
-            echo '<span class="review-score">' . getStarsHTML($review['Score']) . ' </span><br/>';
+            echo '<span class="review-score">' . getStarsHTML($review['Score']) . ' </span>';
+            echo '</div>';
+
+            if (groupIdHasPermissions($_SESSION['groupId'], 'REMOVE_ANY_REVIEW') || $review['ReviewerID'] === $_SESSION['userId']) {
+                echo '<form class="delete-review" action="actions/delete_review.php" method="post">
+                <input type="text" name="token" value="' . $_SESSION['token'] . '" hidden="hidden"/>
+                <input type="text" name="review-id" value="' . $review['ID'] . '" hidden="hidden"/>
+                <button class="delete-review-button" type="submit"><i class="fa fa-trash-o" aria-hidden="true" ></i></button>
+                </form>';
+            }
+            echo '</div>';
             echo '<a href="index.php?page=profile.php&id=' . $review['ReviewerID'] . '" class="reviewer-name">' . getUserField($review['ReviewerID'], 'Name') . '</a>';
             echo '<span class="review-date"> - ' . strftime('%d/%b/%G %R', $review['Date']) . '</span>';
             echo '<p class="review-comment">' . $review['Comment'] . '</p>';
@@ -146,7 +158,7 @@ unset($restaurantInfo);
         if ($ownerId !== $_SESSION['userId'] ||
             groupIdHasPermissions($_SESSION['groupId'], 'ADD_REVIEW_TO_OWN_RESTAURANT')
         ) {
-            echo '<form id="add-review" action="actions/add_review.php" method="post" onsubmit="return validateForm()">
+            echo '<form id="add-review" action="actions/add_review.php" method="post">
         <input type="hidden" name="token" value="' . $_SESSION['token'] . '">
         <input id="review-title" type="text" name="title" placeholder="Title" required>
         <input id="review-score" type="number" min="1" max="5" name="score" placeholder="Score" required>

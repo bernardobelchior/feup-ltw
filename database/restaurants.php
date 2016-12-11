@@ -256,3 +256,15 @@ function getRestaurantCategories($restaurantId) {
     $statement->execute([$restaurantId]);
     return $statement->fetchAll();
 }
+
+/** Removes the review and its replies from the database.
+ * @param $reviewId int Review Id
+ */
+function removeReview($reviewId) {
+    global $db;
+
+    $statement = $db->prepare('DELETE FROM Replies WHERE ReviewID = ?');
+    $statement->execute([$reviewId]);
+    $statement = $db->prepare('DELETE FROM Reviews WHERE ID = ?');
+    $statement->execute([$reviewId]);
+}

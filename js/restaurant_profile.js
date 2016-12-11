@@ -84,7 +84,3 @@ function clickStar() {
     $(this).off('mouseenter').parent().off('mouseleave');
     $(this).siblings().off('mouseenter');
 }
-
-function validateForm() {
-    return true;
-}
