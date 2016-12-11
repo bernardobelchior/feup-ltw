@@ -7,8 +7,8 @@ $password = $_POST['old-password'];
 
 if(login($username, $password) != 0){
     updateUserPassword($userId, $password);
-    header('Location: ../profile.php?id=' . $_SESSION['userId']);
+    header('Location: ../index.php?page=profile.php&id=' . $_SESSION['userId']);
 }
 else {
-    echo "<p> Wrong Password , click <a href='../edit_profile.php'>here</a> to go back.</p>";
+    echo "<p> Wrong Password , click <a href='index.php?page=edit_profile.php'>here</a> to go back.</p>";
 }

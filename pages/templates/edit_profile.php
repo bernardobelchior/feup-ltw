@@ -2,25 +2,25 @@
 include_once('../database/users.php');
 include_once('utils/utils.php');
 
-// Check if the user did not come from the profile page.
-if ($_SESSION['token'] !== $_POST['token']) {
-    header('HTTP/1.0 403 Forbidden');
-    header('Location: 403.php');
-    die();
-}
-
 // Generate token for the update action
 $_SESSION['token'] = generateRandomToken();
 
-$id = htmlspecialchars($_POST['id']);
+$id = htmlspecialchars($_GET['id']);
 // Check for permissions or if the user is editing his/hers own profile.
 if (!groupIdHasPermissions($_SESSION['groupId'], 'EDIT_ANY_PROFILE') &&
     $id !== $_SESSION['userId']
 ) {
-    header('HTTP/1.0 404 Not Found');
-    header('Location: 404.php');
+    header('HTTP/1.0 403 Forbidden');
+    header('Location: index.php?page=403.html');
     die();
 }
+
+if (!idExists($id)) {
+    header('HTTP/1.0 404 Not Found');
+    header('Location: index.php?page=404.html');
+    die();
+}
+
 ?>
 
 <link rel="stylesheet" href="../css/edit_profile.min.css">
@@ -33,10 +33,12 @@ if (!groupIdHasPermissions($_SESSION['groupId'], 'EDIT_ANY_PROFILE') &&
         <div class="section_title">General Info</div>
     </div>
     <ul id="profile_attr_list">
+      <input type="hidden" name="token" id="token" value="<?php echo $_SESSION['token'];?>"/>
+      <input type="hidden" name="profile_id" id="profile_id" value="<?php echo $id;?>"/>
         <li id="username">
             <span class="list_attr_name"><strong>Username</strong></span>
             <span class="list_attr_content"><?php echo getUserField($id, 'Username'); ?></span>
-            <span class="edit_link">Edit</span>
+            <!-- <span class="edit_link">Edit</span> -->
         </li>
         <li id="name">
             <span class="list_attr_name"><strong>Name</strong></span>
@@ -52,11 +54,13 @@ if (!groupIdHasPermissions($_SESSION['groupId'], 'EDIT_ANY_PROFILE') &&
             <span class="list_attr_name"><strong>e-mail</strong></span>
             <span class="list_attr_content"><?php echo getUserField($id, 'Email'); ?></span>
             <span class="edit_link">Edit</span>
+            <span class="output" id="email-output"></span>
         </li>
         <li id="dob">
             <span class="list_attr_name"><strong>Date of Birth</strong></span>
             <span class="list_attr_content"><?php echo getUserField($id, 'DateOfBirth'); ?></span>
             <span class="edit_link">Edit</span>
+            <span class="output" id="dob-output"></span>
         </li>
 
     </ul>
@@ -80,7 +84,7 @@ if (!groupIdHasPermissions($_SESSION['groupId'], 'EDIT_ANY_PROFILE') &&
     <!---->
 
     <form action="actions/upload_photo.php" method="post" enctype="multipart/form-data">
-        <input type="hidden" name="update-token" value="<?php echo $_SESSION['token']; ?>"/>
+        <input type="hidden" name="token" value="<?php echo $_SESSION['token']; ?>"/>
         <input type="hidden" name="id" value="<?php echo $id; ?>">
         Photo: <input type="file" name="photo" accept="image/*" required/>
         <button type="submit">Upload Photo</button>

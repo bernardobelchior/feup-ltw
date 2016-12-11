@@ -6,7 +6,7 @@ session_start(['cookie_httponly' => true]);
 // Check if the user came from the Sign Up page.
 if ($_SESSION['signup-token'] !== $_POST['signup-token']) {
     header('HTTP/1.0 403 Forbidden');
-    header('Location: ../403.php');
+    header('Location: ../index.php?page=403.html');
     die();
 }
 $_SESSION['token'] = generateRandomToken();

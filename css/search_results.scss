@@ -1,1 +1,68 @@
 @import "common";
+
+#body {
+  margin: auto;
+  width: 80%;
+}
+
+#search-results {
+  #search-tabs {
+    list-style: none;
+    margin-bottom: 0;
+    padding-left: 1em;
+
+    li {
+      a {
+        text-decoration: none;
+        color: black;
+      }
+    }
+
+    .tab {
+      display: inline-block;
+      padding: 0.2em 0.5em;
+      background-color: #62AB93;
+
+    }
+
+    .active {
+      background-color: green;
+    }
+  }
+
+  #restaurants {
+    .restaurant-name {
+      font-weight: bold;
+      font-size: 125%;
+    }
+
+    .restaurant-average {
+      padding-left: 0.4em;
+    }
+
+    .restaurant-address {
+      font-size: 90%;
+    }
+  }
+
+  #users {
+    #user-name {
+      font-weight: bold;
+      font-size: 125%;
+    }
+
+    #user-username {
+      font-size: 90%;
+    }
+  }
+}
+
+.search-container {
+  @include container;
+  padding: auto 0;
+  margin-top: 0;
+}
+
+#users {
+  display: none;
+}

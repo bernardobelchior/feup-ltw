@@ -1,4 +1,4 @@
-.page_content{
+.page_content {
   background-color: #EFF1D4;
   width: 80%;
   position: relative;
@@ -8,12 +8,12 @@
   border: 1px solid #d8dac0;
 }
 
-.page_title{
+.page_title {
   font-size: 1.5em;
   color: #2B2C24;
 }
 
-.section_title{
+.section_title {
   font-size: 1.2em;
   color: #47483E;
   border-bottom: 1px solid #757667;
@@ -28,6 +28,32 @@
 .container {
   @include container;
   width: 90%;
+}
+
+#search {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+
+  form {
+    display: flex;
+    justify-content: center;
+    width: inherit;
+
+    * {
+      font-size: 200%;
+    }
+
+    #search-box {
+      text-align: center;
+      width: inherit;
+    }
+
+    button {
+      margin-left: 0.5em;
+    }
+
+  }
 }
 
 #profile_attr_list{

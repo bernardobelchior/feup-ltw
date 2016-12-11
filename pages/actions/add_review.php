@@ -7,7 +7,7 @@ session_start(['cookie_httponly' => true]);
 // Check if the user comes from a valid page.
 if ($_SESSION['token'] !== $_POST['token']) {
     header('HTTP/1.0 403 Forbidden');
-    header('Location: ../403.php');
+    header('Location: ../index.php?page=403.html');
     die();
 }
 
@@ -24,5 +24,5 @@ if($score >= 1 && $score <= 5) {
 }
 
 $_SESSION['token'] = generateRandomToken();
-header('Location: ../restaurant_profile.php?id=' . $restaurantId);
+header('Location: ../index.php?page=restaurant_profile.php&id=' . $restaurantId);
 die();
