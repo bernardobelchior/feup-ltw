@@ -7,8 +7,9 @@
             src="https://code.jquery.com/jquery-3.1.1.min.js"
             integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
             crossorigin="anonymous"></script>
-    <script src="https://use.fontawesome.com/490d8b8016.js"></script>
+    <!--script src="https://use.fontawesome.com/490d8b8016.js"></script-->
     <link rel="stylesheet" type="text/css" href="../css/header.min.css"/>
+    <link rel="stylesheet" type="text/css" href="../font-awesome-4.7.0/css/font-awesome.min.css"/>
     <script src="/js/header.js"></script>
 </head>
 <body>
