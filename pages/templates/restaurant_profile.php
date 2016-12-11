@@ -47,6 +47,16 @@ unset($restaurantInfo);
                 Phone number: <?php echo $phoneNumber; ?>
             </div>
 
+            <?php
+            $categories = getRestaurantCategories($id);
+
+            echo '<ul id="restaurant-categories">';
+            foreach ($categories as $category)
+                echo '<li>' . $category['Name'] . '</li>';
+
+            echo '</ul>';
+            ?>
+
             <p id="restaurant-description">
                 <?php echo $description; ?>
             </p>

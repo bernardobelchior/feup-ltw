@@ -39,7 +39,7 @@ if (isset($name) && isset($address)) {
         }
 
         foreach ($_POST['categories'] as $categoryId) {
-            if (is_integer($categoryId))
+            if (is_integer((int)$categoryId))
                 addCategoryToRestaurant($id, (int)htmlspecialchars($categoryId));
         }
     }
