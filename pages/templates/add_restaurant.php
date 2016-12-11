@@ -15,7 +15,7 @@ $_SESSION['token'] = generateRandomToken();
 <link rel="stylesheet" type="text/css" href="../css/add_restaurant.min.css"/>
 
 <form id="add-restaurant" class="container" action="actions/add_restaurant.php" method="post"
-      enctype="multipart/form-data" onsubmit="return validateForm()">
+      enctype="multipart/form-data">
     <input name="token" type="hidden" value="<?php echo $_SESSION['token']; ?>">
     <input name="name" type="text" placeholder="Name" required>
     <input name="address" id="address" type="text" placeholder="Address" required>
