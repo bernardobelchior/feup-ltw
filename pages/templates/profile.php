@@ -25,33 +25,23 @@ if ($profile_picture === null)
 <link rel="stylesheet" href="../css/common.min.css">
 <script type="application/javascript" src="../js/common.js"></script>
 
-<div class="profile_picture_container">
-    <img id="profile_picture" alt="User's Profile Picture" src="<?php echo '../' . $profile_picture; ?>"/>
-</div>
 <div class="page_content">
-    <div id="profile" class="container">
-        <div>
-            <div id="name">
-                <?php echo $name ?>
-            </div>
-
-            <div id="username" hidden>
-                <?php echo $username ?>
-            </div>
-
-            <div> <?php echo $email; ?></div>
+    <div class="user_presentation">
+        <div class="profile_picture_container">
+            <img id="profile_picture" alt="User's Profile Picture" src="<?php echo '../' . $profile_picture; ?>"/>
         </div>
-
-        <div>
-            <?php
-            if (groupIdHasPermissions((int)$_SESSION['groupId'], 'EDIT_ANY_PROFILE') || (int)$_SESSION['userId'] === $id)
-                echo '<a id="edit-profile" href="index.php?page=edit_profile.php&id=' . $id . '"><button>Edit Profile</button></a>';
-            ?>
-
-            <img id="profile-picture" src="<?php echo '../' . $profile_picture; ?>" alt="User profile picture"/>
+        <div id="profile" class="container">
+            <ul>
+                <li id="name"><?php echo $name ?>
+                <?php
+                if (groupIdHasPermissions((int)$_SESSION['groupId'], 'EDIT_ANY_PROFILE') || (int)$_SESSION['userId'] === $id)
+                    echo '<a id="edit-profile" href="index.php?page=edit_profile.php&id=' . $id . '"><button>Edit Profile</button></a>';
+                ?></li>
+                <li id="email"><?php echo $email ?></li>
+                <li id="username" hidden><?php echo $username ?></li>
+            </ul>
         </div>
     </div>
-
 
     <div class="container" id="restaurants">
         <?php
@@ -78,4 +68,5 @@ if ($profile_picture === null)
         }
         ?>
     </div>
+
 </div>

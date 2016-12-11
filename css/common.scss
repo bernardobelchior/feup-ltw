@@ -9,12 +9,12 @@ body {
 .page_content{
   max-width: 80%;
   min-height: 90%;
-  background-color: #EFF1D4;
+  background: linear-gradient(to right, #f0e8da, #f0e8da, #EFF1D4,#f0e8da, #f0e8da);
   position: relative;
   left: 10%;
   padding: 1em;
   color: #555647;
-  border: 1px solid #d8dac0;
+  border: 3px solid #d8dac0;
 }
 
 .page_title{
@@ -29,12 +29,8 @@ body {
 }
 
 @mixin container {
-  margin: 1em auto;
-  border: solid thin lightgray;
-  padding: 1em;
 }
 
 .container {
   @include container;
-  width: 90%;
 }
