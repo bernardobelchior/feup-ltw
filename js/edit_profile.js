@@ -44,8 +44,47 @@ function changeGender(){
     $('#gender').val(gender);
 }
 
+function createListeners(){
+  $(".edit_link").on('click', myListener);
+}
+
+function myListener(){
+  let tag = $(this).prev();
+  let value = tag.text();
+  let id = tag.parents("li").attr('id');
+
+  let new_tag;
+
+  if(id === 'gender'){
+    new_tag = $('<select name="' + id + '" id="input_' + id + '"> <option value=""></option><option value="M">Male</option><option value="F">Female</option></select>');
+    new_tag.val(tag.text());
+  }
+  else
+    new_tag = $('<input name="' + id + '" id="input_' + id + '" class=' + tag.attr('class') + ' value="' + tag.html() + '"/>')
+  if(id === 'dob')
+    new_tag.attr('placeholder', 'yyyy-mm-dd');
+
+  tag.replaceWith(new_tag);
+
+  let btn = $(this);
+  let new_btn_id = "btn_" + id;
+  btn.replaceWith($('<span id="' + new_btn_id + '" class=' + btn.attr('class') + '>Confirm</span>'));
+  let new_btn = $('span#' + new_btn_id);
+
+  new_btn.on('click', function(){
+    let token = $('input#token').val();
+    let profile_id = $('input#profile_id').val();
+    $.post("../pages/actions/edit_profile.php", {token: token, profile_id: profile_id, type: id, value: new_tag.val()});
+    tag.text(new_tag.val());
+    new_tag.replaceWith(tag);
+    new_btn.replaceWith(btn);
+    btn.on('click', myListener);
+  });
+}
+
 function loadDocument(){
-  changeGender();
+  createListeners();
+  // changeGender();
 
   // Get the modal
   let modal = document.getElementById('change-pass-modal');

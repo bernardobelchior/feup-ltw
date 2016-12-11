@@ -33,10 +33,12 @@ if (!idExists($id)) {
         <div class="section_title">General Info</div>
     </div>
     <ul id="profile_attr_list">
+      <input type="hidden" name="token" id="token" value="<?php echo $_SESSION['token'];?>"/>
+      <input type="hidden" name="profile_id" id="profile_id" value="<?php echo $id;?>"/>
         <li id="username">
             <span class="list_attr_name"><strong>Username</strong></span>
             <span class="list_attr_content"><?php echo getUserField($id, 'Username'); ?></span>
-            <span class="edit_link">Edit</span>
+            <!-- <span class="edit_link">Edit</span> -->
         </li>
         <li id="name">
             <span class="list_attr_name"><strong>Name</strong></span>

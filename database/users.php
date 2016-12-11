@@ -119,35 +119,76 @@ function idExists($userId) {
     return $statement->fetch();
 }
 
-/** Updates the user profile.
- * @param $userId int User ID
- * @param $name string User name
- * @param $email string User email
- * @param $date string Date of birth
- * @param $gender string User gender
- * @return string Returns the query error code.
+/**
+ * Updates a given user's field on the database
+ * @param $userId int User ID in the database
+ * @param $field string Field to update
+ * @param $value string value to update
+ * @return array Statement error info.
  */
-function updateUser($userId, $name, $email, $date, $gender) {
-    global $db;
+function updateUserField($userId, $field, $value) {
+  global $db;
 
-    $statement = $db->prepare('UPDATE Users SET Name = ?, Email = ?, Gender = ?, DateOfBirth = ? WHERE id = ?');
-    $statement->execute([$name, $email, $gender, $date, $userId]);
-    return $statement->errorCode();
+  $statement = $db->prepare('UPDATE Users SET ' . $field . ' = ? WHERE id = ?');
+  $statement->execute([$value, $userId]);
+  return $statement->errorInfo();
 }
 
 /** Updates the user password
  * @param $userId int User ID
- * @param $password string User password. Not hashed.
- * @return string Returns error code.
+ * @param $password string User password. Not hashed
+ * @return string Returns error information.
  */
-function updateUserPassword($userId, $password) {
+function updatePassword($userId, $password) {
   global $db;
 
   $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
-  $statement = $db->prepare('UPDATE Users SET Password = ? WHERE id = ?');
-  $statement->execute([$hashed_password, $userId]);
-  return $statement->errorCode();
+  return updateUserField($userId, 'Password', $hashed_password);
+}
+
+/** Updates the user Name
+ * @param $userId int User ID
+ * @param $name string User Name
+ * @return string Returns error information.
+ */
+function updateName($userId, $name) {
+  global $db;
+
+  return updateUserField($userId, 'Name', $name);
+}
+
+/** Updates the user email
+ * @param $userId int User ID
+ * @param $email string User email
+ * @return string Returns error information.
+ */
+function updateEmail($userId, $email) {
+  global $db;
+
+  return updateUserField($userId, 'Email', $email);
+}
+
+/** Updates the user gender
+ * @param $userId int User ID
+ * @param $gender char User gender
+ * @return string Returns error information.
+ */
+function updateGender($userId, $gender) {
+  global $db;
+
+  return updateUserField($userId, 'Gender', $gender);
+}
+
+/** Updates the user gender
+ * @param $userId int User ID
+ * @param $dob char User Date of Birth
+ * @return string Returns error information.
+ */
+function updateDateOfBirth($userId, $dob) {
+  global $db;
+
+  return updateUserField($userId, 'Date of Birth', $dob);
 }
 
 /**
