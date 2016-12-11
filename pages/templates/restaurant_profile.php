@@ -96,7 +96,7 @@ unset($restaurantInfo);
         foreach ($reviews as $review) {
             echo '<div id="review' . $review['ID'] . '" class="review-container">';
 
-            echo '<div class="review-header">';
+            echo '<div class="response-header">';
             echo '<div class="review-header-left">';
             echo '<span class="review-title">' . $review['Title'] . ' </span>';
             echo '<span class="review-score">' . getStarsHTML($review['Score']) . ' </span>';
@@ -106,7 +106,7 @@ unset($restaurantInfo);
                 echo '<form class="delete-review" action="actions/delete_review.php" method="post">
                 <input type="text" name="token" value="' . $_SESSION['token'] . '" hidden="hidden"/>
                 <input type="text" name="review-id" value="' . $review['ID'] . '" hidden="hidden"/>
-                <button class="delete-review-button" type="submit"><i class="fa fa-trash-o" aria-hidden="true" ></i></button>
+                <button class="delete-response-button" type="submit"><i class="fa fa-trash-o" aria-hidden="true" ></i></button>
                 </form>';
             }
             echo '</div>';
@@ -122,12 +122,23 @@ unset($restaurantInfo);
                 foreach ($replies as $reply) {
                     echo '<div class="reply" hidden="hidden">';
 
+                    echo '<div class="response-header">';
                     // If the replier is the owner of the restaurant,
                     // reply in name of the restaurant
                     if ($reply['ReplierID'] === $ownerId)
                         echo '<a href="index.php?page=restaurant_profile.php&id=' . $id . '" class="reply-name replier-restaurant">' . $name . ' </a>';
                     else
                         echo '<a href="index.php?page=profile.php&id=' . $reply['ReplierID'] . '" class="reply-name">' . getUserField($reply['ReplierID'], 'Name') . ' </a>';
+
+                    if (groupIdHasPermissions($_SESSION['groupId'], 'REMOVE_ANY_REPLY') || $reply['ReplierID'] === $_SESSION['userId']) {
+                        echo '<form class="delete-review" action="actions/delete_reply.php" method="post">
+                        <input type="text" name="token" value="' . $_SESSION['token'] . '" hidden="hidden"/>
+                        <input type="text" name="reply-id" value="' . $reply['ID'] . '" hidden="hidden"/>
+                        <button class="delete-response-button" type="submit"><i class="fa fa-trash-o" aria-hidden="true" ></i></button>
+                        </form>';
+                    }
+
+                    echo '</div>';
                     echo '<div class="reply-date">' . strftime('%d/%b/%G %R', $reply['Date']) . '</div>';
                     echo '<p class="reply-text">' . $reply['Text'] . '</p>';
 

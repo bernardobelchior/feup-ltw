@@ -54,20 +54,20 @@
 }
 
 #reviews {
-  .review-header {
-    display: flex;
-    justify-content: space-between;
-
-    .review-header-left {
-      .review-title {
-        font-weight: bold;
-        font-size: 110%;
-      }
+  .review-header-left {
+    .review-title {
+      font-weight: bold;
+      font-size: 110%;
     }
+  }
+}
 
-    .delete-review-button {
-      padding: 0;
-    }
+.response-header {
+  display: flex;
+  justify-content: space-between;
+
+  .delete-response-button {
+    padding: 0;
   }
 }
 

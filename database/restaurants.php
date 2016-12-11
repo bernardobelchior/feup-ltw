@@ -268,3 +268,13 @@ function removeReview($reviewId) {
     $statement = $db->prepare('DELETE FROM Reviews WHERE ID = ?');
     $statement->execute([$reviewId]);
 }
+
+/** Deletes reply
+ * @param $replyId int Reply id
+ */
+function deleteReply($replyId) {
+    global $db;
+
+    $statement = $db->prepare('DELETE FROM Replies WHERE ID = ?');
+    $statement->execute([$replyId]);
+}
