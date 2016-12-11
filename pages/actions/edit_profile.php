@@ -29,8 +29,13 @@ if($type == 'name')
   updateName($id, $value);
 else if($type == 'gender')
   updateGender($id, $value);
-  else if($type == 'email')
+else if($type == 'email') {
+  if(emailExists($value)){
+    header('HTTP/1.0 403 Forbidden');
+    exit;
+  }
   updateEmail($id, $value);
+}
 else if($type == 'dob')
   updateDateOfBirth($id, $value);
 

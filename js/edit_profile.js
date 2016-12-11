@@ -1,5 +1,5 @@
-function validateDate() {
-  let value = $('#date');
+function validateDate(value) {
+  // let value = $('#date');
   let userFormat = 'yyyy-mm-dd', // default format
   delimiter = /[^mdy]/.exec(userFormat)[0],
   theFormat = userFormat.split(delimiter),
@@ -19,6 +19,11 @@ function validateDate() {
     );
   };
   return isDate(theDate, theFormat);
+}
+
+function validateEmail(email) {
+  var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  return re.test(email);
 }
 
 function validateNewPassword(){
@@ -60,9 +65,11 @@ function myListener(){
     new_tag.val(tag.text());
   }
   else
-    new_tag = $('<input name="' + id + '" id="input_' + id + '" class=' + tag.attr('class') + ' value="' + tag.html() + '"/>')
+    new_tag = $('<input name="' + id + '" id="input_' + id + '" class=' + tag.attr('class') + ' value="' + tag.html() + '"/>');
   if(id === 'dob')
     new_tag.attr('placeholder', 'yyyy-mm-dd');
+  else if(id === 'email')
+    new_tag.attr('type', 'email');
 
   tag.replaceWith(new_tag);
 
@@ -74,17 +81,45 @@ function myListener(){
   new_btn.on('click', function(){
     let token = $('input#token').val();
     let profile_id = $('input#profile_id').val();
-    $.post("../pages/actions/edit_profile.php", {token: token, profile_id: profile_id, type: id, value: new_tag.val()});
-    tag.text(new_tag.val());
-    new_tag.replaceWith(tag);
-    new_btn.replaceWith(btn);
-    btn.on('click', myListener);
+    if(new_tag.val() !== tag.text()) {
+      if(id === "dob"){
+        if(!validateDate(new_tag.val())){
+          $('#dob-output').html("Invalid date");
+          return;
+        }
+      }
+      else if(id === 'email'){
+        if(!validateEmail(new_tag.val())){
+          $('#email-output').html("Invalid email");
+          return;
+        }
+      }
+      $.post("../pages/actions/edit_profile.php",
+            {token: token,
+             profile_id: profile_id,
+             type: id,
+             value: new_tag.val()
+            }).fail(function(){
+              $('#email-output').html("Email already exists!");
+            }).done(function(){
+              tag.text(new_tag.val());
+              new_tag.replaceWith(tag);
+              new_btn.replaceWith(btn);
+              $('#' + id + '-output').html("");
+              btn.on('click', myListener);
+            });
+    }
+    else{
+      new_tag.replaceWith(tag);
+      new_btn.replaceWith(btn);
+      $('#' + id + '-output').html("");
+      btn.on('click', myListener);
+    }
   });
 }
 
 function loadDocument(){
   createListeners();
-  // changeGender();
 
   // Get the modal
   let modal = document.getElementById('change-pass-modal');

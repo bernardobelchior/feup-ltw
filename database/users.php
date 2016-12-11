@@ -188,7 +188,7 @@ function updateGender($userId, $gender) {
 function updateDateOfBirth($userId, $dob) {
   global $db;
 
-  return updateUserField($userId, 'Date of Birth', $dob);
+  return updateUserField($userId, 'DateofBirth', $dob);
 }
 
 /**

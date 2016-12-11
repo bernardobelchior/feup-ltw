@@ -54,11 +54,13 @@ if (!idExists($id)) {
             <span class="list_attr_name"><strong>e-mail</strong></span>
             <span class="list_attr_content"><?php echo getUserField($id, 'Email'); ?></span>
             <span class="edit_link">Edit</span>
+            <span class="output" id="email-output"></span>
         </li>
         <li id="dob">
             <span class="list_attr_name"><strong>Date of Birth</strong></span>
             <span class="list_attr_content"><?php echo getUserField($id, 'DateOfBirth'); ?></span>
             <span class="edit_link">Edit</span>
+            <span class="output" id="dob-output"></span>
         </li>
 
     </ul>
