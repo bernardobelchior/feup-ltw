@@ -27,7 +27,7 @@ if (!idExists($id)) {
 <link rel="stylesheet" type="text/css" href="../css/common.min.css"/>
 <script type="text/javascript" src="../js/edit_profile.js"></script>
 
-<div class="container">
+<div class="page_content">
     <header class="page_title"><strong>Edit Profile</strong></header>
     <div id="general_info">
         <div class="section_title">General Info</div>
@@ -38,28 +38,28 @@ if (!idExists($id)) {
         <li id="username">
             <span class="list_attr_name"><strong>Username</strong></span>
             <span class="list_attr_content"><?php echo getUserField($id, 'Username'); ?></span>
-            <!-- <span class="edit_link">Edit</span> -->
+            <span class="edit_link clickable"><i class="fa fa-pencil"></i> Edit</span>
         </li>
         <li id="name">
             <span class="list_attr_name"><strong>Name</strong></span>
             <span class="list_attr_content"><?php echo getUserField($id, 'Name'); ?></span>
-            <span class="edit_link">Edit</span>
+            <span class="edit_link clickable"><i class="fa fa-pencil"></i> Edit</span>
         </li>
         <li id="gender">
             <span class="list_attr_name"><strong>Gender</strong></span>
             <span class="list_attr_content"><?php echo getUserField($id, 'Gender'); ?></span>
-            <span class="edit_link">Edit</span>
+            <span class="edit_link clickable"><i class="fa fa-pencil"></i> Edit</span>
         </li>
         <li id="email">
-            <span class="list_attr_name"><strong>e-mail</strong></span>
+            <span class="list_attr_name"><strong>E-mail</strong></span>
             <span class="list_attr_content"><?php echo getUserField($id, 'Email'); ?></span>
-            <span class="edit_link">Edit</span>
+            <span class="edit_link clickable"><i class="fa fa-pencil"></i> Edit</span>
             <span class="output" id="email-output"></span>
         </li>
         <li id="dob">
             <span class="list_attr_name"><strong>Date of Birth</strong></span>
             <span class="list_attr_content"><?php echo getUserField($id, 'DateOfBirth'); ?></span>
-            <span class="edit_link">Edit</span>
+            <span class="edit_link clickable"><i class="fa fa-pencil"></i> Edit</span>
             <span class="output" id="dob-output"></span>
         </li>
 
@@ -83,6 +83,7 @@ if (!idExists($id)) {
     <!--    </form>-->
     <!---->
 
+    <div id="change-photo">
     <form action="actions/upload_photo.php" method="post" enctype="multipart/form-data">
         <input type="hidden" name="token" value="<?php echo $_SESSION['token']; ?>"/>
         <input type="hidden" name="id" value="<?php echo $id; ?>">
@@ -91,6 +92,7 @@ if (!idExists($id)) {
         <output id="filesInfo"></output>
         <button type="submit">Upload Photo</button>
     </form>
+    </div>
 
     <!-- Trigger/Open The Modal -->
     <button id="change-pass-btn">Change Password</button>

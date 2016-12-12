@@ -7,16 +7,15 @@ body {
 }
 
 .page_content{
-  max-width: 80%;
+  max-width: 90%;
   min-height: 90%;
-  background: linear-gradient(to right, #f0e8da, #f0e8da, #EFF1D4,#f0e8da, #f0e8da);
   background-color: #EFF1D4;
-  width: 80%;
+  background: linear-gradient(to right, #f0e8da, #f0e8da, #EFF1D4,#f0e8da, #f0e8da);
   position: relative;
-  left: 10%;
   padding: 1em;
   color: #555647;
-  border: 3px solid #d8dac0;
+  border: 1px solid #d8dac0;
+  left: 4%;
 }
 
 .page_title {
@@ -34,6 +33,7 @@ body {
 }
 
 .container {
+  width: 90%;
   @include container;
 }
 
@@ -61,4 +61,8 @@ body {
     }
 
   }
+}
+
+.clickable:hover{
+  cursor: pointer;
 }
