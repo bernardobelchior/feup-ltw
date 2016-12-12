@@ -36,7 +36,7 @@ $picturePath = 'profile_pictures/' . $id . '.' . $extension;
 $oldPicture = getUserField($id, 'Picture');
 
 if ($oldPicture !== null)
-    unlink('../../' . $oldPicture);
+    unlink('../' . $oldPicture);
 
 
 //If the file has been moved correctly, update the path in the database

@@ -7,7 +7,7 @@ session_start(['cookie_httponly' => true]);
 // Check if the user comes from the Add Restaurant page.
 if ($_SESSION['token'] !== $_POST['token']) {
     header('HTTP/1.0 403 Forbidden');
-    header('Location: ../index.php?page=403.html');
+    header('Location: ../pages/index.php?page=403.html');
     die();
 }
 
@@ -28,8 +28,8 @@ if (isset($name) && isset($address)) {
     } else {
         $id = getRestaurantByName($name);
 
-        if (!file_exists('../../restaurant_pictures/' . $id))
-            mkdir('../../restaurant_pictures/' . $id, 0777, true);
+        if (!file_exists('../restaurant_pictures/' . $id))
+            mkdir('../restaurant_pictures/' . $id, 0777, true);
 
         for ($i = 0; $i < count($_FILES['photos']['name']); $i++) {
             $extension = pathinfo($_FILES['photos']['name'][$i], PATHINFO_EXTENSION);
@@ -46,5 +46,5 @@ if (isset($name) && isset($address)) {
 }
 
 $_SESSION['token'] = generateRandomToken();
-header('Location: ../index.php?page=profile.php&id=' . $_SESSION['userId']);
+header('Location: ../pages/index.php?page=profile.php&id=' . $_SESSION['userId']);
 die();
