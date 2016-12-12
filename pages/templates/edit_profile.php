@@ -1,6 +1,6 @@
 <?php
 include_once('../database/users.php');
-include_once('utils/utils.php');
+include_once('../utils.php');
 
 // Generate token for the update action
 $_SESSION['token'] = generateRandomToken();
@@ -33,8 +33,8 @@ if (!idExists($id)) {
         <div class="section_title">General Info</div>
     </div>
     <ul id="profile_attr_list">
-      <input type="hidden" name="token" id="token" value="<?php echo $_SESSION['token'];?>"/>
-      <input type="hidden" name="profile_id" id="profile_id" value="<?php echo $id;?>"/>
+        <input type="hidden" name="token" id="token" value="<?php echo $_SESSION['token']; ?>"/>
+        <input type="hidden" name="profile_id" id="profile_id" value="<?php echo $id; ?>"/>
         <li id="username">
             <span class="list_attr_name"><strong>Username</strong></span>
             <span class="list_attr_content"><?php echo getUserField($id, 'Username'); ?></span>
@@ -64,26 +64,8 @@ if (!idExists($id)) {
         </li>
 
     </ul>
-    <!--    <form id="form" method="post" action="actions/edit_profile.php" onsubmit="return validateDate();">-->
-    <!--        <label id="username"> --><?php //echo getUserField($id, 'Username'); ?>
-    <!--        </label>-->
-    <!--        <input id="name" type="text" name="name" value="--><?php //echo getUserField($id, 'Name'); ?><!--"/>-->
-    <!--        <input id="email" type="email" name="email" value="-->
-    <?php //echo getUserField($id, 'Email'); ?><!--"/>-->
-    <!--        <input id="date" type="text" name="date" placeholder="yyyy-mm-dd"-->
-    <!--               value="--><?php //echo getUserField($id, 'DateOfBirth'); ?><!--"/>-->
-    <!---->
-    <!--        <select id="gender" name="gender" gender=--><?php //echo getUserField($id, 'Gender'); ?><!-->
-    <!--            <option value="M">Male</option>-->
-    <!--            <option value="F">Female</option>-->
-    <!--        </select>-->
-    <!---->
-    <!--        <button type="submit">Update</button>-->
-    <!--        <span id="output"></span>-->
-    <!--    </form>-->
-    <!---->
 
-    <form action="actions/upload_photo.php" method="post" enctype="multipart/form-data">
+    <form action="../actions/upload_photo.php" method="post" enctype="multipart/form-data">
         <input type="hidden" name="token" value="<?php echo $_SESSION['token']; ?>"/>
         <input type="hidden" name="id" value="<?php echo $id; ?>">
         Photo: <input type="file" name="photo" accept="image/*" required/>
@@ -99,7 +81,7 @@ if (!idExists($id)) {
         <!-- Modal content -->
         <div class="modal-content">
             <span class="close">x</span>
-            <form id="change-pass-form" method="post" action="actions/change_password.php"
+            <form id="change-pass-form" method="post" action="../actions/change_password.php"
                   onsubmit="return validateNewPassword();">
                 <input id="old-password" type="password" name="old-password" placeholder="Current Password"/>
                 <input id="new-password" type="password" name="new-password" placeholder="New Password"/>

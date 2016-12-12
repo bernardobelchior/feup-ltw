@@ -1,4 +1,5 @@
-<?php session_start(['cookie_httponly' => true]); ?>
+<?php session_start(['cookie_httponly' => true]);
+include_once('../utils.php'); ?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,7 +11,8 @@
     <!--script src="https://use.fontawesome.com/490d8b8016.js"></script-->
     <link rel="stylesheet" type="text/css" href="../css/header.min.css"/>
     <link rel="stylesheet" type="text/css" href="../font-awesome-4.7.0/css/font-awesome.min.css"/>
-    <script src="/js/header.js"></script>
+    <script src="../js/header.js"></script>
+    <script src="../js/sign_up.js"></script>
 </head>
 <body>
 
@@ -28,13 +30,13 @@
             <li id="user_action">
                 <?php
                 if (isset($_SESSION['username'])) {
-                    echo '<form id="logout_form" action="actions/logout.php">';
+                    echo '<form id="logout_form" action="../actions/logout.php">';
                     echo '<button id="logout" type="submit"><i class="fa fa-sign-out" aria-hidden="true"></i> Logout</button>';
                     echo '</form>';
                 } else {
                     echo '<div id="user_login">';
                     echo '<span id="login_text">Log In</span>';
-                    echo '<form id="login_form" method="post" action="actions/login.php">';
+                    echo '<form id="login_form" method="post" action="../actions/login.php">';
                     echo '<input type="text" name="username" placeholder="Your Username"/>';
                     echo '<input type="password" name="password" placeholder="Your Password"/>';
                     echo '<button id="enter" type="submit">Enter</button>';
@@ -54,17 +56,11 @@
      -->
     <div class="overlay" hidden="hidden">
         <div id="sign_up_overlay">
-            <script src="/js/sign_up.js"></script>
-            <?php
-            include_once('utils/utils.php');
-
-            $_SESSION['signup-token'] = generateRandomToken();
-            ?>
-
+            <?php $_SESSION['signup-token'] = generateRandomToken(); ?>
 
             <div id="signup_form">
                 <div class="overlay_title"><strong>Sign Up</strong></div>
-                <form id="sign_up_form" method="post" action="actions/sign_up.php" onsubmit="return validateForm();">
+                <form id="sign_up_form" method="post" action="../actions/sign_up.php" onsubmit="return validateForm();">
                     <input id="username" type="text" name="username" placeholder="Username" required/>
                     <input id="password" type="password" name="password" placeholder="Password" required/>
                     <input id="password-repeat" type="password" name="password-repeat"

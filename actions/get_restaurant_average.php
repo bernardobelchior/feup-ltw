@@ -1,5 +1,5 @@
 <?php
-include_once('restaurants.php');
+include_once('../database/restaurants.php');
 
 $restaurantId = htmlspecialchars($_GET['restaurantId']);
 

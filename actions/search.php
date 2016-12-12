@@ -1,4 +1,6 @@
 <?php
+include_once('../database/restaurants.php');
+include_once('../database/users.php');
 
 /** Normalizes the query by trimming whitespaces, making everything lower case and
  * substituting newlines, tabs and multiple spaces by a single space.
@@ -15,3 +17,23 @@ function normalizeQuery($query) {
     // Make the query lower cased, as the search functions need a lower case query.
     return strtolower($normalizedQuery);
 }
+
+
+$query = htmlspecialchars($_GET['query']);
+$categories = null;
+
+if (isset($_GET['categories'])) {
+    $categories = htmlspecialchars($_GET['categories']);
+
+    foreach ($categories as $category)
+        $category = htmlspecialchars($category);
+}
+
+$query = normalizeQuery($query);
+
+$restaurants = searchRestaurants($query, $categories);
+$users = searchUsers($query);
+
+echo json_encode(['restaurants' => $restaurants, 'users' => $users]);
+
+

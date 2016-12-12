@@ -1,7 +1,7 @@
 <?php
 include_once('../database/users.php');
 include_once('../database/restaurants.php');
-include_once('utils/utils.php');
+include_once('../utils.php');
 
 if (groupIdHasPermissions($_SESSION['groupId'], 'ADD_ANY_RESTAURANT') && !groupIdHasPermissions($_SESSION['groupId'], 'ADD_ANY_RESTAURANT')) {
     header('HTTP/1.0 403 Forbidden');
@@ -14,7 +14,7 @@ $_SESSION['token'] = generateRandomToken();
 <link rel="stylesheet" type="text/css" href="../css/common.min.css"/>
 <link rel="stylesheet" type="text/css" href="../css/add_restaurant.min.css"/>
 
-<form id="add-restaurant" class="container" action="actions/add_restaurant.php" method="post"
+<form id="add-restaurant" class="container" action="../actions/add_restaurant.php" method="post"
       enctype="multipart/form-data">
     <input name="token" type="hidden" value="<?php echo $_SESSION['token']; ?>">
     <input name="name" type="text" placeholder="Name" required>

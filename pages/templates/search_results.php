@@ -1,9 +1,11 @@
 <?php
 include_once('../database/restaurants.php');
 include_once('../database/users.php');
-include_once('utils/utils.php');
+include_once('../utils.php');
 
-$query = htmlspecialchars($_GET['query']);
+$query = '';
+if (isset($_GET['query']))
+    $query = htmlspecialchars($_GET['query']);
 ?>
 
 <script src="../js/common.js"></script>
@@ -11,7 +13,7 @@ $query = htmlspecialchars($_GET['query']);
 <script src="../js/search_results.js"></script>
 
 <div id="body">
-    <input id="search-box" type="text" name="query" value="<?php echo $query ?>" required/>
+    <input id="search-box" type="text" name="query" value="<?php echo $query ?>"/>
     <ul id="categories">
         <?php
         $categories = getAllCategories();
@@ -22,7 +24,7 @@ $query = htmlspecialchars($_GET['query']);
         ?>
     </ul>
 
-    <div id="search-results">
+    <div id="search-results" hidden="hidden">
         <ul id="search-tabs">
             <li class="tab active" id="restaurants-tab"><a href="#restaurants">Restaurants</a></li>
             <li class="tab" id="users-tab"><a href="#users">Users</a></li>

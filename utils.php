@@ -19,7 +19,7 @@ function getStarsHTML($value) {
 
     $halfStars = intval($value * 2);
 
-    $fullStars = intdiv($halfStars, 2);
+    $fullStars = floor($halfStars / 2);
     $halfStar = $halfStars % 2;
 
     $html = '';

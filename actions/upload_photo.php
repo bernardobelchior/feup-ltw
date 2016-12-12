@@ -1,13 +1,13 @@
 <?php
 session_start(['cookie_httponly' => true]);
 
-include_once('../utils/utils.php');
-include_once('../../database/users.php');
+include_once('../utils.php');
+include_once('../database/users.php');
 
 // If the user didn't come from a valid page.
 if ($_SESSION['token'] !== $_POST['token']) {
     header('HTTP/1.0 403 Forbidden');
-    header('Location: ../index.php?page=403.html');
+    header('Location: ../pages/index.php?page=403.html');
     die();
 }
 
@@ -17,13 +17,13 @@ $_SESSION['token'] = generateRandomToken();
 
 if (!$_FILES['photo']['name']) {
     echo 'No file uploaded.';
-    header('Location: ../index.php?page=edit_profile.php');
+    header('Location: ../pages/index.php?page=edit_profile.php');
     die();
 }
 
 if ($_FILES['photo']['error']) {
     echo 'Error uploading';
-    header('Location: ../index.php?page=edit_profile.php');
+    header('Location: ../pages/index.php?page=edit_profile.php');
     die();
 }
 
@@ -43,5 +43,5 @@ if ($oldPicture !== null)
 if (move_uploaded_file($_FILES['photo']['tmp_name'], '../../' . $picturePath))
     changeProfilePicture($id, $picturePath);
 
-header('Location: ../index.php?page=profile.php&id=' . $id);
+header('Location: ../pages/index.php?page=profile.php&id=' . $id);
 die();

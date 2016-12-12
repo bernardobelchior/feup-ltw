@@ -1,6 +1,6 @@
 <?php
-include_once('../../database/restaurants.php');
-include_once('../utils/utils.php');
+include_once('../database/restaurants.php');
+include_once('../utils.php');
 
 session_start(['cookie_httponly' => true]);
 

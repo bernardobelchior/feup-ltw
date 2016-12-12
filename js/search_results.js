@@ -1,6 +1,6 @@
 $(document).ready(function () {
     $('#search-tabs:not(.active)').children().on('click', activateTab);
-    $('#search-box').on('input', updateSearch).trigger('input').trigger('focus');
+    $('#search-box').on('input', updateSearch).on('input', showResults).trigger('focus');
     $('.category-box label input').on('change', updateSearch);
 });
 
@@ -28,7 +28,7 @@ function updateSearch() {
     $('#restaurants').children().remove();
     $('#users').children().remove();
 
-    $.ajax(window.location.origin + '/database/search.php', {
+    $.ajax('../actions/search.php', {
         data: {
             query: query,
             categories: categories,
@@ -70,7 +70,7 @@ function updateSearch() {
 }
 
 function getRestaurantRating(restaurantId) {
-    $.ajax(window.location.origin + '/database/get_restaurant_average.php', {
+    $.ajax('../actions/get_restaurant_average.php', {
         dataType: 'text',
         data: {
             restaurantId: restaurantId
@@ -109,4 +109,9 @@ function getStarsHTML(value) {
     }
 
     return html;
+}
+
+function showResults() {
+    $(this).off('input', showResults);
+    $('#search-results').show();
 }
