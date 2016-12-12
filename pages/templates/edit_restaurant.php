@@ -88,9 +88,9 @@ unset($restaurantInfo);
 
             foreach ($categories as $category) {
               if(in_array($category['Name'], $current_categories_names))
-                echo '<li class="category-box"><label><input type="checkbox" checked="true" name="categories[]" value="' . $category['ID'] . '">' . $category['Name'] . '</label></li>';
+                echo '<li class="category-box"><label><input type="checkbox" checked="true" name="categories[]" text="' . $category['Name'] . '"value="' . $category['ID'] . '">' . $category['Name'] . '</label></li>';
               else
-                echo '<li class="category-box"><label><input type="checkbox" name="categories[]" value="' . $category['ID'] . '">' . $category['Name'] . '</input></label></li>';
+                echo '<li class="category-box"><label><input type="checkbox" name="categories[]" text="' . $category['Name'] . '" value="' . $category['ID'] . '">' . $category['Name'] . '</input></label></li>';
             }
             ?>
         </ul>

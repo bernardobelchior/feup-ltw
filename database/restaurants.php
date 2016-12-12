@@ -252,7 +252,7 @@ function addCategoryToRestaurant($restaurantId, $categoryId) {
 function getRestaurantCategories($restaurantId) {
     global $db;
 
-    $statement = $db->prepare('SELECT * FROM RestaurantsCategories INNER JOIN Categories ON RestaurantsCategories.CategoryID = Categories.ID WHERE RestaurantsCategories.RestaurantID = ?');
+    $statement = $db->prepare('SELECT * FROM RestaurantsCategories INNER JOIN Categories ON RestaurantsCategories.CategoryID = Categories.ID WHERE RestaurantsCategories.RestaurantID = ? ORDER BY Categories.ID');
     $statement->execute([$restaurantId]);
     return $statement->fetchAll();
 }
