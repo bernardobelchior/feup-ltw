@@ -252,7 +252,7 @@ function addCategoryToRestaurant($restaurantId, $categoryId) {
 function getRestaurantCategories($restaurantId) {
     global $db;
 
-    $statement = $db->prepare('SELECT * FROM RestaurantsCategories INNER JOIN Categories ON RestaurantsCategories.CategoryID = Categories.ID WHERE RestaurantsCategories.RestaurantID = ?');
+    $statement = $db->prepare('SELECT * FROM RestaurantsCategories INNER JOIN Categories ON RestaurantsCategories.CategoryID = Categories.ID WHERE RestaurantsCategories.RestaurantID = ? ORDER BY Categories.ID');
     $statement->execute([$restaurantId]);
     return $statement->fetchAll();
 }
@@ -277,4 +277,148 @@ function deleteReply($replyId) {
 
     $statement = $db->prepare('DELETE FROM Replies WHERE ID = ?');
     $statement->execute([$replyId]);
+}
+
+/**
+ * Updates the Name field of a given restaurant
+ * @param $id int Restaurant Id
+ * @param $value string New name for the restaurant
+ */
+function updateRestaurantName($id, $value){
+  return updateRestaurantField($id, 'Name', $value);
+}
+
+/**
+ * Updates the Address field of a given restaurant
+ * @param $id int Restaurant Id
+ * @param $value string New address for the restaurant
+ */
+function updateRestaurantAddress($id, $value){
+  return updateRestaurantField($id, 'Address', $value);
+}
+
+/**
+ * Updates the Description field of a given restaurant
+ * @param $id int Restaurant Id
+ * @param $value string New description for the restaurant
+ */
+function updateRestaurantDescription($id, $value){
+  return updateRestaurantField($id, 'Description', $value);
+}
+
+/**
+ * Updates the Cost For Two field of a given restaurant
+ * @param $id int Restaurant Id
+ * @param $value int New Cost For Two for the restaurant
+ */
+function updateRestaurantCostForTwo($id, $value){
+  return updateRestaurantField($id, 'CostForTwo', $value);
+}
+
+/**
+ * Updates the Telephone Number field of a given restaurant
+ * @param $id int Restaurant Id
+ * @param $value int New Telephone Number for the restaurant
+ */
+function updateRestaurantTelephoneNumber($id, $value){
+  return updateRestaurantField($id, 'TelephoneNumber', $value);
+}
+
+/**
+ * Updates the given field of a given restaurant
+ * @param $id int Restaurant Id
+ * @param $field string given field to change
+ * @param $value string New address for the restaurant
+ */
+function updateRestaurantField($id, $field, $value){
+  global $db;
+
+  $statement = $db->prepare('UPDATE Restaurants SET ' . $field . ' = ? WHERE id = ?');
+  $statement->execute([$value, $id]);
+  return $statement->errorInfo();
+}
+
+/**
+ * Removes the given category of the given restaurant
+ * @param $id int Restaurant Id
+ * @param $category_id int id of the given field to remove
+ * @return error information
+ */
+function removeCategoryFromRestaurant($restaurant_id, $category_id){
+  global $db;
+
+  $statement = $db->prepare('DELETE FROM RestaurantsCategories WHERE RestaurantID = ? AND CategoryID = ?');
+  $statement->execute([$restaurant_id, $category_id]);
+
+  return $statement->errorInfo();
+}
+
+/**
+ * Removes all other categories of the given restaurant
+ * @param $id int Restaurant Id
+ * @param $final_categories array of int ids of the categories to keep
+ */
+function removeOtherCategoriesFromRestaurant($restaurant_id, $final_categories){
+  global $db;
+
+  $current_categories = getRestaurantCategories($restaurant_id);
+
+  foreach ($current_categories as $category) {
+    if(!in_array($category['ID'], $final_categories))
+      removeCategoryFromRestaurant($restaurant_id, $category['ID']);
+  }
+}
+
+/**
+ * Gets the last number used in a photo name for the given restaurant
+ * @param $id int Restaurant Id
+ * @return int last number used for photo name, 0 if none
+ */
+function getMaxPhotoName($id) {
+    global $db;
+
+    $statement = $db->prepare('SELECT max(Path) FROM RestaurantPhotos WHERE RestaurantID = ?');
+    $statement->execute([$id]);
+    $str = $statement->fetch()[0];
+
+    if($str){
+      list($my_val) = sscanf($str, 'restaurant_pictures/' . $id . '/%d.jpg');
+      return $my_val;
+    }
+    else
+      return 0;
+}
+
+/**
+ * Removes the given photo of the a restaurant
+ * @param $photo_src string path of the given photo to remove
+ * @return error information
+ */
+function deleteRestaurantPhoto($photo_src) {
+    global $db;
+
+    $statement = $db->prepare('DELETE FROM RestaurantPhotos WHERE Path = ?');
+    $statement->execute([$photo_src]);
+
+    return $statement->errorInfo();
+}
+
+/**
+ * Removes the the given restaurant of the restaurants table
+ * @param $id int Restaurant Id
+ * @return error information
+ */
+function deleteRestaurant($id) {
+    global $db;
+
+    $statement = $db->prepare('DELETE FROM Restaurants WHERE ID = ?');
+    $statement->execute([$id]);
+
+    $statement = $db->prepare('DELETE FROM RestaurantsCategories WHERE RestaurantID = ?');
+    $statement->execute([$id]);
+
+    $statement = $db->prepare('DELETE FROM RestaurantPhotos WHERE RestaurantID = ?');
+    $statement->execute([$id]);
+
+    return $statement->errorInfo();
 }
