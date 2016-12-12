@@ -263,7 +263,7 @@ function getRestaurantCategories($restaurantId) {
  * @param $value string New name for the restaurant
  */
 function updateRestaurantName($id, $value){
-  updateRestaurantField($id, 'Name', $value);
+  return updateRestaurantField($id, 'Name', $value);
 }
 
 /**
@@ -272,7 +272,7 @@ function updateRestaurantName($id, $value){
  * @param $value string New address for the restaurant
  */
 function updateRestaurantAddress($id, $value){
-  updateRestaurantField($id, 'Address', $value);
+  return updateRestaurantField($id, 'Address', $value);
 }
 
 /**
@@ -281,7 +281,25 @@ function updateRestaurantAddress($id, $value){
  * @param $value string New description for the restaurant
  */
 function updateRestaurantDescription($id, $value){
-  updateRestaurantField($id, 'Description', $value);
+  return updateRestaurantField($id, 'Description', $value);
+}
+
+/**
+ * Updates the Cost For Two field of a given restaurant
+ * @param $id int Restaurant Id
+ * @param $value int New Cost For Two for the restaurant
+ */
+function updateRestaurantCostForTwo($id, $value){
+  return updateRestaurantField($id, 'CostForTwo', $value);
+}
+
+/**
+ * Updates the Telephone Number field of a given restaurant
+ * @param $id int Restaurant Id
+ * @param $value int New Telephone Number for the restaurant
+ */
+function updateRestaurantTelephoneNumber($id, $value){
+  return updateRestaurantField($id, 'TelephoneNumber', $value);
 }
 
 /**
@@ -295,5 +313,23 @@ function updateRestaurantField($id, $field, $value){
 
   $statement = $db->prepare('UPDATE Restaurants SET ' . $field . ' = ? WHERE id = ?');
   $statement->execute([$value, $id]);
-  return $statement->errorCode();
+  return $statement->errorInfo();
+}
+
+function removeCategoryFromRestaurant($restaurant_id, $category_id){
+  global $db;
+
+  $statement = $db->prepare('DELETE FROM RestaurantsCategories WHERE RestaurantID = ? AND CategoryID = ?');
+  $statement->execute([$restaurant_id, $category_id]);
+}
+
+function removeOtherCategoriesFromRestaurant($restaurant_id, $final_categories){
+  global $db;
+
+  $current_categories = getRestaurantCategories($restaurant_id);
+
+  foreach ($current_categories as $category) {
+    if(!in_array($category['ID'], $final_categories))
+      removeCategoryFromRestaurant($restaurant_id, $category['ID']);
+  }
 }
