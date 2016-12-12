@@ -82,9 +82,15 @@ unset($restaurantInfo);
         </div>
     </div>
 
+    <?php
+    if (groupIdHasPermissions((int)$_SESSION['groupId'], 'EDIT_ANY_RESTAURANT') || (int)$_SESSION['userId'] === (int)$ownerId)
+        echo '<a id="edit-restaurant" href="index.php?page=edit_restaurant.php&id=' . $id . '"><span>Edit Profile</span></a>';
+    ?>
+
     <iframe id="map" frameborder="0"
             src="https://www.google.com/maps/embed/v1/place?q=<?= $address ?>&key=AIzaSyCdqMmRf8c1f_yTgtjt7zT_5tdO5UOPka4"
             allowfullscreen></iframe>
+
 </div>
 
 <div id="reviews" class="container">
@@ -154,7 +160,7 @@ unset($restaurantInfo);
                 <input type="hidden" name="token" value="' . $_SESSION['token'] . '">
                 <textarea name="reply" placeholder="Reply" rows="3"></textarea>
                 <button type="submit">Reply</button>
-                
+
                 </form>';
             }
 
