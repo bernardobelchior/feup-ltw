@@ -3,6 +3,7 @@ include_once('../database/restaurants.php');
 include_once('../database/users.php');
 include_once('utils/utils.php');
 
+$query = htmlspecialchars($_GET['query']);
 ?>
 
 <script src="../js/common.js"></script>

@@ -1,6 +1,6 @@
 $(document).ready(function () {
     $('#search-tabs:not(.active)').children().on('click', activateTab);
-    $('#search-box').on('input', updateSearch).trigger('input');
+    $('#search-box').on('input', updateSearch).trigger('input').trigger('focus');
     $('.category-box label input').on('change', updateSearch);
 });
 
