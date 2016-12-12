@@ -64,5 +64,7 @@ body {
 }
 
 .clickable:hover{
+  text-decoration: underline;
+  color: #3F4035;
   cursor: pointer;
 }

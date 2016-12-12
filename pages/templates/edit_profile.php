@@ -21,6 +21,8 @@ if (!idExists($id)) {
     die();
 }
 
+$profile_picture = getUserField($id, 'Picture');
+
 ?>
 
 <link rel="stylesheet" href="../css/edit_profile.min.css">
@@ -33,33 +35,47 @@ if (!idExists($id)) {
         <div class="section_title">General Info</div>
     </div>
     <ul id="profile_attr_list">
+        <li id="change-photo">
+            <span class="profile_picture_container">
+                <img src="<?php echo '../'.$profile_picture?>" alt="User's profile picture"/>
+            </span>
+            <span id="change-photo-text" class="edit-link clickable"><i class="fa fa-pencil"></i>Change your profile picture</span>
+<!--            <form action="actions/upload_photo.php" method="post" enctype="multipart/form-data">-->
+<!--                <input type="hidden" name="token" value="--><?php //echo $_SESSION['token']; ?><!--"/>-->
+<!--                <input type="hidden" name="id" value="--><?php //echo $id; ?><!--">-->
+<!---->
+<!--                Photo: <input id="photo" type="file" name="photo" accept="image/*" required/>-->
+<!--                <output id="filesInfo"></output>-->
+<!--                <button type="submit">Upload Photo</button>-->
+<!--            </form>-->
+        </li>
       <input type="hidden" name="token" id="token" value="<?php echo $_SESSION['token'];?>"/>
       <input type="hidden" name="profile_id" id="profile_id" value="<?php echo $id;?>"/>
         <li id="username">
             <span class="list_attr_name"><strong>Username</strong></span>
             <span class="list_attr_content"><?php echo getUserField($id, 'Username'); ?></span>
-            <span class="edit_link clickable"><i class="fa fa-pencil"></i> Edit</span>
+            <span class="edit_link clickable"><i class="fa fa-pencil"></i>Edit</span>
         </li>
         <li id="name">
             <span class="list_attr_name"><strong>Name</strong></span>
             <span class="list_attr_content"><?php echo getUserField($id, 'Name'); ?></span>
-            <span class="edit_link clickable"><i class="fa fa-pencil"></i> Edit</span>
+            <span class="edit_link clickable"><i class="fa fa-pencil"></i>Edit</span>
         </li>
         <li id="gender">
             <span class="list_attr_name"><strong>Gender</strong></span>
             <span class="list_attr_content"><?php echo getUserField($id, 'Gender'); ?></span>
-            <span class="edit_link clickable"><i class="fa fa-pencil"></i> Edit</span>
+            <span class="edit_link clickable"><i class="fa fa-pencil"></i>Edit</span>
         </li>
         <li id="email">
             <span class="list_attr_name"><strong>E-mail</strong></span>
             <span class="list_attr_content"><?php echo getUserField($id, 'Email'); ?></span>
-            <span class="edit_link clickable"><i class="fa fa-pencil"></i> Edit</span>
+            <span class="edit_link clickable"><i class="fa fa-pencil"></i>Edit</span>
             <span class="output" id="email-output"></span>
         </li>
         <li id="dob">
             <span class="list_attr_name"><strong>Date of Birth</strong></span>
             <span class="list_attr_content"><?php echo getUserField($id, 'DateOfBirth'); ?></span>
-            <span class="edit_link clickable"><i class="fa fa-pencil"></i> Edit</span>
+            <span class="edit_link clickable"><i class="fa fa-pencil"></i>Edit</span>
             <span class="output" id="dob-output"></span>
         </li>
 
@@ -83,16 +99,6 @@ if (!idExists($id)) {
     <!--    </form>-->
     <!---->
 
-    <div id="change-photo">
-    <form action="actions/upload_photo.php" method="post" enctype="multipart/form-data">
-        <input type="hidden" name="token" value="<?php echo $_SESSION['token']; ?>"/>
-        <input type="hidden" name="id" value="<?php echo $id; ?>">
-
-        Photo: <input id="photo" type="file" name="photo" accept="image/*" required/>
-        <output id="filesInfo"></output>
-        <button type="submit">Upload Photo</button>
-    </form>
-    </div>
 
     <!-- Trigger/Open The Modal -->
     <button id="change-pass-btn">Change Password</button>

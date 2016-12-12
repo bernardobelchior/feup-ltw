@@ -60,3 +60,30 @@
     text-decoration: none;
     cursor: pointer;
 }
+
+#change-photo{
+  vertical-align: top;
+  padding-left: 1em;
+
+  form {
+    display: inline;
+  }
+}
+
+#change-photo-text{
+}
+
+.profile_picture_container{
+  display: inline;
+
+  img{
+    height: 64px;
+    width: 64px;
+    border: 1px solid #d2d3bc;
+  }
+}
+
+.fa-pencil{
+  margin-right: 3px;
+}
+
