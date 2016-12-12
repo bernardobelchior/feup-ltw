@@ -4,6 +4,8 @@ session_start(['cookie_httponly' => true]);
 include_once('../utils/utils.php');
 include_once('../../database/restaurants.php');
 
+var_dump('Hello');
+
 // If the user didn't come from the edit restaurant page.
 if ($_SESSION['token'] !== $_POST['token']) {
     header('HTTP/1.0 403 Forbidden');

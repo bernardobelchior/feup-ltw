@@ -16,5 +16,5 @@ $restaurant_id = $_POST['restaurant_id'];
 deleteRestaurant($restaurant_id);
 deleteDir('../restaurant_pictures/' . $restaurant_id . '/');
 
-header('Location: ../index.php?page=profile.php&id=' . $_SESSION['userId']);
+header('Location: ../pages/index.php?page=profile.php&id=' . $_SESSION['userId']);
 die();
