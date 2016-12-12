@@ -316,13 +316,26 @@ function updateRestaurantField($id, $field, $value){
   return $statement->errorInfo();
 }
 
+/**
+ * Removes the given category of the given restaurant
+ * @param $id int Restaurant Id
+ * @param $category_id int id of the given field to remove
+ * @return error information
+ */
 function removeCategoryFromRestaurant($restaurant_id, $category_id){
   global $db;
 
   $statement = $db->prepare('DELETE FROM RestaurantsCategories WHERE RestaurantID = ? AND CategoryID = ?');
   $statement->execute([$restaurant_id, $category_id]);
+
+  return $statement->errorInfo();
 }
 
+/**
+ * Removes all other categories of the given restaurant
+ * @param $id int Restaurant Id
+ * @param $final_categories array of int ids of the categories to keep
+ */
 function removeOtherCategoriesFromRestaurant($restaurant_id, $final_categories){
   global $db;
 
@@ -334,6 +347,11 @@ function removeOtherCategoriesFromRestaurant($restaurant_id, $final_categories){
   }
 }
 
+/**
+ * Gets the last number used in a photo name for the given restaurant
+ * @param $id int Restaurant Id
+ * @return int last number used for photo name, 0 if none
+ */
 function getMaxPhotoName($id) {
     global $db;
 
@@ -349,6 +367,11 @@ function getMaxPhotoName($id) {
       return 0;
 }
 
+/**
+ * Removes the given photo of the a restaurant
+ * @param $photo_src string path of the given photo to remove
+ * @return error information
+ */
 function deleteRestaurantPhoto($photo_src) {
     global $db;
 
@@ -358,6 +381,11 @@ function deleteRestaurantPhoto($photo_src) {
     return $statement->errorInfo();
 }
 
+/**
+ * Removes the the given restaurant of the restaurants table
+ * @param $id int Restaurant Id
+ * @return error information
+ */
 function deleteRestaurant($id) {
     global $db;
 
