@@ -20,25 +20,25 @@ $name = htmlspecialchars($_POST['name']);
 if ($username && $password && $password_repeat && $email && $name) {
     if (strlen($username) < 8) {
         $_SESSION['signup-error'] = 'A username needs to be at least 8 characters long.';
-        header('Location: ../index.php');
+        header('Location: ' . $_SERVER['HTTP_REFERER']);
         die();
     }
 
     if (usernameExists($username)) {
         $_SESSION['signup-error'] = 'That username is already in use. Try a new one.';
-        header('Location: ../index.php');
+        header('Location: ' . $_SERVER['HTTP_REFERER']);
         die();
     }
 
     if (strlen($password) < 7) {
         $_SESSION['signup-error'] = 'A password needs to be at least 7 characters long.';
-        header('Location: ../index.php');
+        header('Location: ' . $_SERVER['HTTP_REFERER']);
         die();
     }
 
     if ($password !== $password_repeat) {
         $_SESSION['signup-error'] = 'The passwords provided do not match. Try again.';
-        header('Location: ../index.php');
+        header('Location: ' . $_SERVER['HTTP_REFERER']);
         die();
     }
 
@@ -46,7 +46,7 @@ if ($username && $password && $password_repeat && $email && $name) {
 
     if (emailExists($email)) {
         $_SESSION['signup-error'] = 'That email is already in use. Use a different one.';
-        header('Location: ../index.php');
+        header('Location: ' . $_SERVER['HTTP_REFERER']);
         die();
     }
 

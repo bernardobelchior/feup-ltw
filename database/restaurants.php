@@ -115,7 +115,7 @@ function searchRestaurants($query, $categories) {
     else
         $where = '"%' . str_replace(' ', '%" OR LOWER(Name) LIKE "%', $query) . '%"';
 
-    if (is_array($categories)) {
+    if (isset($categories) && is_array($categories)) {
         $categoryQuery = ' AND (';
 
         $i = 0;

@@ -23,13 +23,14 @@ $query = htmlspecialchars($_GET['query']);
 $categories = null;
 
 if (isset($_GET['categories'])) {
-    $categories = htmlspecialchars($_GET['categories']);
+    $categories = $_GET['categories'];
 
     foreach ($categories as $category)
         $category = htmlspecialchars($category);
 }
 
 $query = normalizeQuery($query);
+
 
 $restaurants = searchRestaurants($query, $categories);
 $users = searchUsers($query);

@@ -1,7 +1,7 @@
 $(document).ready(function () {
     $('#search-tabs:not(.active)').children().on('click', activateTab);
     $('#search-box').on('input', updateSearch).on('input', showResults).trigger('focus');
-    $('.category-box label input').on('change', updateSearch);
+    $('.category-box label input').on('change', updateSearch).on('change', showResults);
 });
 
 function activateTab(event) {
@@ -34,39 +34,11 @@ function updateSearch() {
             categories: categories,
         },
         dataType: 'json'
-    }).done(function (response) {
-        $('#restaurants').children().remove();
-        $('#users').children().remove();
-
-        if (response['restaurants'].length === 0)
-            $('#restaurants').append('<div class="container search-result">No results found</div>');
-
-        for (let restaurant of response['restaurants']) {
-            $('#restaurants').append(
-                '<div class="container search-result" ' +
-                'onclick="openRestaurantProfile(' + restaurant['ID'] + ')"' + '>' +
-                '<span class="restaurant-name">' + restaurant['Name'] + '</span>' +
-                '<span id="restaurant' + restaurant['ID'] + '" class="restaurant-average"></span>' +
-                '<div class="restaurant-address">' + restaurant['Address'] + '</div>' +
-                '</div>');
-            getRestaurantRating(restaurant['ID']);
-        }
-
-        if (response['users'].length === 0)
-            $('#users').append('<div class="container search-result">No results found</div>');
-
-        for (let user of response['users']) {
-            $('#users').append(
-                '<div class="container search-result" ' +
-                'onclick="openUserProfile(' + user['ID'] + ')"' + '>' +
-                '<span class="user-name">' + user['Name'] + '</span>' +
-                '<div class="user-username">' + user['Username'] + '</div>' +
-                '</div>');
-        }
-    }).fail(function (error) {
-        console.log('Error retrieving search results.');
-        console.log(error);
-    });
+    }).done(buildResults)
+        .fail(function (error) {
+            console.log('Error retrieving search results.');
+            console.log(error);
+        });
 }
 
 function getRestaurantRating(restaurantId) {
@@ -112,6 +84,40 @@ function getStarsHTML(value) {
 }
 
 function showResults() {
-    $(this).off('input', showResults);
+    $('#search-box').off('input', showResults);
+    $('.category-box label input').off('change', showResults);
     $('#search-results').show();
+}
+
+function buildResults(response) {
+    $('#restaurants').children().remove();
+    $('#users').children().remove();
+
+    if (response['restaurants'].length === 0)
+        $('#restaurants').append('<div class="container search-result">No results found</div>');
+    else {
+        for (let restaurant of response['restaurants']) {
+            $('#restaurants').append(
+                '<div class="container search-result" ' +
+                'onclick="openRestaurantProfile(' + restaurant['ID'] + ')"' + '>' +
+                '<span class="restaurant-name">' + restaurant['Name'] + '</span>' +
+                '<span id="restaurant' + restaurant['ID'] + '" class="restaurant-average"></span>' +
+                '<div class="restaurant-address">' + restaurant['Address'] + '</div>' +
+                '</div>');
+            getRestaurantRating(restaurant['ID']);
+        }
+    }
+
+    if (response['users'].length === 0)
+        $('#users').append('<div class="container search-result">No results found</div>');
+    else {
+        for (let user of response['users']) {
+            $('#users').append(
+                '<div class="container search-result" ' +
+                'onclick="openUserProfile(' + user['ID'] + ')"' + '>' +
+                '<span class="user-name">' + user['Name'] + '</span>' +
+                '<div class="user-username">' + user['Username'] + '</div>' +
+                '</div>');
+        }
+    }
 }

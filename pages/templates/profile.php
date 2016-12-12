@@ -41,7 +41,7 @@ if ($profile_picture === null)
 
     <div>
         <?php
-        if (groupIdHasPermissions((int)$_SESSION['groupId'], 'EDIT_ANY_PROFILE') || (int)$_SESSION['userId'] === $id)
+        if ((isset($_SESSION['groupId']) && groupIdHasPermissions((int)$_SESSION['groupId'], 'EDIT_ANY_PROFILE')) || (isset($_SESSION['userId']) && (int)$_SESSION['userId'] === $id))
             echo '<a id="edit-profile" href="index.php?page=edit_profile.php&id=' . $id . '"><button>Edit Profile</button></a>';
         ?>
 
@@ -53,18 +53,20 @@ if ($profile_picture === null)
     <?php
 
     /* Show all the restaurant the user has. */
-    $restaurants = getUserRestaurants($_SESSION['userId']);
+    if (isset($_GET['id'])) {
+        $restaurants = getUserRestaurants(htmlspecialchars($_GET['id']));
 
-    foreach ($restaurants as $restaurant) {
-        echo '<div class="restaurant-container" onclick="openRestaurantProfile(' . $restaurant['ID'] . ')">';
-        // echo image
-        echo '<span>' . (string)$restaurant['Name'] . '</span>';
-        echo '<span>' . (string)$restaurant['Address'] . '</span>';
-        echo '</div>';
+        foreach ($restaurants as $restaurant) {
+            echo '<div class="restaurant-container" onclick="openRestaurantProfile(' . $restaurant['ID'] . ')">';
+            // echo image
+            echo '<span>' . (string)$restaurant['Name'] . '</span>';
+            echo '<span>' . (string)$restaurant['Address'] . '</span>';
+            echo '</div>';
+        }
     }
 
     /* Shows the add restaurant button if the user has permission to add a restaurant. */
-    if (groupIdHasPermissions($_SESSION['groupId'], 'ADD_ANY_RESTAURANT') || (int)$_SESSION['userId'] === $id) {
+    if ((isset($_SESSION['groupId']) && groupIdHasPermissions($_SESSION['groupId'], 'ADD_ANY_RESTAURANT')) || (isset($_SESSION['userId']) && (int)$_SESSION['userId'] === $id)) {
         $_SESSION['ownerId'] = $id;
         echo '<div class="restaurant-container">';
         echo '<a href="index.php?page=add_restaurant.php">';

@@ -13,7 +13,7 @@ if (isset($_GET['query']))
 <script src="../js/search_results.js"></script>
 
 <div id="body">
-    <input id="search-box" type="text" name="query" value="<?php echo $query ?>"/>
+    <input id="search-box" type="text" name="query" value="<?= $query ?>"/>
     <ul id="categories">
         <?php
         $categories = getAllCategories();

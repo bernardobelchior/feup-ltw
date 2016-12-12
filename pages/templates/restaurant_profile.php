@@ -102,7 +102,7 @@ unset($restaurantInfo);
             echo '<span class="review-score">' . getStarsHTML($review['Score']) . ' </span>';
             echo '</div>';
 
-            if (groupIdHasPermissions($_SESSION['groupId'], 'REMOVE_ANY_REVIEW') || $review['ReviewerID'] === $_SESSION['userId']) {
+            if ((isset($_SESSION['groupId']) && groupIdHasPermissions($_SESSION['groupId'], 'REMOVE_ANY_REVIEW')) || (isset($_SESSION['userId']) && $review['ReviewerID'] === $_SESSION['userId'])) {
                 echo '<form class="delete-review" action="../actions/delete_review.php" method="post">
                 <input type="text" name="token" value="' . $_SESSION['token'] . '" hidden="hidden"/>
                 <input type="text" name="review-id" value="' . $review['ID'] . '" hidden="hidden"/>
@@ -130,7 +130,7 @@ unset($restaurantInfo);
                     else
                         echo '<a href="index.php?page=profile.php&id=' . $reply['ReplierID'] . '" class="reply-name">' . getUserField($reply['ReplierID'], 'Name') . ' </a>';
 
-                    if (groupIdHasPermissions($_SESSION['groupId'], 'REMOVE_ANY_REPLY') || $reply['ReplierID'] === $_SESSION['userId']) {
+                    if ((isset($_SESSION['groupId']) && groupIdHasPermissions($_SESSION['groupId'], 'REMOVE_ANY_REPLY')) || (isset($_SESSION['userId']) && $reply['ReplierID'] === $_SESSION['userId'])) {
                         echo '<form class="delete-review" action="../actions/delete_reply.php" method="post">
                         <input type="text" name="token" value="' . $_SESSION['token'] . '" hidden="hidden"/>
                         <input type="text" name="reply-id" value="' . $reply['ID'] . '" hidden="hidden"/>
@@ -147,7 +147,7 @@ unset($restaurantInfo);
             }
 
 
-            if ($ownerId === $_SESSION['userId'] || groupIdHasPermissions($_SESSION['groupId'], 'ADD_REPLY')) {
+            if ((isset($_SESSION['userId']) && $ownerId === $_SESSION['userId']) || (isset($_SESSION['groupId']) && groupIdHasPermissions($_SESSION['groupId'], 'ADD_REPLY'))) {
                 echo '<form class="add-reply" method="post" action="../actions/add_reply.php">
 
                 <input type="hidden" name="review-id" value="' . $review['ID'] . '">
@@ -165,9 +165,9 @@ unset($restaurantInfo);
         echo '<span>No reviews yet :(</span>';
     }
 
-    if (groupIdHasPermissions($_SESSION['groupId'], 'ADD_REVIEW')) {
-        if ($ownerId !== $_SESSION['userId'] ||
-            groupIdHasPermissions($_SESSION['groupId'], 'ADD_REVIEW_TO_OWN_RESTAURANT')
+    if (isset($_SESSION['groupId']) && groupIdHasPermissions($_SESSION['groupId'], 'ADD_REVIEW')) {
+        if ((isset($_SESSION['userId']) && $ownerId !== $_SESSION['userId']) ||
+            (isset($_SESSION['groupId']) && groupIdHasPermissions($_SESSION['groupId'], 'ADD_REVIEW_TO_OWN_RESTAURANT'))
         ) {
             echo '<form id="add-review" action="../actions/add_review.php" method="post">
         <input type="hidden" name="token" value="' . $_SESSION['token'] . '">
