@@ -8,7 +8,6 @@ $query = htmlspecialchars($_GET['query']);
 
 <script src="../js/common.js"></script>
 <link rel="stylesheet" type="text/css" href="../css/search_results.min.css"/>
-<link rel="stylesheet" type="text/css" href="../css/common.min.css"/>
 <script src="../js/search_results.js"></script>
 
 <div id="body">
