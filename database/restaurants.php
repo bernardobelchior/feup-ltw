@@ -333,3 +333,27 @@ function removeOtherCategoriesFromRestaurant($restaurant_id, $final_categories){
       removeCategoryFromRestaurant($restaurant_id, $category['ID']);
   }
 }
+
+function getMaxPhotoName($id) {
+    global $db;
+
+    $statement = $db->prepare('SELECT max(Path) FROM RestaurantPhotos WHERE RestaurantID = ?');
+    $statement->execute([$id]);
+    $str = $statement->fetch()[0];
+
+    if($str){
+      list($my_val) = sscanf($str, 'restaurant_pictures/' . $id . '/%d.jpg');
+      return $my_val;
+    }
+    else
+      return 0;
+}
+
+function deleteRestaurantPhoto($photo_src) {
+    global $db;
+
+    $statement = $db->prepare('DELETE FROM RestaurantPhotos WHERE Path = ?');
+    $statement->execute([$photo_src]);
+
+    return $statement->errorInfo();
+}

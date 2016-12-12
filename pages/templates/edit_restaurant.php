@@ -40,8 +40,8 @@ unset($restaurantInfo);
 <script type="text/javascript" src="../js/edit_restaurant.js"></script>
 
 <div id="restaurant-profile" class="container">
-  <input type="hidden" id="token" name="token" value="<?php echo $_SESSION['token']; ?>"/>
-  <input type="hidden" id="restaurant_id" name="restaurant_id" value="<?php echo $id; ?>"/>
+  <!-- <input type="hidden" id="token" name="token" value="<?php echo $_SESSION['token']; ?>"/>
+  <input type="hidden" id="restaurant_id" name="restaurant_id" value="<?php echo $id; ?>"/> -->
     <ul id="profile_attr_list">
       <li id="name">
           <span class="list_attr_name"><strong>Name</strong></span>
@@ -94,5 +94,36 @@ unset($restaurantInfo);
             }
             ?>
         </ul>
+      </li>
+      <li id="photos">
+        <span class="list_attr_name"><strong>Photos</strong></span>
+        <div id="upload">
+            <span>Add some photos:</span>
+            <form id="photos-form" method='post' action="actions/upload_restaurant_photo.php" enctype="multipart/form-data">
+              <input type="hidden" id="token" name="token" value="<?php echo $_SESSION['token']; ?>"/>
+              <input type="hidden" id="restaurant_id" name="restaurant_id" value="<?php echo $id; ?>"/>
+              <input name="photos[]" type="file" multiple="multiple"/>
+              <button class="upload_photos" type="submit">Submit</button>
+            </form>
+        </div>
 
+        <script src="../js/restaurant_profile.js"></script>
+        <div id="restaurant-gallery">
+          <?php
+          $photos = getRestaurantPhotos($id);
+
+          if (count($photos) > 0) {
+              echo '<i id="left-arrow" class="fa fa-chevron-left fa-4x" aria-hidden="true"></i>
+          <div>';
+
+              foreach ($photos as $photo) {
+                  echo '<img class="photo" src="' . '../' . $photo['Path'] . '" alt="Restaurant photo"></img>';
+              }
+
+              echo '</div>
+          <i id="right-arrow" class="fa fa-chevron-right fa-4x" aria-hidden="true"></i>';
+          }
+          ?>
+        </div>
+        <button id="delete-photo">Delete Photo</button>
       </div>

@@ -1,6 +1,19 @@
 
-function createListeners(){
-  $(".edit_link").on('click', myListener);
+function createListeners() {
+  $('.edit_link').on('click', myListener);
+  $('#delete-photo').on('click', deleteCurrentPhoto);
+}
+
+function deleteCurrentPhoto() {
+  let token = $('input#token').val();
+  let currentImage = $('#restaurant-gallery img:not(:hidden):first');
+  if(currentImage.length === 0)
+    return;
+  let path = currentImage.attr('src').substr(3);
+
+  $.post("../pages/actions/delete_restaurant_photo.php", {token: token, src: path}).done(function(){
+    window.location = 'index.php?page=edit_restaurant.php&id=' + $('input#restaurant_id').val();
+  });
 }
 
 function myListener(){
@@ -68,9 +81,6 @@ function categoriesListener(target) {
     $('.categories-list > li').hide();
     if(category_names.join(', ') !== old_text)
       $.post("../pages/actions/edit_restaurant.php", {token: token, restaurant_id: restaurant_id, type: id, value: categories});
-    else {
-      console.log('here');
-    }
     tag.text(category_names.join(', '));
     new_btn.replaceWith(btn);
     btn.on('click', myListener);
