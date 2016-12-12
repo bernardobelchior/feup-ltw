@@ -127,3 +127,8 @@ unset($restaurantInfo);
         </div>
         <button id="delete-photo">Delete Photo</button>
       </div>
+    <form id="delete-restaurant" method="post" action="actions/delete_restaurant.php">
+      <input type="hidden" name="token" value="<?php echo $_SESSION['token']; ?>"/>
+      <input type="hidden" name="restaurant_id" value="<?php echo $id; ?>"/>
+      <button type="submit">Delete Restaurant</button>
+    </form>

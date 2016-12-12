@@ -357,3 +357,18 @@ function deleteRestaurantPhoto($photo_src) {
 
     return $statement->errorInfo();
 }
+
+function deleteRestaurant($id) {
+    global $db;
+
+    $statement = $db->prepare('DELETE FROM Restaurants WHERE ID = ?');
+    $statement->execute([$id]);
+
+    $statement = $db->prepare('DELETE FROM RestaurantsCategories WHERE RestaurantID = ?');
+    $statement->execute([$id]);
+
+    $statement = $db->prepare('DELETE FROM RestaurantPhotos WHERE RestaurantID = ?');
+    $statement->execute([$id]);
+
+    return $statement->errorInfo();
+}
