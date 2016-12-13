@@ -186,14 +186,15 @@ function getRestaurantByName($restaurantName) {
 
 /** Adds the photo provided to the respective restaurant.
  * @param $restaurantId int Restaurant ID.
+ * @param $uploaderId int Uploader ID
  * @param $photoPath string Path to photo.
  * @return array Statement's error info.
  */
-function addPhoto($restaurantId, $photoPath) {
+function addPhoto($restaurantId, $uploaderId, $photoPath) {
     global $db;
 
-    $statement = $db->prepare('INSERT INTO RestaurantPhotos VALUES (NULL, ?, ?)');
-    $statement->execute([$restaurantId, $photoPath]);
+    $statement = $db->prepare('INSERT INTO RestaurantPhotos VALUES (NULL, ?, ?, ?)');
+    $statement->execute([$restaurantId, $uploaderId, $photoPath]);
     return $statement->errorInfo();
 }
 

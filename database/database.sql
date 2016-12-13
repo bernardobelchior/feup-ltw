@@ -51,6 +51,7 @@ CREATE TABLE RestaurantsCategories (
 CREATE TABLE RestaurantPhotos (
   ID           INTEGER PRIMARY KEY,
   RestaurantID INTEGER NOT NULL REFERENCES Restaurants,
+  UploaderID INTEGER NOT NULL REFERENCES Users,
   Path         TEXT    NOT NULL
 );
 
@@ -146,4 +147,3 @@ INSERT INTO Categories VALUES (NULL, 'Native American');
 INSERT INTO Categories VALUES (NULL, 'Greek');
 INSERT INTO Categories VALUES (NULL, 'Portuguese');
 INSERT INTO Categories VALUES (NULL, 'Indonesian');
-

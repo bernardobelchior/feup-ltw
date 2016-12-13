@@ -24,9 +24,9 @@ for ($i = 0; $i < count($_FILES['photos']['name']); $i++) {
     $extension = pathinfo($_FILES['photos']['name'][$i], PATHINFO_EXTENSION);
     $picturePath = 'restaurant_pictures/' . $id . '/' . $picNumber . '.' . $extension;
     move_uploaded_file($_FILES['photos']['tmp_name'][$i], '../' . $picturePath);
-    addPhoto($id, $picturePath);
+    addPhoto($id, $_SESSION['userId'], $picturePath);
 }
 
 $_SESSION['token'] = generateRandomToken();
-header('Location: ../pages/index.php?page=edit_restaurant.php&id=' . $id);
+header('Location: ../pages/index.php?page=restaurant_profile.php&id=' . $id);
 die();

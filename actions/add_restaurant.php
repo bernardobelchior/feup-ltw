@@ -35,7 +35,7 @@ if (isset($name) && isset($address)) {
             $extension = pathinfo($_FILES['photos']['name'][$i], PATHINFO_EXTENSION);
             $picturePath = 'restaurant_pictures/' . $id . '/' . $i . '.' . $extension;
             move_uploaded_file($_FILES['photos']['tmp_name'][$i], '../../' . $picturePath);
-            addPhoto($id, $picturePath);
+            addPhoto($id, $ownerId, $picturePath);
         }
 
         foreach ($_POST['categories'] as $categoryId) {

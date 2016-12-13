@@ -97,39 +97,29 @@ unset($restaurantInfo);
         </li>
         <li id="photos">
             <span class="list_attr_name"><strong>Photos</strong></span>
-            <div id="upload">
-                <span>Add some photos:</span>
-                <form id="photos-form" method='post' action="../actions/upload_restaurant_photo.php"
-                      enctype="multipart/form-data">
-                    <input type="hidden" id="token" name="token" value="<?= $_SESSION['token'] ?>"/>
-                    <input type="hidden" id="restaurant_id" name="restaurant_id" value="<?= $id ?>"/>
-                    <input name="photos[]" type="file" multiple="multiple"/>
-                    <button class="upload_photos" type="submit">Submit</button>
-                </form>
-            </div>
-
             <script src="../js/restaurant_profile.js"></script>
+
             <div id="restaurant-gallery">
                 <?php
                 $photos = getRestaurantPhotos($id);
 
                 if (count($photos) > 0) {
                     echo '<i id="left-arrow" class="fa fa-chevron-left fa-4x" aria-hidden="true"></i>
-          <div>';
+                          <div>';
 
                     foreach ($photos as $photo) {
                         echo '<img class="photo" src="' . '../' . $photo['Path'] . '" alt="Restaurant photo"></img>';
                     }
 
                     echo '</div>
-          <i id="right-arrow" class="fa fa-chevron-right fa-4x" aria-hidden="true"></i>';
+                          <i id="right-arrow" class="fa fa-chevron-right fa-4x" aria-hidden="true"></i>';
                 }
                 ?>
             </div>
             <button id="delete-photo">Delete Photo</button>
 </div>
 <form id="delete-restaurant" method="post" action="../actions/delete_restaurant.php">
-    <input type="hidden" name="token" value="<?= $_SESSION['token'] ?>"/>
-    <input type="hidden" name="restaurant_id" value="<?= $id ?>"/>
+    <input type="hidden" id="token" name="token" value="<?= $_SESSION['token'] ?>"/>
+    <input type="hidden" id="restaurant_id" name="restaurant_id" value="<?= $id ?>"/>
     <button type="submit">Delete Restaurant</button>
 </form>

@@ -79,8 +79,18 @@ unset($restaurantInfo);
             }
             ?>
 
+            <!-- <div id="upload"> -->
+          <!-- </div> -->
         </div>
     </div>
+    <span>Add some photos:</span>
+    <form id="photos-form" method='post' action="../actions/upload_restaurant_photo.php"
+    enctype="multipart/form-data">
+    <input type="hidden" id="token" name="token" value="<?= $_SESSION['token'] ?>"/>
+    <input type="hidden" id="restaurant_id" name="restaurant_id" value="<?= $id ?>"/>
+    <input name="photos[]" type="file" multiple="multiple"/>
+    <button class="upload_photos" type="submit">Submit</button>
+  </form>
 
     <?php
     if (groupIdHasPermissions((int)$_SESSION['groupId'], 'EDIT_ANY_RESTAURANT') || (int)$_SESSION['userId'] === (int)$ownerId)
