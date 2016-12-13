@@ -91,11 +91,10 @@ function categoriesListener(target) {
                 token: token,
                 restaurant_id: restaurant_id,
                 type: id,
-                value: categories
+                picked_categories: categories
             });
         tag.text(category_names.join(', '));
         new_btn.replaceWith(btn);
         btn.on('click', onEdit);
     });
 }
-

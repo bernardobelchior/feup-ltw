@@ -4,8 +4,6 @@ session_start(['cookie_httponly' => true]);
 include_once('../utils.php');
 include_once('../database/restaurants.php');
 
-var_dump('Hello');
-
 // If the user didn't come from the edit restaurant page.
 if ($_SESSION['token'] !== $_POST['token']) {
     header('HTTP/1.0 403 Forbidden');
@@ -15,7 +13,11 @@ if ($_SESSION['token'] !== $_POST['token']) {
 
 $restaurant_id = htmlspecialchars($_POST['restaurant_id']);
 $type = htmlspecialchars($_POST['type']);
-$value = $_POST['value'];
+$picked_categories = $_POST['picked_categories'];
+
+for($i = 0; $i < count($picked_categories); $i++){
+  $picked_categories[$i] = htmlspecialchars($picked_categories[$i]);
+}
 
 if ($type === 'name')
     return updateRestaurantName($restaurant_id, $value);
@@ -35,9 +37,9 @@ else if ($type === 'categories') {
         array_push($categories_ids, $category['ID']);
     }
 
-    foreach ($value as $category) {
+    foreach ($picked_categories as $category) {
         if (!in_array($category, $categories_ids))
             addCategoryToRestaurant($restaurant_id, $category);
     }
-    removeOtherCategoriesFromRestaurant($restaurant_id, $value);
+    removeOtherCategoriesFromRestaurant($restaurant_id, $picked_categories);
 }
