@@ -37,31 +37,6 @@ $height = $manipulator->getHeight();
 $centerX = round($width / 2);
 $centerY = round($height / 2);
 
-
-//    //for 32x32 img
-//    $newNamePrefix = time().'_32_';
-//    $x1_32 = $centerX - 16;
-//    $y1_32 = $centerY - 16;
-//
-//    $x2_32 = $centerX + 16;
-//    $y2_32 = $centerY + 16;
-//
-//    $newImage = $manipulator->crop($x1_32,$y1_32, $x2_32, $y2_32);
-//    $picturePath = $newNamePrefix.$file['name'];
-//    $manipulator->save($picturePath);
-//
-//    //for 64x64 img
-//    $x1_64 = $centerX - 32;
-//    $y1_64 = $centerY - 32;
-//
-//    $x2_64 = $centerX + 32;
-//    $y2_64 = $centerY + 32;
-//
-//    $newNamePrefix = time().'_64_';
-//    $newImage = $manipulator->crop($x1_64,$y1_64, $x2_64, $y2_64);
-//    $picturePath = $newNamePrefix.$file['name'];
-//    $manipulator->save($picturePath);
-
 //for 256x256 img
 $x1_256 = $centerX - 128;
 $y1_256 = $centerY - 128;

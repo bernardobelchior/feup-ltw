@@ -50,90 +50,121 @@ function changeGender() {
 }
 
 function createListeners() {
-    $(".edit_link").on('click', myListener);
+    $(".edit_link").on('click', editListener);
 }
 
-function myListener() {
+function createGenderForm(){
+
+    let new_tag = $(
+        '<form id="change_gender_form" method="post" action="actions/edit_profile.php">' +
+        '<div id="inputs">' +
+        '<select name="gender" id="input_gender">' +
+        '<option value=""></option><option value="M">Male</option><option value="F">Female</option></select>' +
+        '</div>' +
+        '<div id="edit_options">' +
+        '<input id="confirm_btn" type="submit" value="Confirm">' +
+        '<button id="cancel_btn">Cancel</button>' +
+        '</div>' +
+        '</form>');
+    new_tag.css("margin-left", "100px");
+
+    return new_tag;
+}
+
+function createPasswordForm(){
+    let new_tag = $(
+        '<form id="change_pw_form" method="post" action="actions/change_password.php">' +
+        '<div id="inputs">' +
+        '<input name="old_password" type="password" id="input_old_pw" placeholder="Current Password"/>' +
+        '<input name="new_password" type="password" id="input_new_pw" placeholder="New Password"/>' +
+        '<input name="confirm_password" type="password" id="input_confirm_pw" placeholder="Repeat Password"/>' +
+        '</div>' +
+        '<div id="edit_options">' +
+        '<input id="confirm_btn" type="submit" value="Confirm">' +
+        '<button id="cancel_btn">Cancel</button>' +
+        '</div>' +
+        '</form>');
+
+    return new_tag;
+}
+
+function createPhotoForm(){
+    let new_tag = $(
+        '<form id="change_photo_form" method="post" action="../pages/actions/upload_photo.php"'
+        //TODO To be continued
+    )
+}
+
+function createSimpleForm(id, tag){
+    let inputTag = $('<input name="' + id + '" id="input_' + id + '" class=' + tag.attr('class') + ' value="' + tag.html() + '">');
+
+    if (id === 'dob')
+        inputTag.attr('placeholder', 'yyyy-mm-dd');
+    else if (id === 'email')
+        inputTag.attr('type', 'email');
+
+    let new_tag = $(
+        '<form id="change-pass-form" method="post" action="actions/edit_profile.php">' +
+        '<div id="inputs">' +
+        '</div>' +
+        '<div id="edit_options">' +
+        '<input id="confirm_btn" type="submit" value="Confirm">' +
+        '<input id="cancel_btn" type="reset" value="Cancel">' +
+        '</div>' +
+        '</form>');
+
+    new_tag.children("#inputs").append(inputTag);
+
+    return new_tag;
+}
+
+function editListener() {
     let tag = $(this).prev();
     let value = tag.text();
     let id = tag.parents("li").attr('id');
     console.log(id);
+    let btn = $(this);
+    btn.hide();
 
     let new_tag;
 
-    if (id === 'gender') {
-        new_tag = $('<select name="' + id + '" id="input_' + id + '"> <option value=""></option><option value="M">Male</option><option value="F">Female</option></select>');
-        new_tag.val(tag.text());
+    switch(id){
+        case 'gender':
+            new_tag = createGenderForm();
+            break;
+
+        case 'password':
+            new_tag = createPasswordForm();
+            break;
+
+        case 'photo':
+            new_tag = createPhotoForm();
+            break;
+
+        default:
+            new_tag = createSimpleForm(id, tag);
+            break;
     }
-    else
-        new_tag = $('<input name="' + id + '" id="input_' + id + '" class=' + tag.attr('class') + ' value="' + tag.html() + '"/>');
-    if (id === 'dob')
-        new_tag.attr('placeholder', 'yyyy-mm-dd');
-    else if (id === 'email')
-        new_tag.attr('type', 'email');
 
     tag.replaceWith(new_tag);
+    console.log(tag);
 
-    let btn = $(this);
-    let new_btn_id = "btn_" + id;
-    let new_div = $('<span id="edit_options" > ' +
-        '<span id="cancel_' + new_btn_id + '" class="edit_link clickable">Cancel</span> ' +
-        '<span id="confirm_' + new_btn_id + '" class="edit_link clickable">Confirm</span>' +
-        '</span>')
-    btn.replaceWith(new_div);
-    let new_section = $('span#edit_options');
-    let confirm_btn = $('span#confirm_' + new_btn_id);
-    let cancel_btn = $('span#cancel_' + new_btn_id);
-
-    new_section.css("float", "right");
-    confirm_btn.css("padding-right", "5px");
-
-    confirm_btn.on('click', function () {
-        let token = $('input#token').val();
-        let profile_id = $('input#profile_id').val();
-        if (new_tag.val() !== tag.text()) {
-            if (id === "dob") {
-                if (!validateDate(new_tag.val())) {
-                    $('#dob-output').html("Invalid date");
-                    return;
-                }
-            }
-            else if (id === 'email') {
-                if (!validateEmail(new_tag.val())) {
-                    $('#email-output').html("Invalid email");
-                    return;
-                }
-            }
-            $.post("../pages/actions/edit_profile.php",
-                {
-                    token: token,
-                    profile_id: profile_id,
-                    type: id,
-                    value: new_tag.val()
-                }).fail(function () {
-                $('#email-output').html("Email already exists!");
-            }).done(function () {
-                tag.text(new_tag.val());
-                new_tag.replaceWith(tag);
-                confirm_btn.remove();
-                $('#' + id + '-output').html("");
-                btn.on('click', myListener);
-            });
-        }
-        else {
-            new_tag.replaceWith(tag);
-            new_div.replaceWith(btn);
-            $('#' + id + '-output').html("");
-            btn.on('click', myListener);
-        }
-    });
-
-    cancel_btn.on('click', function () {
+    let cancel_btn = $("#cancel_btn");
+    console.log(cancel_btn);
+    cancel_btn.on("click", function(){
+        console.log("sadfasdf");
         new_tag.replaceWith(tag);
-        new_div.replaceWith(btn);
-        $('#' + id + '-output').html("");
-        btn.on('click', myListener);
+        btn.show();
     });
+
+
+    // let new_btn_id = "btn_" + id;
+    // let new_div = $('<span id="edit_options" > ' +
+    //     '<span id="cancel_' + new_btn_id + '" class="edit_link clickable">Cancel</span> ' +
+    //     '<span id="confirm_' + new_btn_id + '" class="edit_link clickable">Confirm</span>' +
+    //     '</span>')
+    // btn.replaceWith(new_div);
+    // let new_section = $('span#edit_options');
 }
 
 function loadDocument() {

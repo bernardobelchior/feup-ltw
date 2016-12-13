@@ -35,7 +35,7 @@ $profile_picture = getUserField($id, 'Picture');
         <div class="section_title">General Info</div>
     </div>
     <ul id="profile_attr_list">
-        <li id="change-photo">
+        <li id="photo">
             <span class="profile_picture_container">
                 <img src="<?php echo '../'.$profile_picture?>" alt="User's profile picture"/>
             </span>
@@ -54,6 +54,11 @@ $profile_picture = getUserField($id, 'Picture');
         <li id="username">
             <span class="list_attr_name"><strong>Username</strong></span>
             <span class="list_attr_content"><?php echo getUserField($id, 'Username'); ?></span>
+            <span class="edit_link clickable"><i class="fa fa-pencil"></i>Edit</span>
+        </li>
+        <li id="password">
+            <span class="list_attr_name"><strong>Password</strong></span>
+            <span class="list_attr_content">*****</span>
             <span class="edit_link clickable"><i class="fa fa-pencil"></i>Edit</span>
         </li>
         <li id="name">
