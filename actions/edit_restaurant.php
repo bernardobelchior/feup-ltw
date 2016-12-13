@@ -1,8 +1,8 @@
 <?php
 session_start(['cookie_httponly' => true]);
 
-include_once('../utils/utils.php');
-include_once('../../database/restaurants.php');
+include_once('../utils.php');
+include_once('../database/restaurants.php');
 
 var_dump('Hello');
 
@@ -15,7 +15,7 @@ if ($_SESSION['token'] !== $_POST['token']) {
 
 $restaurant_id = htmlspecialchars($_POST['restaurant_id']);
 $type = htmlspecialchars($_POST['type']);
-$value = htmlspecialchars($_POST['value']);
+$value = $_POST['value'];
 
 if ($type === 'name')
     return updateRestaurantName($restaurant_id, $value);
@@ -36,7 +36,7 @@ else if ($type === 'categories') {
     }
 
     foreach ($value as $category) {
-        if (!in_array($category['ID'], $categories_ids))
+        if (!in_array($category, $categories_ids))
             addCategoryToRestaurant($restaurant_id, $category);
     }
     removeOtherCategoriesFromRestaurant($restaurant_id, $value);
