@@ -9,7 +9,7 @@ if ($_SESSION['signup-token'] !== $_POST['signup-token']) {
     header('Location: ../pages/index.php?page=403.html');
     die();
 }
-$_SESSION['token'] = generateRandomToken();
+$_SESSION['signup-token'] = generateRandomToken();
 
 $username = htmlspecialchars($_POST['username']);
 $password = htmlspecialchars($_POST['password']);

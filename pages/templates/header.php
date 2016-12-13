@@ -1,5 +1,6 @@
 <?php session_start(['cookie_httponly' => true]);
-include_once('../utils.php'); ?>
+include_once('../utils.php');
+$_SESSION['signup-token'] = generateRandomToken(); ?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -55,7 +56,6 @@ include_once('../utils.php'); ?>
      -->
     <div class="overlay" hidden="hidden">
         <div id="sign_up_overlay">
-            <?php $_SESSION['signup-token'] = generateRandomToken(); ?>
 
             <div id="signup_form">
                 <div class="overlay_title"><strong>Sign Up</strong></div>
