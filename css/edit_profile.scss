@@ -71,10 +71,12 @@
 }
 
 #change-photo-text{
+  margin-left: 100px;
 }
 
 .profile_picture_container{
-  display: inline;
+  display: inline-block;
+  width: 120px;
 
   img{
     height: 64px;
