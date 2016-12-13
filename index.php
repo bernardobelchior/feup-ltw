@@ -1,3 +1,3 @@
 <?php
-header('Location: pages/index.php?page=search_results.php');
+header('Location: pages/index.php?page=landing_page.php');
 die();
