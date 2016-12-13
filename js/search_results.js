@@ -16,7 +16,6 @@ $(document).ready(function () {
                 return '€' + value.toFixed(0);
             },
             from: function (value) {
-                console.log('From ' + value);
                 return value;
             }
         }
