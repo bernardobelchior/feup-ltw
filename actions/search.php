@@ -21,6 +21,12 @@ function normalizeQuery($query) {
 
 $query = htmlspecialchars($_GET['query']);
 $categories = null;
+if (isset($_GET['prices'])) {
+    $prices = $_GET['prices'];
+
+    foreach ($prices as $price)
+        $price = htmlspecialchars($price);
+}
 
 if (isset($_GET['categories'])) {
     $categories = $_GET['categories'];
@@ -32,7 +38,7 @@ if (isset($_GET['categories'])) {
 $query = normalizeQuery($query);
 
 
-$restaurants = searchRestaurants($query, $categories);
+$restaurants = searchRestaurants($query, $categories, $prices);
 $users = searchUsers($query);
 
 echo json_encode(['restaurants' => $restaurants, 'users' => $users]);

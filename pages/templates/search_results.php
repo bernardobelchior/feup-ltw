@@ -8,9 +8,12 @@ if (isset($_GET['query']))
     $query = htmlspecialchars($_GET['query']);
 ?>
 
-<script src="../js/common.js"></script>
 <link rel="stylesheet" type="text/css" href="../css/search_results.min.css"/>
+<link rel="stylesheet" type="text/css" href="../css/nouislider.min.css"/>
+
+<script src="../js/common.js"></script>
 <script src="../js/search_results.js"></script>
+<script src="../js/nouislider.min.js"></script>
 
 <div id="body">
     <input id="search-box" type="text" name="query" value="<?= $query ?>"/>
@@ -23,6 +26,9 @@ if (isset($_GET['query']))
         }
         ?>
     </ul>
+    <div id="slider">
+
+    </div>
 
     <div id="search-results" hidden="hidden">
         <ul id="search-tabs">
