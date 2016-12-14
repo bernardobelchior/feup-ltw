@@ -45,47 +45,42 @@ function validateNewPassword() {
 }
 
 function createGenderForm(current_value_tag) {
-
     let inputs;
     let gender = current_value_tag.html();
     if (gender == 'M')
-        inputs = '<input name="gender" type="radio" value="M" checked>Male' +
-            '<input name="gender" type="radio" value="F">Female';
+        inputs = '<input name="value" type="radio" value="M" checked>Male' +
+            '<input name="value" type="radio" value="F">Female';
     else if (gender == 'F')
-        inputs = '<input name="gender" type="radio" value="M">Male' +
-            '<input name="gender" type="radio" value="F" checked>Female';
+        inputs = '<input name="value" type="radio" value="M">Male' +
+            '<input name="value" type="radio" value="F" checked>Female';
     else
-        inputs = '<input name="gender" type="radio" value="M">Male' +
-            '<input name="gender" type="radio" value="F">Female';
+        inputs = '<input name="value" type="radio" value="M">Male' +
+            '<input name="value" type="radio" value="F">Female';
 
     let new_tag = $(
-        '<div>' +
+        '<div class="edit-field">' +
         '<div class="inputs">' + inputs + '</div>' +
         '<div class="edit_options">' +
-        '<input class="confirm_btn" type="submit" value="Confirm">' +
+        '<button class="confirm_btn">Confirm</button>' +
         '<button class="cancel_btn" type="reset">Cancel</button>' +
         '</div></div>');
-
-    new_tag.css({"margin-left": "100px", "display": "inline-block"});
-
 
     return new_tag;
 }
 
 function createPasswordForm() {
     let new_tag = $(
-        '<div>' +
+        '<div class="edit-field">' +
         '<div class="inputs">' +
         '<input name="old_password" type="password" id="input_old_pw" placeholder="Current Password"/>' +
         '<input name="new_password" type="password" id="input_new_pw" placeholder="New Password"/>' +
         '<input name="confirm_password" type="password" id="input_confirm_pw" placeholder="Repeat Password"/>' +
         '</div>' +
         '<div class="edit_options">' +
-        '<input class="confirm_btn" type="submit" value="Confirm">' +
+        '<button class="confirm_btn">Confirm</button>' +
         '<button class="cancel_btn" type="reset">Cancel</button>' +
         '</div></div>');
 
-    new_tag.css({"margin-left": "100px", "display": "inline-block"});
     new_tag.children(".inputs").children("input").css("display", "block");
 
     return new_tag;
@@ -93,23 +88,23 @@ function createPasswordForm() {
 
 function createPhotoForm() {
     let new_tag = $(
-        '<div>' +
+        '<div class="edit-field">' +
+        '<input type="hidden" name="token" value="' + $('#token').val() + '">' +
+        '<input type="hidden" name="profile_id" value="' + $('#profile_id').val() + '">' +
         '<div class="inputs">' +
         '<input id="photo" type="file" name="photo" accept="image/*" required/>' +
         '<output id="filesInfo"></output>' +
         '</div>' +
         '<div class="edit_options">' +
-        '<input class="confirm_btn" type="submit" value="Upload Photo">' +
+        '<button class="confirm_btn">Upload Photo</button>' +
         '<button class="cancel_btn" type="reset">Cancel</button>' +
         '</div></div>');
-
-    new_tag.css({"margin-left": "100px", "display": "inline-block"});
 
     return new_tag;
 }
 
 function createSimpleForm(id, current_value_tag) {
-    let inputTag = $('<input name="' + id + '" id="input_' + id + '"  value="' + current_value_tag.html() + '">');
+    let inputTag = $('<input name="value" id="input_' + id + '"  value="' + current_value_tag.html() + '">');
 
     if (id === 'dob')
         inputTag.attr('placeholder', 'yyyy-mm-dd');
@@ -117,33 +112,22 @@ function createSimpleForm(id, current_value_tag) {
         inputTag.attr('type', 'email');
 
     let new_tag = $(
-        '<div>' +
+        '<div class="edit-field">' +
         '<div class="inputs">' +
         '</div>' +
         '<div class="edit_options">' +
-        '<button id="' + id + '_btn" class="confirm_btn">Confirm</button>' +
+        '<button class="confirm_btn">Confirm</button>' +
         '<input class="cancel_btn" type="reset" value="Cancel">' +
         '</div></div>');
 
-    console.log('Created simple form');
-    console.log(new_tag);
-
-    console.log($('#' + id + '_btn'));
     new_tag.children(".inputs").append(inputTag);
-    new_tag.css({"margin-left": "100px", "display": "inline-block"});
-
-    new_tag.find('#' + id + '_btn').on('submit', function () {
-        console.log(id);
-        $('#edit-type').val(id);
-        $('#edit-form').trigger('submit');
-    });
 
     return new_tag;
 }
 
 function editListener() {
     let current_value_tag = $(this).prev();
-    let field_id = current_value_tag.parents("li").attr('id');
+    let field_id = current_value_tag.closest("li").attr('id');
     let edit_btn = $(this);
     edit_btn.hide();
 
@@ -169,8 +153,7 @@ function editListener() {
 
     current_value_tag.replaceWith(field_edit_tag);
 
-    let cancel_btn = field_edit_tag.find(".cancel_btn");
-    cancel_btn.on("click", function () {
+    field_edit_tag.find(".cancel_btn").on("click", function () {
         field_edit_tag.replaceWith(current_value_tag);
         edit_btn.show();
     });

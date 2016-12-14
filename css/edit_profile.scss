@@ -51,10 +51,20 @@
   margin-right: 3px;
 }
 
-.edit_options {
-  text-align: center;
+.edit-field {
+  margin-left: 100px;
+  display: inline-block;
 
-  * {
-    margin-right: 5px;
+  .edit_options {
+    text-align: center;
+
+    * {
+      margin-right: 5px;
+    }
   }
+}
+
+#photo form {
+  margin: 0;
+  width: 100%;
 }

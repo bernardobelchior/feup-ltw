@@ -17,26 +17,32 @@ if ($_SESSION['token'] !== $_POST['token'] || (!groupIdHasPermissions($_SESSION[
 $type = htmlspecialchars($_POST['type']);
 $value = htmlspecialchars($_POST['value']);
 
-
+//FIXME: Show info to user
 switch ($type) {
+    case 'name':
+        updateName($id, $value);
+        break;
+    case 'gender':
+        updateGender($id, $value);
+        break;
+    case 'password':
+        $old_password = htmlspecialchars($_POST['old_password']);
+        $new_password = htmlspecialchars($_POST['new_password']);
+        $confirm_password = htmlspecialchars($_POST['confirm_password']);
 
+        if ($new_password === $confirm_password)
+            updatePassword($id, $old_password, $new_password);
+        break;
+    case 'email':
+        updateEmail($id, $value);
+        break;
+    case 'dob':
+        updateDateOfBirth($id, $value);
+        break;
+    default:
+        header('HTTP/1.0 403 Forbidden');
+        header('Location: ../pages/index.php?page=403.html');
+        die();
 }
 
-if ($type === 'name')
-    updateName($id, $value);
-else if ($type === 'gender')
-    updateGender($id, $value);
-else if ($type === 'email') {
-    if (emailExists($value)) {
-        header('HTTP/1.0 403 Forbidden'); //FIXME: show info to the user.
-        exit;
-    }
-    updateEmail($id, $value);
-} else if ($type === 'dob')
-    updateDateOfBirth($id, $value);
-else {
-    header('HTTP/1.0 403 Forbidden');
-    header('Location: ../pages/index.php?page=403.html');
-    die();
-}
-
+header('Location: ' . $_SERVER['HTTP_REFERER']);
