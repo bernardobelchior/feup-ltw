@@ -1,0 +1,34 @@
+#add-restaurant {
+  #categories {
+    list-style: none;
+
+    .category-box {
+      display: inline-block;
+      width: 25%;
+    }
+  }
+
+  #categories-label {
+    margin-top: 1em;
+  }
+
+  #restaurant-description {
+    margin-top: 0.5em;
+    resize: none;
+    overflow-y: scroll;
+  }
+
+ #upload {
+   margin-top: 0.5em;
+
+   span {
+     margin-right: 0.5em;
+   }
+ }
+
+  #submit {
+    margin-top: 0.5em;
+    display: block;
+  }
+}
+

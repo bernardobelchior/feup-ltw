@@ -4,15 +4,19 @@ include_once('connection.php');
 /** Adds the restaurant to the Restaurants table.
  * @param $ownerId int Restaurant's owner ID.
  * @param $name string Restaurant name.
- * @param $address string Restaurant's address
+ * @param $address string Restaurant's address.
  * @param $description string Restaurant's description.
+ * @param $costForTwo integer Cost for two
+ * @param $phoneNumber integer Phone number
  * @return string Returns the query error code.
+ * @internal param float $lat Latitude
+ * @internal param float $long Longitude
  */
-function addRestaurant($ownerId, $name, $address, $description) {
+function addRestaurant($ownerId, $name, $address, $description, $costForTwo, $phoneNumber) {
     global $db;
 
-    $statement = $db->prepare('INSERT INTO Restaurants VALUES(NULL, ?, ?, ?, ?)');
-    $statement->execute([$ownerId, $name, $address, $description]);
+    $statement = $db->prepare('INSERT INTO Restaurants VALUES(NULL, ?, ?, ?, ?, ?, ?)');
+    $statement->execute([$ownerId, $name, $address, $description, $costForTwo, $phoneNumber]);
     return $statement->errorInfo(); //Returns 0 even if the insertion failed due to repeated username or email.
 }
 
@@ -99,16 +103,37 @@ function restaurantIdExists($restaurantId) {
  * The statement checks for lower case names, so the query MUST be lower case
  * in order to make it case insensitive.
  * @param $query string The search string.
+ * @param $categories array Optional categories to restrict the search.
+ * @param $prices array Optional price range. Index 0 is minimum price, index 1 is maximum.
  * @return array All results.
  */
-function searchRestaurants($query) {
+function searchRestaurants($query, $categories, $prices) {
     global $db;
 
     //Prepare the query to search for each word individually
-    $where = '"%' . str_replace(' ', '%" OR LOWER(Name) LIKE "%', $query) . '%"';
+    if ($query === '')
+        $where = '"%"';
+    else
+        $where = '"%' . str_replace(' ', '%" OR LOWER(Name) LIKE "%', $query) . '%"';
+
+    $priceRange = '';
+    if (isset($prices) && is_array($prices))
+        $priceRange = ' AND (CostForTwo >= ' . $prices[0] . ' AND CostForTwo <= ' . $prices[1] . ')';
+
+    if (isset($categories) && is_array($categories)) {
+        $categoryQuery = ' AND (';
+
+        $i = 0;
+        for (; $i < count($categories) - 1; $i++) {
+            $categoryQuery .= 'CategoryID = ' . $categories[$i] . ' OR ';
+        }
+
+        $categoryQuery .= 'CategoryID = ' . $categories[$i] . ')';
+        $statement = $db->prepare('SELECT Restaurants.ID, Name, Address FROM Restaurants INNER JOIN RestaurantsCategories ON Restaurants.ID = RestaurantID WHERE LOWER(Name) LIKE ' . $where . $categoryQuery . $priceRange);
+    } else
+        $statement = $db->prepare('SELECT ID, Name, Address FROM Restaurants WHERE LOWER(Name) LIKE ' . $where . $priceRange);
 
     // Not sure why, but using the execute([$where]) does not work, this is a workaround.
-    $statement = $db->prepare('SELECT ID, Name, Address FROM Restaurants WHERE LOWER(Name) LIKE' . $where);
     $statement->execute();
     return $statement->fetchAll();
 }
@@ -117,7 +142,7 @@ function searchRestaurants($query) {
  * @param $reviewId int Review ID.
  * @return array Restaurant Owner ID
  */
-function getRestaurantOwnerFromReview($reviewId){
+function getRestaurantOwnerFromReview($reviewId) {
     global $db;
 
     $statement = $db->prepare('SELECT OwnerID FROM Reviews, Restaurants WHERE Reviews.RestaurantID = Restaurants.ID AND Reviews.ID = ?');
@@ -150,4 +175,254 @@ function getAllReplies($reviewId) {
     $statement = $db->prepare('SELECT * FROM Replies WHERE ReviewID = ?');
     $statement->execute([$reviewId]);
     return $statement->fetchAll();
+}
+
+/** Returns the restaurant ID with the given name.
+ * @param $restaurantName string Restaurant name
+ * @return mixed ID if the restaurant is found, null otherwise.
+ */
+function getRestaurantByName($restaurantName) {
+    global $db;
+
+    $statement = $db->prepare('SELECT ID FROM Restaurants WHERE Name = ?');
+    $statement->execute([$restaurantName]);
+    return $statement->fetch()['ID'];
+}
+
+/** Adds the photo provided to the respective restaurant.
+ * @param $restaurantId int Restaurant ID.
+ * @param $photoPath string Path to photo.
+ * @return array Statement's error info.
+ */
+function addPhoto($restaurantId, $photoPath) {
+    global $db;
+
+    $statement = $db->prepare('INSERT INTO RestaurantPhotos VALUES (NULL, ?, ?)');
+    $statement->execute([$restaurantId, $photoPath]);
+    return $statement->errorInfo();
+}
+
+/** Gets all photos related to that restaurant.
+ * @param $restaurantId int Restaurant ID.
+ * @return array Array of paths to photos.
+ */
+function getRestaurantPhotos($restaurantId) {
+    global $db;
+
+    $statement = $db->prepare('SELECT Path FROM RestaurantPhotos WHERE RestaurantID = ?');
+    $statement->execute([$restaurantId]);
+    return $statement->fetchAll();
+}
+
+/** Gets the average restaurant rating.
+ * @param $restaurantId Restaurant ID.
+ * @return float Average rating
+ */
+function getRestaurantAverageRating($restaurantId) {
+    global $db;
+
+    $statement = $db->prepare('SELECT AVG(Score) FROM Reviews WHERE RestaurantID = ?');
+    $statement->execute([$restaurantId]);
+    return $statement->fetch()['AVG(Score)'];
+}
+
+/** Gets all categories
+ * @return array All categories
+ */
+function getAllCategories() {
+    global $db;
+
+    $statement = $db->prepare('SELECT * FROM Categories');
+    $statement->execute();
+    return $statement->fetchAll();
+}
+
+/** Adds category to restaurant
+ * @param $restaurantId int Restaurant ID
+ * @param $categoryId int Category ID
+ * @return array Statement error info
+ */
+function addCategoryToRestaurant($restaurantId, $categoryId) {
+    global $db;
+
+    $statement = $db->prepare('INSERT INTO RestaurantsCategories VALUES (NULL, ?, ?)');
+    $statement->execute([$restaurantId, $categoryId]);
+    return $statement->errorInfo();
+}
+
+/** Gets all categories that the given restaurant belongs to.
+ * @param $restaurantId int Restaurant ID.
+ * @return array Array of categories.
+ */
+function getRestaurantCategories($restaurantId) {
+    global $db;
+
+    $statement = $db->prepare('SELECT * FROM RestaurantsCategories INNER JOIN Categories ON RestaurantsCategories.CategoryID = Categories.ID WHERE RestaurantsCategories.RestaurantID = ? ORDER BY Categories.ID');
+    $statement->execute([$restaurantId]);
+    return $statement->fetchAll();
+}
+
+/** Removes the review and its replies from the database.
+ * @param $reviewId int Review Id
+ */
+function removeReview($reviewId) {
+    global $db;
+
+    $statement = $db->prepare('DELETE FROM Replies WHERE ReviewID = ?');
+    $statement->execute([$reviewId]);
+    $statement = $db->prepare('DELETE FROM Reviews WHERE ID = ?');
+    $statement->execute([$reviewId]);
+}
+
+/** Deletes reply
+ * @param $replyId int Reply id
+ */
+function deleteReply($replyId) {
+    global $db;
+
+    $statement = $db->prepare('DELETE FROM Replies WHERE ID = ?');
+    $statement->execute([$replyId]);
+}
+
+/**
+ * Updates the Name field of a given restaurant
+ * @param $id int Restaurant Id
+ * @param $value string New name for the restaurant
+ */
+function updateRestaurantName($id, $value) {
+    return updateRestaurantField($id, 'Name', $value);
+}
+
+/**
+ * Updates the Address field of a given restaurant
+ * @param $id int Restaurant Id
+ * @param $value string New address for the restaurant
+ */
+function updateRestaurantAddress($id, $value) {
+    return updateRestaurantField($id, 'Address', $value);
+}
+
+/**
+ * Updates the Description field of a given restaurant
+ * @param $id int Restaurant Id
+ * @param $value string New description for the restaurant
+ */
+function updateRestaurantDescription($id, $value) {
+    return updateRestaurantField($id, 'Description', $value);
+}
+
+/**
+ * Updates the Cost For Two field of a given restaurant
+ * @param $id int Restaurant Id
+ * @param $value int New Cost For Two for the restaurant
+ */
+function updateRestaurantCostForTwo($id, $value) {
+    return updateRestaurantField($id, 'CostForTwo', $value);
+}
+
+/**
+ * Updates the Telephone Number field of a given restaurant
+ * @param $id int Restaurant Id
+ * @param $value int New Telephone Number for the restaurant
+ */
+function updateRestaurantTelephoneNumber($id, $value) {
+    return updateRestaurantField($id, 'TelephoneNumber', $value);
+}
+
+/**
+ * Updates the given field of a given restaurant
+ * @param $id int Restaurant Id
+ * @param $field string given field to change
+ * @param $value string New address for the restaurant
+ */
+function updateRestaurantField($id, $field, $value) {
+    global $db;
+
+    $statement = $db->prepare('UPDATE Restaurants SET ' . $field . ' = ? WHERE id = ?');
+    $statement->execute([$value, $id]);
+    return $statement->errorInfo();
+}
+
+/**
+ * Removes the given category of the given restaurant
+ * @param $id int Restaurant Id
+ * @param $category_id int id of the given field to remove
+ * @return error information
+ */
+function removeCategoryFromRestaurant($restaurant_id, $category_id) {
+    global $db;
+
+    $statement = $db->prepare('DELETE FROM RestaurantsCategories WHERE RestaurantID = ? AND CategoryID = ?');
+    $statement->execute([$restaurant_id, $category_id]);
+
+    return $statement->errorInfo();
+}
+
+/**
+ * Removes all other categories of the given restaurant
+ * @param $id int Restaurant Id
+ * @param $final_categories array of int ids of the categories to keep
+ */
+function removeOtherCategoriesFromRestaurant($restaurant_id, $final_categories) {
+    global $db;
+
+    $current_categories = getRestaurantCategories($restaurant_id);
+
+    foreach ($current_categories as $category) {
+        if (!in_array($category['ID'], $final_categories))
+            removeCategoryFromRestaurant($restaurant_id, $category['ID']);
+    }
+}
+
+/**
+ * Gets the last number used in a photo name for the given restaurant
+ * @param $id int Restaurant Id
+ * @return int last number used for photo name, 0 if none
+ */
+function getMaxPhotoName($id) {
+    global $db;
+
+    $statement = $db->prepare('SELECT max(Path) FROM RestaurantPhotos WHERE RestaurantID = ?');
+    $statement->execute([$id]);
+    $str = $statement->fetch()[0];
+
+    if ($str) {
+        list($my_val) = sscanf($str, 'restaurant_pictures/' . $id . '/%d.jpg');
+        return $my_val;
+    } else
+        return 0;
+}
+
+/**
+ * Removes the given photo of the a restaurant
+ * @param $photo_src string path of the given photo to remove
+ * @return error information
+ */
+function deleteRestaurantPhoto($photo_src) {
+    global $db;
+
+    $statement = $db->prepare('DELETE FROM RestaurantPhotos WHERE Path = ?');
+    $statement->execute([$photo_src]);
+
+    return $statement->errorInfo();
+}
+
+/**
+ * Removes the the given restaurant of the restaurants table
+ * @param $id int Restaurant Id
+ * @return error information
+ */
+function deleteRestaurant($id) {
+    global $db;
+
+    $statement = $db->prepare('DELETE FROM Restaurants WHERE ID = ?');
+    $statement->execute([$id]);
+
+    $statement = $db->prepare('DELETE FROM RestaurantsCategories WHERE RestaurantID = ?');
+    $statement->execute([$id]);
+
+    $statement = $db->prepare('DELETE FROM RestaurantPhotos WHERE RestaurantID = ?');
+    $statement->execute([$id]);
+
+    return $statement->errorInfo();
 }

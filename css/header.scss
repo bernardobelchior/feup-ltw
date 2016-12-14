@@ -5,6 +5,28 @@ body {
   font-family: 'Roboto', sans-serif;
 }
 
+@media screen and (min-width: 1250px) {
+  body {
+    display: flex;
+    justify-content: space-around;
+
+    #wrapper {
+      width: 100%;
+      max-width: 1250px;
+
+      .top-bar {
+        width: 100vw;
+        margin-left: calc(50% - 50vw);
+
+        ul {
+          max-width: 1250px;
+          margin-left: calc(50vw - 1250px/2);
+        }
+      }
+    }
+  }
+}
+
 .top-bar {
   background: linear-gradient(to right ,#5da58b,#447C67);
   min-width: 100%;

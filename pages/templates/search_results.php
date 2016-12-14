@@ -1,46 +1,45 @@
 <?php
-include_once('../database/search.php');
 include_once('../database/restaurants.php');
 include_once('../database/users.php');
+include_once('../utils.php');
 
-$query = normalizeQuery(htmlspecialchars($_GET['query']));
-
-//TODO: Order restaurants and users by similiarity (similar_text())
-$orderedRestaurants = searchRestaurants($query);
-$orderedUsers = searchUsers($query);
+$query = '';
+if (isset($_GET['query']))
+    $query = htmlspecialchars($_GET['query']);
 ?>
 
-<script src="../js/common.js"></script>
 <link rel="stylesheet" type="text/css" href="../css/search_results.min.css"/>
+<link rel="stylesheet" type="text/css" href="../css/nouislider.min.css"/>
 
-<div id="restaurants" class="container">
-    <?php
-    if (count($orderedRestaurants) > 0) {
-        foreach ($orderedRestaurants as $restaurant) {
-            echo '
-       <div class="container search-result" onclick="openRestaurantProfile(' . $restaurant['ID'] . ')">
-            <span>' . $restaurant['Name'] . '</span> 
-            <span>' . $restaurant['Address'] . '</span>
-       </div>';
-        }
-    } else {
-        echo '<span>No results found.</span>';
-    }
-    ?>
-</div>
+<script src="../js/common.js"></script>
+<script src="../js/search_results.js"></script>
+<script src="../js/nouislider.min.js"></script>
 
-<div id="users" class="container">
-    <?php
-    if (count($orderedUsers) > 0) {
-        foreach ($orderedUsers as $user) {
-            echo '
-       <div class="container search-result" onclick="openUserProfile(' . $user['ID'] . ')">
-            <span>' . $user['Name'] . '</span> 
-            <span>' . $user['Username'] . '</span>
-       </div>';
+<div id="body">
+    <input id="search-box" type="text" name="query" value="<?= $query ?>"/>
+    <ul id="categories">
+        <?php
+        $categories = getAllCategories();
+
+        foreach ($categories as $category) {
+            echo '<li class="category-box"><label><input type="checkbox" name="categories[]" value="' . $category['ID'] . '">' . $category['Name'] . '</label></li>';
         }
-    } else {
-        echo '<span>No results found.</span>';
-    }
-    ?>
+        ?>
+    </ul>
+    <div id="slider">
+
+    </div>
+
+    <div id="search-results" hidden="hidden">
+        <ul id="search-tabs">
+            <li class="tab active" id="restaurants-tab"><a href="#restaurants">Restaurants</a></li>
+            <li class="tab" id="users-tab"><a href="#users">Users</a></li>
+        </ul>
+
+        <div id="restaurants" class="search-container">
+        </div>
+
+        <div id="users" class="search-container">
+        </div>
+    </div>
 </div>
