@@ -74,12 +74,12 @@ unset($restaurantInfo);
             <div id="restaurant-location-phone-cont">
                 <ul>
                     <li id="rest-addr">
-                        <a class="rest-info-title"><strong>Location: </strong></a>
-                        <?= $address ?>
+                        <a class="rest-info-title"><strong>Location</strong></a><br>
+                        <a style="padding-left: 20px"><?= $address ?></a>
                     </li>
                     <li id="rest-phone-no">
-                        <a class="rest-info-title"><strong>Telephone: </strong></a>
-                        <?= $phoneNumber ?>
+                        <a class="rest-info-title"><strong>Telephone</strong></a><br>
+                        <a style="padding-left: 20px"><?= $phoneNumber ?></a>
                     </li>
                 </ul>
                 <div class="google-map">
