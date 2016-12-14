@@ -1,7 +1,7 @@
 <?php
 include_once('../database/restaurants.php');
 include_once('../database/users.php');
-include_once('../utils.php');
+include_once('../utils/utils.php');
 
 $query = '';
 if (isset($_GET['query']))

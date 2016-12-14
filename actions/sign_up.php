@@ -1,7 +1,8 @@
 <?php
 include_once('../database/users.php');
 include_once('../database/passwordLib.php');
-include_once('../utils.php');
+include_once('../utils/utils.php');
+
 session_start(['cookie_httponly' => true]);
 
 // Check if the user came from the Sign Up page.

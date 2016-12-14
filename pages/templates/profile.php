@@ -1,7 +1,7 @@
 <?php
 include_once('../database/users.php');
 include_once('../database/restaurants.php');
-include_once('../utils.php');
+include_once('../utils/utils.php');
 
 $id = (int)htmlspecialchars($_GET['id']);
 
@@ -25,54 +25,50 @@ if ($profile_picture === null)
 <link rel="stylesheet" href="../css/common.min.css">
 <script type="application/javascript" src="../js/common.js"></script>
 
-<div id="profile" class="container">
-    <div>
-        <div id="name">
-            <?php echo $name ?>
+<div class="page_content">
+    <div class="user_presentation">
+        <div class="profile_picture_container">
+            <img id="profile_picture" alt="User's Profile Picture" src="<?php echo '../' . $profile_picture; ?>"/>
         </div>
-
-        <div id="username">
-            <?php echo $username ?>
+        <div id="profile" class="container">
+            <ul>
+                <li id="name"><?php echo $name ?>
+                    <?php
+                    if (groupIdHasPermissions((int)$_SESSION['groupId'], 'EDIT_ANY_PROFILE') || (int)$_SESSION['userId'] === $id)
+                        echo '<a id="edit-profile" href="index.php?page=edit_profile.php&id=' . $id . '"><button>Edit Profile</button></a>';
+                    ?></li>
+                <li id="email"><?php echo $email ?></li>
+                <li id="username" hidden><?php echo $username ?></li>
+            </ul>
         </div>
-
-        <span id="email">Email: </span>
-        <span> <?php echo $email; ?></span>
     </div>
 
-    <div>
+    <div class="container" id="restaurants">
         <?php
-        if ((isset($_SESSION['groupId']) && groupIdHasPermissions((int)$_SESSION['groupId'], 'EDIT_ANY_PROFILE')) || (isset($_SESSION['userId']) && (int)$_SESSION['userId'] === $id))
-            echo '<a id="edit-profile" href="index.php?page=edit_profile.php&id=' . $id . '"><button>Edit Profile</button></a>';
-        ?>
 
-        <img id="profile-picture" src="<?php echo '../' . $profile_picture; ?>" alt="User profile picture"/>
-    </div>
-</div>
+        /* Show all the restaurant the user has. */
+        if (isset($_GET['id'])) {
+            $restaurants = getUserRestaurants(htmlspecialchars($_GET['id']));
 
-<div class="container" id="restaurants">
-    <?php
+            foreach ($restaurants as $restaurant) {
+                echo '<div class="restaurant-container" onclick="openRestaurantProfile(' . $restaurant['ID'] . ')">';
+                // echo image
+                echo '<span>' . (string)$restaurant['Name'] . '</span>';
+                echo '<span>' . (string)$restaurant['Address'] . '</span>';
+                echo '</div>';
+            }
+        }
 
-    /* Show all the restaurant the user has. */
-    if (isset($_GET['id'])) {
-        $restaurants = getUserRestaurants(htmlspecialchars($_GET['id']));
-
-        foreach ($restaurants as $restaurant) {
-            echo '<div class="restaurant-container" onclick="openRestaurantProfile(' . $restaurant['ID'] . ')">';
-            // echo image
-            echo '<span>' . (string)$restaurant['Name'] . '</span>';
-            echo '<span>' . (string)$restaurant['Address'] . '</span>';
+        /* Shows the add restaurant button if the user has permission to add a restaurant. */
+        if ((isset($_SESSION['groupId']) && groupIdHasPermissions($_SESSION['groupId'], 'ADD_ANY_RESTAURANT')) || (isset($_SESSION['userId']) && (int)$_SESSION['userId'] === $id)) {
+            $_SESSION['ownerId'] = $id;
+            echo '<div class="restaurant-container">';
+            echo '<a href="index.php?page=add_restaurant.php">';
+            echo '<button type="submit">Add Restaurant</button>';
+            echo '</a>';
             echo '</div>';
         }
-    }
-
-    /* Shows the add restaurant button if the user has permission to add a restaurant. */
-    if ((isset($_SESSION['groupId']) && groupIdHasPermissions($_SESSION['groupId'], 'ADD_ANY_RESTAURANT')) || (isset($_SESSION['userId']) && (int)$_SESSION['userId'] === $id)) {
-        $_SESSION['ownerId'] = $id;
-        echo '<div class="restaurant-container">';
-        echo '<a href="index.php?page=add_restaurant.php">';
-        echo '<button type="submit">Add Restaurant</button>';
-        echo '</a>';
-        echo '</div>';
-    }
-    ?>
+        ?>
+    </div>
 </div>
+

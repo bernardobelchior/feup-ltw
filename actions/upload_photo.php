@@ -1,7 +1,10 @@
 <?php
 session_start(['cookie_httponly' => true]);
 
-include_once('../utils.php');
+include_once('../utils/utils.php');
+include_once('../../database/users.php');
+require_once('../utils/ImageManipulator.php');
+
 include_once('../database/users.php');
 
 // If the user didn't come from a valid page.
@@ -28,7 +31,31 @@ if ($_FILES['photo']['error']) {
 }
 
 $extension = pathinfo($_FILES['photo']['name'], PATHINFO_EXTENSION);
-$picturePath = 'profile_pictures/' . $id . '.' . $extension;
+
+$file = $_FILES['photo']['tmp_name'];
+$manipulator = new ImageManipulator($file);
+$width = $manipulator->getWidth();
+$height = $manipulator->getHeight();
+$centerX = round($width / 2);
+$centerY = round($height / 2);
+
+//for 256x256 img
+$x1_256 = $centerX - 128;
+$y1_256 = $centerY - 128;
+
+$x2_256 = $centerX + 128;
+$y2_256 = $centerY + 128;
+
+$newNamePrefix = '256_';
+$newImage = $manipulator->crop($x1_256, $y1_256, $x2_256, $y2_256);
+$picturePath = 'profile_pictures/' . $newNamePrefix . $id . '.' . $extension;
+$manipulator->save('../' . $picturePath);
+
+
+//$picturePath = 'profile_pictures/' . $id . '.' . $extension;
+//move_uploaded_file($_FILES['photo']['tmp_name'], '../../' . $picturePath);
+
+$picturePath = 'profile_pictures/' . $newNamePrefix . $id . '.' . $extension;
 
 // Delete old picture. move_upload_file only overwrites the old picture if it has the same extension. This prevents
 // having a lot of old pictures laying around.
@@ -40,7 +67,7 @@ if ($oldPicture !== null)
 
 
 //If the file has been moved correctly, update the path in the database
-if (move_uploaded_file($_FILES['photo']['tmp_name'], '../../' . $picturePath))
+if (move_uploaded_file($_FILES['photo']['tmp_name'], '../' . $picturePath))
     changeProfilePicture($id, $picturePath);
 
 header('Location: ../pages/index.php?page=profile.php&id=' . $id);

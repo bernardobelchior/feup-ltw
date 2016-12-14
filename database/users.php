@@ -1,6 +1,5 @@
 <?php
 include_once('connection.php');
-include_once('passwordLib.php');
 
 $USER_GROUP_ID = 3; //Regular user group ID.
 //FIXME: All statements that return errorCode() should return errorInfo() as it gives more information.
