@@ -54,26 +54,39 @@ $_SESSION['signup-token'] = generateRandomToken(); ?>
      immediately.
     Don't forget to unset it afterwards.
      -->
-    <div class="overlay" hidden="hidden">
-        <div id="sign_up_overlay">
+    <div class="overlay" <!--hidden="hidden"-->>
+    <div id="sign_up_overlay">
 
-            <div id="signup_form">
-                <div class="overlay_title"><strong>Sign Up</strong></div>
-                <form id="sign_up_form" method="post" action="../actions/sign_up.php" onsubmit="return validateForm();">
-                    <input id="username" type="text" name="username" placeholder="Username" required/>
-                    <input id="password" type="password" name="password" placeholder="Password" required/>
-                    <input id="password-repeat" type="password" name="password-repeat"
-                           placeholder="Repeat your Password"
-                           required/>
-                    <input id="email" type="email" name="email" placeholder="Email" required/>
-                    <input id="name" type="text" name="name" placeholder="Name" required/>
+        <div id="signup_form">
+            <h1>Sign Up</h1>
+            <form id="sign_up_form" method="post" action="../actions/sign_up.php" onsubmit="return validateForm();">
+                <label id="username-label" for="username">Username</label>
+                <input id="username" type="text" name="username" placeholder="Username" required/>
+                <div class="columns">
+                    <div class="column">
+                        <label for="password">Password</label>
+                        <input id="password" type="password" name="password" placeholder="Password" required/>
 
-                    <!-- Upload picture -->
-                    <input type="hidden" name="signup-token" value="<?php echo $_SESSION['signup-token']; ?>">
-                    <button type="submit">Submit</button>
-                    <span id="output"></span>
-                </form>
-            </div>
+                        <label for="email">Email</label>
+                        <input id="email" type="email" name="email" placeholder="Email" required/>
+                    </div>
+                    <div class="column">
+                        <label for="password-repeat">Repeat password</label>
+                        <input id="password-repeat" type="password" name="password-repeat"
+                               placeholder="Repeat your Password"
+                               required/>
+
+                        <label for="name">Name</label>
+                        <input id="name" type="text" name="name" placeholder="Name" required/>
+                    </div>
+                </div>
+
+                <!-- Upload picture -->
+                <input type="hidden" name="signup-token" value="<?php echo $_SESSION['signup-token']; ?>">
+                <button type="submit">Submit</button>
+                <span id="output"></span>
+            </form>
         </div>
     </div>
+</div>
 

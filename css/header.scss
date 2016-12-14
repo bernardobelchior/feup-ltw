@@ -1,5 +1,5 @@
 body {
-  background-color: #EEF0C3;
+  background: #EEF0C3 url("../res/background.jpg");
   margin: 0;
 }
 
@@ -18,7 +18,7 @@ body {
 
         ul {
           max-width: 1250px;
-          margin-left: calc(50vw - 1250px/2);
+          margin-left: calc(50vw - 1250px / 2);
         }
       }
     }
@@ -28,7 +28,7 @@ body {
 .top-bar {
   background-color: #62AB93;
   width: 100%;
-  border-bottom: 1px solid #447c67;
+  border-bottom: 5px solid #227B5E;
   margin-bottom: 2em;
 
   ul {
@@ -90,43 +90,72 @@ body {
 #sign_up_overlay {
   z-index: 11;
   position: absolute;
-  top: 40%;
-  left: 40%;
+
+  // Center modal
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
   padding: 2em;
   border: 2px solid #c9c488;
-  border-radius: 10%;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  background: #EAF363;
-  background: linear-gradient(#f0eba2, #f0eba2, #D2CD8E);
-  max-width: 15%;
+  border-radius: 10px;
 
-  .overlay_title {
-    font-size: 1em;
+  background-color: #D25D00;
+  width: 40%;
+
+  h1 {
+    margin-top: 0;
+    font-size: 2em;
+    color: white;
     text-align: center;
-    padding-bottom: 5%;
   }
 
   form {
-    text-align: center;
-    display: block;
     width: 100%;
+
+    .columns {
+      display: flex;
+      flex-direction: row;
+    }
+
+    .column {
+      &:first-child {
+        margin-right: 0.2em;
+      }
+
+      &:last-child {
+        margin-left: 0.2em;
+      }
+    }
 
     label {
       text-align: left;
+      display: block;
+      color: white;
+      font-size: 90%;
+      width: 100%;
+      margin-left: 0.2em;
     }
 
     input {
-      margin: 0.2em;
-      margin-bottom: 0.6em;
-      font-size: 0.8em;
-      display: block;
+      height: 2em;
+      width: 100%;
+
+      box-sizing: border-box;
+
+      font-size: 125%;
+      margin: 0.4em auto;
+      padding: 0.2em;
+
+      background-color: #AE4D00;
+
+      border: 0;
+      border-radius: 3px;
     }
 
     #output {
       display: block;
-      padding-top: 15px;
       color: #764a34;
-      font-size: 0.8em;
     }
   }
 }

@@ -1,5 +1,6 @@
 <?php
 include_once('../database/users.php');
+include_once('../database/passwordLib.php');
 include_once('../utils.php');
 session_start(['cookie_httponly' => true]);
 
