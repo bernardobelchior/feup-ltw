@@ -39,7 +39,8 @@ $profile_picture = getUserField($id, 'Picture');
             <span class="profile_picture_container">
                 <img src="<?php echo '../'.$profile_picture?>" alt="User's profile picture"/>
             </span>
-            <span id="change-photo-text" class="edit-link clickable"><i class="fa fa-pencil"></i>Change your profile picture</span>
+            <span class="list_attr_content" hidden></span>
+            <span id="change-photo-text" class="edit_link clickable"><i class="fa fa-pencil"></i>Change your profile picture</span>
 <!--            <form action="actions/upload_photo.php" method="post" enctype="multipart/form-data">-->
 <!--                <input type="hidden" name="token" value="--><?php //echo $_SESSION['token']; ?><!--"/>-->
 <!--                <input type="hidden" name="id" value="--><?php //echo $id; ?><!--">-->
