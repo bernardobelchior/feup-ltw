@@ -1,7 +1,7 @@
 <?php
 include_once('../database/restaurants.php');
 include_once('../database/users.php');
-include_once('utils/utils.php');
+include_once('../utils.php');
 
 $id = (int)htmlspecialchars($_GET['id']);
 
@@ -27,28 +27,38 @@ unset($restaurantInfo);
 
 <link rel="stylesheet" href="../css/common.min.css">
 <link rel="stylesheet" href="../css/restaurant_profile.min.css">
-<script src="../js/restaurant_profile.js"></script>
+<script src="../../js/restaurant_profile.js"></script>
 
 <div id="restaurant-profile" class="container">
     <div id="restaurant-profile-header">
         <div id="restaurant-info">
             <div id="restaurant-header">
-                <span id="restaurant-name"><?php echo $name; ?></span>
+                <span id="restaurant-name"><?= $name ?></span>
                 <span id="average">
-                <?php echo getStarsHTML(getRestaurantAverageRating($id)); ?>
+                <?= getStarsHTML(getRestaurantAverageRating($id)) ?>
             </span>
             </div>
 
             <div id="restaurant-cost-for-two">
-                Cost for two: <?php echo $costForTwo; ?>€
+                Cost for two: <?= $costForTwo ?>€
             </div>
 
             <div id="restaurant-phone-number">
-                Phone number: <?php echo $phoneNumber; ?>
+                Phone number: <?= $phoneNumber ?>
             </div>
 
+            <?php
+            $categories = getRestaurantCategories($id);
+
+            echo '<ul id="restaurant-categories">';
+            foreach ($categories as $category)
+                echo '<li>' . $category['Name'] . '</li>';
+
+            echo '</ul>';
+            ?>
+
             <p id="restaurant-description">
-                <?php echo $description; ?>
+                <?= $description ?>
             </p>
         </div>
 
@@ -72,9 +82,15 @@ unset($restaurantInfo);
         </div>
     </div>
 
+    <?php
+    if (groupIdHasPermissions((int)$_SESSION['groupId'], 'EDIT_ANY_RESTAURANT') || (int)$_SESSION['userId'] === (int)$ownerId)
+        echo '<a id="edit-restaurant" href="index.php?page=edit_restaurant.php&id=' . $id . '"><span>Edit Profile</span></a>';
+    ?>
+
     <iframe id="map" frameborder="0"
-            src="https://www.google.com/maps/embed/v1/place?q=<?php echo $address; ?>&key=AIzaSyCdqMmRf8c1f_yTgtjt7zT_5tdO5UOPka4"
+            src="https://www.google.com/maps/embed/v1/place?q=<?= $address ?>&key=AIzaSyCdqMmRf8c1f_yTgtjt7zT_5tdO5UOPka4"
             allowfullscreen></iframe>
+
 </div>
 
 <div id="reviews" class="container">
@@ -86,8 +102,20 @@ unset($restaurantInfo);
         foreach ($reviews as $review) {
             echo '<div id="review' . $review['ID'] . '" class="review-container">';
 
+            echo '<div class="response-header">';
+            echo '<div class="review-header-left">';
             echo '<span class="review-title">' . $review['Title'] . ' </span>';
-            echo '<span class="review-score">' . getStarsHTML($review['Score']) . ' </span><br/>';
+            echo '<span class="review-score">' . getStarsHTML($review['Score']) . ' </span>';
+            echo '</div>';
+
+            if ((isset($_SESSION['groupId']) && groupIdHasPermissions($_SESSION['groupId'], 'REMOVE_ANY_REVIEW')) || (isset($_SESSION['userId']) && $review['ReviewerID'] === $_SESSION['userId'])) {
+                echo '<form class="delete-review" action="../actions/delete_review.php" method="post">
+                <input type="text" name="token" value="' . $_SESSION['token'] . '" hidden="hidden"/>
+                <input type="text" name="review-id" value="' . $review['ID'] . '" hidden="hidden"/>
+                <button class="delete-response-button" type="submit"><i class="fa fa-trash-o" aria-hidden="true" ></i></button>
+                </form>';
+            }
+            echo '</div>';
             echo '<a href="index.php?page=profile.php&id=' . $review['ReviewerID'] . '" class="reviewer-name">' . getUserField($review['ReviewerID'], 'Name') . '</a>';
             echo '<span class="review-date"> - ' . strftime('%d/%b/%G %R', $review['Date']) . '</span>';
             echo '<p class="review-comment">' . $review['Comment'] . '</p>';
@@ -100,12 +128,23 @@ unset($restaurantInfo);
                 foreach ($replies as $reply) {
                     echo '<div class="reply" hidden="hidden">';
 
+                    echo '<div class="response-header">';
                     // If the replier is the owner of the restaurant,
                     // reply in name of the restaurant
                     if ($reply['ReplierID'] === $ownerId)
                         echo '<a href="index.php?page=restaurant_profile.php&id=' . $id . '" class="reply-name replier-restaurant">' . $name . ' </a>';
                     else
                         echo '<a href="index.php?page=profile.php&id=' . $reply['ReplierID'] . '" class="reply-name">' . getUserField($reply['ReplierID'], 'Name') . ' </a>';
+
+                    if ((isset($_SESSION['groupId']) && groupIdHasPermissions($_SESSION['groupId'], 'REMOVE_ANY_REPLY')) || (isset($_SESSION['userId']) && $reply['ReplierID'] === $_SESSION['userId'])) {
+                        echo '<form class="delete-review" action="../actions/delete_reply.php" method="post">
+                        <input type="text" name="token" value="' . $_SESSION['token'] . '" hidden="hidden"/>
+                        <input type="text" name="reply-id" value="' . $reply['ID'] . '" hidden="hidden"/>
+                        <button class="delete-response-button" type="submit"><i class="fa fa-trash-o" aria-hidden="true" ></i></button>
+                        </form>';
+                    }
+
+                    echo '</div>';
                     echo '<div class="reply-date">' . strftime('%d/%b/%G %R', $reply['Date']) . '</div>';
                     echo '<p class="reply-text">' . $reply['Text'] . '</p>';
 
@@ -114,14 +153,14 @@ unset($restaurantInfo);
             }
 
 
-            if ($ownerId === $_SESSION['userId'] || groupIdHasPermissions($_SESSION['groupId'], 'ADD_REPLY')) {
-                echo '<form class="add-reply" method="post" action="actions/add_reply.php">
+            if ((isset($_SESSION['userId']) && $ownerId === $_SESSION['userId']) || (isset($_SESSION['groupId']) && groupIdHasPermissions($_SESSION['groupId'], 'ADD_REPLY'))) {
+                echo '<form class="add-reply" method="post" action="../actions/add_reply.php">
 
                 <input type="hidden" name="review-id" value="' . $review['ID'] . '">
                 <input type="hidden" name="token" value="' . $_SESSION['token'] . '">
                 <textarea name="reply" placeholder="Reply" rows="3"></textarea>
                 <button type="submit">Reply</button>
-                
+
                 </form>';
             }
 
@@ -132,11 +171,11 @@ unset($restaurantInfo);
         echo '<span>No reviews yet :(</span>';
     }
 
-    if (groupIdHasPermissions($_SESSION['groupId'], 'ADD_REVIEW')) {
-        if ($ownerId !== $_SESSION['userId'] ||
-            groupIdHasPermissions($_SESSION['groupId'], 'ADD_REVIEW_TO_OWN_RESTAURANT')
+    if (isset($_SESSION['groupId']) && groupIdHasPermissions($_SESSION['groupId'], 'ADD_REVIEW')) {
+        if ((isset($_SESSION['userId']) && $ownerId !== $_SESSION['userId']) ||
+            (isset($_SESSION['groupId']) && groupIdHasPermissions($_SESSION['groupId'], 'ADD_REVIEW_TO_OWN_RESTAURANT'))
         ) {
-            echo '<form id="add-review" action="actions/add_review.php" method="post" onsubmit="return validateForm()">
+            echo '<form id="add-review" action="../actions/add_review.php" method="post">
         <input type="hidden" name="token" value="' . $_SESSION['token'] . '">
         <input id="review-title" type="text" name="title" placeholder="Title" required>
         <input id="review-score" type="number" min="1" max="5" name="score" placeholder="Score" required>

@@ -59,7 +59,7 @@ function createGenderForm(tag){
             '<input name="gender" type="radio" value="F">Female';
 
     let new_tag = $(
-        '<form id="change_gender_form" method="post" action="actions/edit_profile.php">' +
+        '<form id="change_gender_form" method="post" action="../actions/edit_profile.php">' +
         '<div class="inputs">' + inputs + '</div>' +
         '<div class="edit_options">' +
         '<input class="confirm_btn" type="submit" value="Confirm">' +
@@ -76,7 +76,7 @@ function createGenderForm(tag){
 
 function createPasswordForm(){
     let new_tag = $(
-        '<form id="change_pw_form" method="post" action="actions/change_password.php">' +
+        '<form id="change_pw_form" method="post" action="../actions/change_password.php">' +
         '<div class="inputs">' +
         '<input name="old_password" type="password" id="input_old_pw" placeholder="Current Password"/>' +
         '<input name="new_password" type="password" id="input_new_pw" placeholder="New Password"/>' +
@@ -98,7 +98,7 @@ function createPasswordForm(){
 
 function createPhotoForm(){
     let new_tag = $(
-        '<form id="change_photo_form" action="actions/upload_photo.php" method="post" enctype="multipart/form-data">' +
+        '<form id="change_photo_form" action="../actions/upload_photo.php" method="post" enctype="multipart/form-data">' +
         '<div class="inputs">' +
         '<input type="hidden" name="token" value="<?php echo $_SESSION[\'token\']; ?>"/>' +
         '<input type="hidden" name="id" value="<?php echo $id; ?>">' +
@@ -127,7 +127,7 @@ function createSimpleForm(id, tag){
         inputTag.attr('type', 'email');
 
     let new_tag = $(
-        '<form id="change_' + id +'_form" method="post" action="actions/edit_profile.php">' +
+        '<form id="change_' + id +'_form" method="post" action="../actions/edit_profile.php">' +
         '<div class="inputs">' +
         '</div>' +
         '<div class="edit_options">' +

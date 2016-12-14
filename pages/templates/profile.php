@@ -1,7 +1,7 @@
 <?php
 include_once('../database/users.php');
 include_once('../database/restaurants.php');
-include_once('utils/utils.php');
+include_once('../utils/utils.php');
 
 $id = (int)htmlspecialchars($_GET['id']);
 
@@ -47,18 +47,20 @@ if ($profile_picture === null)
         <?php
 
         /* Show all the restaurant the user has. */
-        $restaurants = getUserRestaurants($_SESSION['userId']);
+        if (isset($_GET['id'])) {
+            $restaurants = getUserRestaurants(htmlspecialchars($_GET['id']));
 
-        foreach ($restaurants as $restaurant) {
-            echo '<div class="restaurant-container" onclick="openRestaurantProfile(' . $restaurant['ID'] . ')">';
-            // echo image
-            echo '<span>' . (string)$restaurant['Name'] . '</span>';
-            echo '<span>' . (string)$restaurant['Address'] . '</span>';
-            echo '</div>';
+            foreach ($restaurants as $restaurant) {
+                echo '<div class="restaurant-container" onclick="openRestaurantProfile(' . $restaurant['ID'] . ')">';
+                // echo image
+                echo '<span>' . (string)$restaurant['Name'] . '</span>';
+                echo '<span>' . (string)$restaurant['Address'] . '</span>';
+                echo '</div>';
+            }
         }
 
         /* Shows the add restaurant button if the user has permission to add a restaurant. */
-        if (groupIdHasPermissions($_SESSION['groupId'], 'ADD_ANY_RESTAURANT') || (int)$_SESSION['userId'] === $id) {
+        if ((isset($_SESSION['groupId']) && groupIdHasPermissions($_SESSION['groupId'], 'ADD_ANY_RESTAURANT')) || (isset($_SESSION['userId']) && (int)$_SESSION['userId'] === $id)) {
             $_SESSION['ownerId'] = $id;
             echo '<div class="restaurant-container">';
             echo '<a href="index.php?page=add_restaurant.php">';
@@ -67,6 +69,6 @@ if ($profile_picture === null)
             echo '</div>';
         }
         ?>
-    </div>
+</div>
 </div>
 

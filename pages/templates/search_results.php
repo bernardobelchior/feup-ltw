@@ -1,67 +1,45 @@
 <?php
-include_once('../database/search.php');
 include_once('../database/restaurants.php');
 include_once('../database/users.php');
-include_once('utils/utils.php');
+include_once('../utils.php');
 
-$query = normalizeQuery(htmlspecialchars($_GET['query']));
-
-//TODO: Order restaurants and users by similiarity (similar_text())
-$orderedRestaurants = searchRestaurants($query);
-$orderedUsers = searchUsers($query);
+$query = '';
+if (isset($_GET['query']))
+    $query = htmlspecialchars($_GET['query']);
 ?>
 
-<script src="../js/common.js"></script>
 <link rel="stylesheet" type="text/css" href="../css/search_results.min.css"/>
-<link rel="stylesheet" type="text/css" href="../css/common.min.css"/>
+<link rel="stylesheet" type="text/css" href="../css/nouislider.min.css"/>
+
+<script src="../js/common.js"></script>
 <script src="../js/search_results.js"></script>
+<script src="../js/nouislider.min.js"></script>
 
 <div id="body">
-    <div id="search">
-        <form action="index.php" method="get">
-            <input type="hidden" id="page" name="page" value="search_results.php"/>
-            <input id="search-box" type="text" name="query" value="<?php echo $query ?>" required/>
-            <button type="submit">Search</button>
-        </form>
+    <input id="search-box" type="text" name="query" value="<?= $query ?>"/>
+    <ul id="categories">
+        <?php
+        $categories = getAllCategories();
+
+        foreach ($categories as $category) {
+            echo '<li class="category-box"><label><input type="checkbox" name="categories[]" value="' . $category['ID'] . '">' . $category['Name'] . '</label></li>';
+        }
+        ?>
+    </ul>
+    <div id="slider">
+
     </div>
 
-    <div id="search-results">
+    <div id="search-results" hidden="hidden">
         <ul id="search-tabs">
             <li class="tab active" id="restaurants-tab"><a href="#restaurants">Restaurants</a></li>
             <li class="tab" id="users-tab"><a href="#users">Users</a></li>
         </ul>
 
         <div id="restaurants" class="search-container">
-            <?php
-            if (count($orderedRestaurants) > 0) {
-                foreach ($orderedRestaurants as $restaurant) {
-                    echo '
-       <div class="container search-result" onclick="openRestaurantProfile(' . $restaurant['ID'] . ')">
-            <span class="restaurant-name">' . $restaurant['Name'] . '</span> 
-            <span class="restaurant-average">' . getStarsHTML(getRestaurantAverageRating($restaurant['ID'])) . '</span>
-            <div class="restaurant-address">' . $restaurant['Address'] . '</div>
-       </div>';
-                }
-            } else {
-                echo '<span>No results found.</span>';
-            }
-            ?>
         </div>
 
         <div id="users" class="search-container">
-            <?php
-            if (count($orderedUsers) > 0) {
-                foreach ($orderedUsers as $user) {
-                    echo '
-       <div class="container search-result" onclick="openUserProfile(' . $user['ID'] . ')">
-            <span id="user-name">' . $user['Name'] . '</span> 
-            <div id="user-username">' . $user['Username'] . '</div>
-       </div>';
-                }
-            } else {
-                echo '<span>No results found.</span>';
-            }
-            ?>
         </div>
     </div>
 </div>

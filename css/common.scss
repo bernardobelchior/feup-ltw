@@ -37,34 +37,51 @@ body {
   @include container;
 }
 
-#search {
-  display: flex;
-  justify-content: center;
-  width: 100%;
+#body {
+  #search-box {
+    text-align: center;
+    width: 100%;
+  }
 
-  form {
-    display: flex;
-    justify-content: center;
-    width: inherit;
+  button {
+    margin-left: 0.5em;
+  }
+}
 
-    * {
-      font-size: 200%;
-    }
+#profile_attr_list {
+  list-style-type: none;
 
-    #search-box {
-      text-align: center;
-      width: inherit;
-    }
-
-    button {
-      margin-left: 0.5em;
-    }
+  li {
+    padding: 5px 5px;
+    border-bottom: solid 1px #d2d3bc;
 
   }
 }
+
+.list_attr_name {
+  float: left;
+  text-align: left;
+  width: 120px;
+}
+
+.list_attr_content {
+  margin-left: 100px;
+  margin-right: 100px;
+}
+
+.edit_link {
+  float: right;
+
+  &:hover {
+    border-bottom: solid 1px #9d9e8d;
+  }
+}
+<<<<<<< HEAD
 
 .clickable:hover{
   text-decoration: underline;
   color: #3F4035;
   cursor: pointer;
 }
+=======
+>>>>>>> origin/development

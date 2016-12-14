@@ -1,7 +1,7 @@
 function openUserProfile(userId) {
-    window.location.pathname = 'pages/index.php?page=profile.php&id=' + userId;
+    window.location.search = '?page=profile.php&id=' + userId;
 }
 
 function openRestaurantProfile(restaurantId) {
-    window.location = 'index.php?page=restaurant_profile.php&id=' + restaurantId;
+    window.location.search = '?page=restaurant_profile.php&id=' + restaurantId;
 }

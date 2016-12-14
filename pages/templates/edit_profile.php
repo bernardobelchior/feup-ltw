@@ -1,6 +1,6 @@
 <?php
 include_once('../database/users.php');
-include_once('utils/utils.php');
+include_once('../utils/utils.php');
 
 // Generate token for the update action
 $_SESSION['token'] = generateRandomToken();
@@ -22,6 +22,8 @@ if (!idExists($id)) {
 }
 
 $profile_picture = getUserField($id, 'Picture');
+if ($profile_picture === null)
+    $profile_picture = '../profile_pictures/facebook-avatar.jpg';
 
 ?>
 
@@ -37,18 +39,10 @@ $profile_picture = getUserField($id, 'Picture');
     <ul id="profile_attr_list">
         <li id="photo">
             <span class="profile_picture_container">
-                <img src="<?php echo '../'.$profile_picture?>" alt="User's profile picture"/>
+                <img src="<?php echo '../profile_pictures/'.$profile_picture?>" alt="User's profile picture"/>
             </span>
             <span class="list_attr_content" hidden></span>
             <span id="change-photo-text" class="edit_link clickable"><i class="fa fa-pencil"></i>Change your profile picture</span>
-<!--            <form action="actions/upload_photo.php" method="post" enctype="multipart/form-data">-->
-<!--                <input type="hidden" name="token" value="--><?php //echo $_SESSION['token']; ?><!--"/>-->
-<!--                <input type="hidden" name="id" value="--><?php //echo $id; ?><!--">-->
-<!---->
-<!--                Photo: <input id="photo" type="file" name="photo" accept="image/*" required/>-->
-<!--                <output id="filesInfo"></output>-->
-<!--                <button type="submit">Upload Photo</button>-->
-<!--            </form>-->
         </li>
       <input type="hidden" name="token" id="token" value="<?php echo $_SESSION['token'];?>"/>
       <input type="hidden" name="profile_id" id="profile_id" value="<?php echo $id;?>"/>

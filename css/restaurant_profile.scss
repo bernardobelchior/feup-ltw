@@ -54,90 +54,101 @@
 }
 
 #reviews {
-  .review-title {
-    font-weight: bold;
-    font-size: 110%;
-  }
-
-  .review-score {
-
-  }
-
-  .reviewer-name {
-    font-size: 90%;
-    color: black;
-  }
-
-  .review-date {
-    font-size: 90%;
-  }
-
-  .review-comment {
-    border: solid 1px #62AB93;
-  }
-
-  .toggle-replies {
-    color: black;
-  }
-
-  .add-reply {
-    margin-top: 0.4em;
-    display: flex;
-    justify-content: center;
-
-    textarea {
-      margin-right: 1em;
-      width: 100%;
-      resize: none;
-      overflow-y: scroll;
-    }
-  }
-
-  .reply {
-    padding: 1em;
-    margin: 1em;
-    background-color: #EAF363;
-    border-radius: 5px;
-
-    .reply-name {
+  .review-header-left {
+    .review-title {
       font-weight: bold;
-      color: black;
-
-    }
-
-    .replier-restaurant {
-      color: #447c67;
-    }
-
-    .reply-date {
-      font-size: 90%;
-    }
-
-    .reply-text {
-      word-wrap: break-word;
+      font-size: 110%;
     }
   }
+}
 
-  #add-review {
+.response-header {
+  display: flex;
+  justify-content: space-between;
+
+  .delete-response-button {
+    padding: 0;
+  }
+}
+
+.reviewer-name {
+  font-size: 90%;
+  color: black;
+}
+
+.review-date {
+  font-size: 90%;
+}
+
+.review-comment {
+  border: solid 1px #62AB93;
+}
+
+.toggle-replies {
+  color: black;
+}
+
+.add-reply {
+  margin-top: 0.4em;
+  display: flex;
+  justify-content: center;
+
+  textarea {
+    margin-right: 1em;
+    width: 100%;
+    resize: none;
+    overflow-y: scroll;
+  }
+}
+
+.reply {
+  padding: 1em;
+  margin: 1em;
+  background-color: #EAF363;
+  border-radius: 5px;
+
+  .reply-name {
+    font-weight: bold;
+    color: black;
+
+  }
+
+  .replier-restaurant {
+    color: #447c67;
+  }
+
+  .reply-date {
+    font-size: 90%;
+  }
+
+  .reply-text {
+    word-wrap: break-word;
+  }
+}
+
+#add-review {
+  margin-top: 0.3em;
+
+  #review-stars {
+    font-size: 125%;
+    margin-left: 0.5em;
+    cursor: pointer;
+    display: inline;
+  }
+
+  #review-comment {
     margin-top: 0.3em;
-
-    #review-stars {
-      font-size: 125%;
-      margin-left: 0.5em;
-      cursor: pointer;
-      display: inline;
-    }
-
-    #review-comment {
-      margin-top: 0.3em;
-      display: block;
-      resize: none;
-      overflow-y: scroll;
-    }
+    display: block;
+    resize: none;
+    overflow-y: scroll;
   }
 }
 
 .review-container {
   margin-top: 0;
   margin-bottom: 1em;
+}
+
+.categories-list > li {
+  display: none;
 }

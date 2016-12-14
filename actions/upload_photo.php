@@ -5,10 +5,12 @@ include_once('../utils/utils.php');
 include_once('../../database/users.php');
 require_once('../utils/ImageManipulator.php');
 
+include_once('../database/users.php');
+
 // If the user didn't come from a valid page.
 if ($_SESSION['token'] !== $_POST['token']) {
     header('HTTP/1.0 403 Forbidden');
-    header('Location: ../index.php?page=403.html');
+    header('Location: ../pages/index.php?page=403.html');
     die();
 }
 
@@ -18,13 +20,13 @@ $_SESSION['token'] = generateRandomToken();
 
 if (!$_FILES['photo']['name']) {
     echo 'No file uploaded.';
-    header('Location: ../index.php?page=edit_profile.php');
+    header('Location: ../pages/index.php?page=edit_profile.php');
     die();
 }
 
 if ($_FILES['photo']['error']) {
     echo 'Error uploading';
-    header('Location: ../index.php?page=edit_profile.php');
+    header('Location: ../pages/index.php?page=edit_profile.php');
     die();
 }
 
@@ -63,12 +65,12 @@ $picturePath = 'profile_pictures/' . $newNamePrefix . $id . '.' . $extension;
 $oldPicture = getUserField($id, 'Picture');
 
 if ($oldPicture !== null)
-    unlink('../../' . $oldPicture);
+    unlink('../' . $oldPicture);
 
 
 //If the file has been moved correctly, update the path in the database
 if (move_uploaded_file($_FILES['photo']['tmp_name'], '../../' . $picturePath))
     changeProfilePicture($id, $picturePath);
 
-header('Location: ../index.php?page=profile.php&id=' . $id);
+header('Location: ../pages/index.php?page=profile.php&id=' . $id);
 die();
