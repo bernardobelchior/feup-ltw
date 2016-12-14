@@ -14,14 +14,79 @@ li{
 }
 
 #restaurant-profile {
+
+  .page_title{
+    margin-top: 1em;
+    margin-bottom:1em;
+    border-bottom: none;
+  }
+
   #rest-name {
     font-weight: bold;
     font-size: 2em;
     color: #3f4035;
   }
-  #restaurant-profile-header {
+
+  #restaurant-information{
+    width: 100%;
+    margin-bottom: 2em;
+
+    span {
+      width: 45%;
+      display: inline-block;
+      padding: 10px;
+      margin-right: 10px;
+      vertical-align: top;
+    }
+
+    #restaurant-categ-div{
+      margin-top: 30px;
+    }
+
+    #restaurant-desc-categ{
+      div{
+        width: 100%;
+      }
+
+      #restaurant-description-cont{
+        max-height: 60%;
+        overflow-y: auto;
+        overflow-x: hidden;
+      }
+    }
+  }
+
+  #rating{
+    height: 1.2em;
+  }
+
+  .restaurant-general{
     display: inline;
     justify-content: space-between;
+  }
+
+  #restaurant-location-phone {
+
+    .google-map {
+      display: inline;
+
+      .map {
+        width: 100%;
+      }
+    }
+  }
+
+  #restaurant-description{
+    width: 45%;
+    height: 100%;
+    display: inline-block;
+    vertical-align: top;
+
+  }
+
+
+  #restaurant-profile-header {
+    display: inline;
 
 
     #resturant-header {
@@ -50,21 +115,62 @@ li{
       border: 1px solid #62AB93;
     }
 
-    #restaurant-gallery {
-      display: flex;
-      align-items: center;
-
-      i {
-        padding: 0 0.2em;
-        cursor: pointer;
-      }
-    }
   }
 
   #map {
     padding-top: 1em;
     height: 20em;
     width: 100%;
+  }
+}
+
+#restaurant-gallery {
+  display: flex;
+  align-items: center;
+  position: relative;
+
+  .arrow_bg{
+    width: 10%;
+    position: absolute;
+    top: 50%;
+    background: rgba(0,0,0,0.18);
+  }
+
+  #right_arrow_bg{
+    right: 0;
+  }
+
+
+
+  div{
+    width: 100%;
+    text-align: center;
+  }
+
+  img{
+    width: 100%;
+    margin-bottom: 20px;
+  }
+
+  i {
+    padding: 0 0.2em;
+    cursor: pointer;
+  }
+}
+
+.restaurant-main-picture-container{
+  display: inline;
+  z-index: 1;
+  width: 200px;
+  height: 200px;
+  background: none;
+  text-align: center;
+  vertical-align: middle;
+
+  img{
+    width: 168px;
+    height: 168px;
+    border: 1px solid #acae99;
   }
 }
 

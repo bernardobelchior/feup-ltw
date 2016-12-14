@@ -32,64 +32,90 @@ unset($restaurantInfo);
 <script src="../../js/restaurant_profile.js"></script>
 
 <div id="restaurant-profile" class="page_content">
+    <div id="restaurant-gallery">
+        <?php
+
+        if (count($photos) > 0) {
+            echo '<div class="arrow_bg" id="left_arrow_bg">
+            <i id="right-arrow" class="fa fa-chevron-left fa-4x" aria-hidden="true"></i>
+            </div>';
+
+            foreach ($photos as $photo) {
+                echo '<img class="photo" src="' . '../' . $photo['Path'] . '" alt="Restaurant photo"></img>';
+            }
+
+            echo '
+            <div class="arrow_bg" id="right_arrow_bg">
+            <i id="right-arrow" class="fa fa-chevron-right fa-4x" aria-hidden="true"></i>
+            </div>';
+        }
+        ?>
+    </div>
     <div id="restaurant-presentation">
         <div class="restaurant-main-picture-container">
-            <img src="<?='../'.$mainPhoto?>">
+            <img src="<?= '../' . $mainPhoto ?>">
         </div>
-        <div class="restaurant-general-info">
+        <div class="restaurant-general">
             <ul>
-                <li id="rest-name"><?=$name?></li>
-                <li id="rating"><?= getStarsHTML(getRestaurantAverageRating($id))?></li>
-                <li id="cost-for-2">€ <?=$costForTwo?></li>
-                <li id="rest-addr"><?=$address?></li>
-                <li id="rest-phone-no"><?=$phoneNumber?></li>
-                <li id="rest-desc"><?=$description?></li>
+                <li id="rest-name"><?= $name ?>
+                    <?php
+                    if (groupIdHasPermissions((int)$_SESSION['groupId'], 'EDIT_ANY_RESTAURANT') || (int)$_SESSION['userId'] === (int)$ownerId)
+                        echo '<a id="edit-restaurant" href="index.php?page=edit_restaurant.php&id=' . $id . '"><button>Edit Restaurant Profile</button></a>';
+                    ?>
+                </li>
+                <li id="rating"><?= getStarsHTML(getRestaurantAverageRating($id)) ?></li>
+                <li id="cost-for-2">€ <?= $costForTwo ?> (for two)</li>
             </ul>
         </div>
     </div>
-    <div id="restaurant-profile-header">
-        <div id="restaurant-info">
-            <?php
-            $categories = getRestaurantCategories($id);
+    <div id="restaurant-information">
+        <span id="restaurant-location-phone">
+            <div class="page_title"><strong>Restaurant Information</strong></div>
+            <div id="restaurant-location-phone-cont">
+                <ul>
+                    <li id="rest-addr">
+                        <a class="rest-info-title"><strong>Location: </strong></a>
+                        <?= $address ?>
+                    </li>
+                    <li id="rest-phone-no">
+                        <a class="rest-info-title"><strong>Telephone: </strong></a>
+                        <?= $phoneNumber ?>
+                    </li>
+                </ul>
+                <div class="google-map">
+                    <iframe id="map" frameborder="0"
+                            src="https://www.google.com/maps/embed/v1/place?q=<?= $address ?>&key=AIzaSyCdqMmRf8c1f_yTgtjt7zT_5tdO5UOPka4"
+                            allowfullscreen>
+                    </iframe>
+                </div>
+            </div>
+        </span>
+        <span id="restaurant-desc-categ">
+            <div id="restaurant-description">
+                <div class="page_title"><strong>Description</strong></div>
+                <div id="restaurant-description-cont">
+                    <a id="rest-desc"><?= $description ?></a>
+                </div>
+            </div>
+            <div id="restaurant-categ-div">
+                <div class="page_title"><strong>Categories</strong></div>
+                <?php
+                $categories = getRestaurantCategories($id);
 
-            echo '<ul id="restaurant-categories">';
-            foreach ($categories as $category)
-                echo '<li>' . $category['Name'] . '</li>';
+                echo '<ul id="restaurant-categories">';
+                foreach ($categories as $category)
+                    echo '<li>' . $category['Name'] . '</li>';
 
-            echo '</ul>';
-            ?>
-
-        </div>
-
-        <div id="restaurant-gallery">
-            <?php
-
-            if (count($photos) > 0) {
-                echo '<i id="left-arrow" class="fa fa-chevron-left fa-4x" aria-hidden="true"></i>
-            <div>';
-
-                foreach ($photos as $photo) {
-                    echo '<img class="photo" src="' . '../' . $photo['Path'] . '" alt="Restaurant photo"></img>';
-                }
-
-                echo '</div>
-            <i id="right-arrow" class="fa fa-chevron-right fa-4x" aria-hidden="true"></i>';
-            }
-            ?>
-
-        </div>
+                echo '</ul>';
+                ?>
+            </div>
+        </span>
     </div>
 
-    <?php
-    if (groupIdHasPermissions((int)$_SESSION['groupId'], 'EDIT_ANY_RESTAURANT') || (int)$_SESSION['userId'] === (int)$ownerId)
-        echo '<a id="edit-restaurant" href="index.php?page=edit_restaurant.php&id=' . $id . '"><span>Edit Profile</span></a>';
-    ?>
 
-    <iframe id="map" frameborder="0"
-            src="https://www.google.com/maps/embed/v1/place?q=<?= $address ?>&key=AIzaSyCdqMmRf8c1f_yTgtjt7zT_5tdO5UOPka4"
-            allowfullscreen></iframe>
 
     <div id="reviews">
+        <div class="page_title"><strong>Restaurant Reviews</strong></div>
         <?php
         $reviews = getAllReviews($id);
 
