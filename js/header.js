@@ -1,14 +1,18 @@
 $(document).ready(function () {
-    $("#sign_up_text").on('click', signUpAction);
+    $("#sign_up_text").on('click', openSignUpModal);
 
     $('.overlay').on('click', function (event) {
         if (event.target === event.delegateTarget) {
-            $('.overlay').hide();
+            closeSignUpModal()
             event.stopPropagation();
         }
     });
 });
 
-function signUpAction() {
-    $(".overlay").show();
+function openSignUpModal() {
+    $(".overlay").fadeIn('fast');
+}
+
+function closeSignUpModal() {
+    $(".overlay").fadeOut('fast');
 }

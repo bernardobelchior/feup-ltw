@@ -64,8 +64,8 @@ $_SESSION['signup-token'] = generateRandomToken(); ?>
  immediately.
 Don't forget to unset it afterwards.
  -->
-<div class="overlay" hidden="hidden">
-    <div id="sign_up_overlay">
+<div class="overlay">
+    <div id="sign_up_overlay" hidden="hidden">
         <div id="signup_form">
             <h1>Sign Up</h1>
             <form id="sign_up_form" method="post" action="../actions/sign_up.php" onsubmit="return validateForm();">
@@ -78,6 +78,7 @@ Don't forget to unset it afterwards.
 
                         <label for="email">Email</label>
                         <input id="email" type="email" name="email" placeholder="Email" required/>
+                        <button id="sign_up_cancel" type="button" onclick="closeSignUpModal()">Cancel</button>
                     </div>
                     <div class="column">
                         <label for="password-repeat">Repeat password</label>
@@ -87,6 +88,7 @@ Don't forget to unset it afterwards.
 
                         <label for="name">Name</label>
                         <input id="name" type="text" name="name" placeholder="Name" required/>
+                        <button id="sign_up_submit">Sign Up!</button>
                     </div>
                 </div>
             </form>
