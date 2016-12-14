@@ -21,15 +21,32 @@
 
 .edit_link{
   float: right;
+}
+#change-photo{
+  vertical-align: top;
+  padding-left: 1em;
 
-  &:hover{
-    border-bottom: solid 1px #9d9e8d;
+  form {
+    display: inline;
   }
 }
 
-form {
-  * {
-    margin: 0.5em;
-    display: block;
+#change-photo-text{
+  float: right;
+}
+
+.profile_picture_container{
+  width: 120px;
+  display: inline-block;
+
+  img{
+    height: 64px;
+    width: 64px;
+    border: 1px solid #d2d3bc;
   }
 }
+
+.fa-pencil{
+  margin-right: 3px;
+}
+

@@ -1,6 +1,7 @@
 <?php
 include_once('templates/header.php');
 
+
 if ($_GET['page'] === 'add_restaurant.php') include_once('templates/add_restaurant.php');
 else if ($_GET['page'] === 'edit_profile.php') include_once('templates/edit_profile.php');
 else if ($_GET['page'] === 'profile.php') include_once('templates/profile.php');

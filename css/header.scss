@@ -1,45 +1,18 @@
-body {
-  background-color: #EEF0C3;
-  background: linear-gradient(to right, #f6f3ae, #fcfcd6, #f6f3ae);
-  margin: 0;
-  font-family: 'Roboto', sans-serif;
-}
-
-@media screen and (min-width: 1250px) {
-  body {
-    display: flex;
-    justify-content: space-around;
-
-    #wrapper {
-      width: 100%;
-      max-width: 1250px;
-
-      .top-bar {
-        width: 100vw;
-        margin-left: calc(50% - 50vw);
-
-        ul {
-          max-width: 1250px;
-          margin-left: calc(50vw - 1250px/2);
-        }
-      }
-    }
-  }
-}
-
 .top-bar {
   background: linear-gradient(to right ,#5da58b,#447C67);
+  position: fixed;
+  top: 0;
+  left: 0;
   min-width: 100%;
   border-bottom: 1px solid #447c67;
   margin-bottom: 2em;
   overflow: hidden;
-
+  z-index: 1;
 
   ul {
     list-style-type: none;
     margin: 0;
-    display: flex;
-    justify-content: space-between;
+    display: inline;
   }
 
   li {
@@ -57,61 +30,68 @@ body {
     padding: 4px 4px;
 
     img{
+      padding-left: 10px;
+      padding-top: 4px;
       float:left;
       width: 64px;
       height: 40px;
     }
   }
 
-  #user_header{
+  #user-zone{
     float: right;
-    color: #e9ffee;
-    padding-top: 8px;
-    display: inline;
-    span{
-      padding-right: 10px;
-    }
-  }
 
-  #user_action {
-    color: #e9ffee;
-
-    #user_login {
+    #user_header{
+      color: #e9ffee;
+      padding-top: 12px;
       display: inline;
-
-      span {
+      span{
         padding-right: 10px;
       }
     }
 
-    #sign_up_text {
-      padding-left: 0.5em;
-    }
+    #user_action {
+      color: #e9ffee;
 
-    form {
-      display: inline;
+      #user_login {
+        display: inline;
 
-      * {
-        margin-right: 10px;
+        span {
+          padding-right: 10px;
+        }
       }
 
+      #sign_up_text {
+        padding-left: 0.5em;
+      }
+
+      form {
+        display: inline;
+
+        * {
+          margin-right: 10px;
+        }
+
+      }
+    }
+
+
+    #login_form {
+      width: 30%;
+      input {
+        width: 22%;
+      }
+    }
+
+    #sign_up_text {
+      cursor: pointer;
+    }
+
+    #sign_up_text:hover {
+      color: #ffffff;
     }
   }
 
-  #login_form {
-    width: 30%;
-    input {
-      width: 22%;
-    }
-  }
-
-  #sign_up_text {
-    cursor: pointer;
-  }
-
-  #sign_up_text:hover {
-    color: #ffffff;
-  }
 }
 
 #sign_up_overlay {
@@ -159,7 +139,7 @@ body {
 }
 
 .overlay {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   padding: 0;
@@ -169,3 +149,4 @@ body {
   z-index: 10;
   background-color: rgba(0, 0, 0, 0.6);
 }
+

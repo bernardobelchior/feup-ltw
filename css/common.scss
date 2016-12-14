@@ -1,11 +1,21 @@
-.page_content {
+body {
+  background-color: #EEF0C3;
+  background: linear-gradient(to right, #f6f3ae, #fcfcd6, #f6f3ae);
+  margin: 0;
+  font-family: 'Roboto', sans-serif;
+  min-height: 100%;
+}
+
+.page_content{
+  max-width: 90%;
+  min-height: 90%;
   background-color: #EFF1D4;
-  width: 80%;
+  background: linear-gradient(to right, #f0e8da, #f0e8da, #EFF1D4,#f0e8da, #f0e8da);
   position: relative;
-  left: 10%;
   padding: 1em;
   color: #555647;
   border: 1px solid #d8dac0;
+  left: 4%;
 }
 
 .page_title {
@@ -20,14 +30,11 @@
 }
 
 @mixin container {
-  margin: 1em auto;
-  border: solid thin lightgray;
-  padding: 1em;
 }
 
 .container {
-  @include container;
   width: 90%;
+  @include container;
 }
 
 #body {
@@ -69,3 +76,12 @@
     border-bottom: solid 1px #9d9e8d;
   }
 }
+<<<<<<< HEAD
+
+.clickable:hover{
+  text-decoration: underline;
+  color: #3F4035;
+  cursor: pointer;
+}
+=======
+>>>>>>> origin/development

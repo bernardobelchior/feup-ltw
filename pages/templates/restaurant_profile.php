@@ -27,7 +27,7 @@ unset($restaurantInfo);
 
 <link rel="stylesheet" href="../css/common.min.css">
 <link rel="stylesheet" href="../css/restaurant_profile.min.css">
-<script src="../js/restaurant_profile.js"></script>
+<script src="../../js/restaurant_profile.js"></script>
 
 <div id="restaurant-profile" class="container">
     <div id="restaurant-profile-header">
