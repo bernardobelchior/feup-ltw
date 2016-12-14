@@ -86,43 +86,4 @@ $profile_picture = getUserField($id, 'Picture');
         </li>
 
     </ul>
-    <!--    <form id="form" method="post" action="actions/edit_profile.php" onsubmit="return validateDate();">-->
-    <!--        <label id="username"> --><?php //echo getUserField($id, 'Username'); ?>
-    <!--        </label>-->
-    <!--        <input id="name" type="text" name="name" value="--><?php //echo getUserField($id, 'Name'); ?><!--"/>-->
-    <!--        <input id="email" type="email" name="email" value="-->
-    <?php //echo getUserField($id, 'Email'); ?><!--"/>-->
-    <!--        <input id="date" type="text" name="date" placeholder="yyyy-mm-dd"-->
-    <!--               value="--><?php //echo getUserField($id, 'DateOfBirth'); ?><!--"/>-->
-    <!---->
-    <!--        <select id="gender" name="gender" gender=--><?php //echo getUserField($id, 'Gender'); ?><!-->
-    <!--            <option value="M">Male</option>-->
-    <!--            <option value="F">Female</option>-->
-    <!--        </select>-->
-    <!---->
-    <!--        <button type="submit">Update</button>-->
-    <!--        <span id="output"></span>-->
-    <!--    </form>-->
-    <!---->
-
-
-    <!-- Trigger/Open The Modal -->
-    <button id="change-pass-btn">Change Password</button>
-
-    <!-- The Modal -->
-    <div id="change-pass-modal" class="modal">
-
-        <!-- Modal content -->
-        <div class="modal-content">
-            <span class="close">x</span>
-            <form id="change-pass-form" method="post" action="actions/change_password.php"
-                  onsubmit="return validateNewPassword();">
-                <input id="old-password" type="password" name="old-password" placeholder="Current Password"/>
-                <input id="new-password" type="password" name="new-password" placeholder="New Password"/>
-                <input id="new-password-repeat" type="password" name="new-password-repeat"
-                       placeholder="Repeat New Password"/>
-                <button type="submit">Change Password</button>
-                <span id="password-output"/>
-            </form>
-        </div>
-    </div>
+</div>

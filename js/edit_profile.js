@@ -44,29 +44,32 @@ function validateNewPassword() {
     return true;
 }
 
-function changeGender() {
-    let gender = $('#gender').attr('gender');
-    $('#gender').val(gender);
-}
+function createGenderForm(tag){
 
-function createListeners() {
-    $(".edit_link").on('click', editListener);
-}
-
-function createGenderForm(){
+    let inputs;
+    let gender = tag.html();
+    if(gender == 'M')
+        inputs = '<input name="gender" type="radio" value="M" checked>Male' +
+                '<input name="gender" type="radio" value="F">Female';
+    else if(gender == 'F')
+        inputs = '<input name="gender" type="radio" value="M">Male' +
+            '<input name="gender" type="radio" value="F" checked>Female';
+    else
+        inputs = '<input name="gender" type="radio" value="M">Male' +
+            '<input name="gender" type="radio" value="F">Female';
 
     let new_tag = $(
         '<form id="change_gender_form" method="post" action="actions/edit_profile.php">' +
-        '<div class="inputs">' +
-        '<select name="gender" id="input_gender">' +
-        '<option value=""></option><option value="M">Male</option><option value="F">Female</option></select>' +
-        '</div>' +
+        '<div class="inputs">' + inputs + '</div>' +
         '<div class="edit_options">' +
         '<input class="confirm_btn" type="submit" value="Confirm">' +
         '<button class="cancel_btn" type="reset">Cancel</button>' +
         '</div>' +
         '</form>');
-    new_tag.css("margin-left", "100px");
+
+    new_tag.css({"margin-left":"100px", "display":"inline-block"});
+    new_tag.children(".edit_options").children().css("margin-right","5px");
+
 
     return new_tag;
 }
@@ -85,16 +88,17 @@ function createPasswordForm(){
         '</div>' +
         '</form>');
 
-    console.log(new_tag);
-    new_tag.css("margin-left","150px");
-    new_tag.css({"display":"inline-block", "margin-left":"150px"});
+    new_tag.css({"margin-left":"100px", "display":"inline-block"});
+    new_tag.children(".inputs").children("input").css("display", "block");
+    new_tag.children(".edit_options").css("text-align","center");
+    new_tag.children(".edit_options").children().css("margin-right","5px");
 
     return new_tag;
 }
 
 function createPhotoForm(){
     let new_tag = $(
-        '<form action="actions/upload_photo.php" method="post" enctype="multipart/form-data">' +
+        '<form id="change_photo_form" action="actions/upload_photo.php" method="post" enctype="multipart/form-data">' +
         '<div class="inputs">' +
         '<input type="hidden" name="token" value="<?php echo $_SESSION[\'token\']; ?>"/>' +
         '<input type="hidden" name="id" value="<?php echo $id; ?>">' +
@@ -108,11 +112,14 @@ function createPhotoForm(){
     '</form>'
     );
 
+    new_tag.css({"margin-left":"100px", "display":"inline-block"});
+    new_tag.children(".edit_options").children().css("margin-right","5px");
+
     return new_tag;
 }
 
 function createSimpleForm(id, tag){
-    let inputTag = $('<input name="' + id + '" id="input_' + id + '" class=' + tag.attr('class') + ' value="' + tag.html() + '">');
+    let inputTag = $('<input name="' + id + '" id="input_' + id + '"  value="' + tag.html() + '">');
 
     if (id === 'dob')
         inputTag.attr('placeholder', 'yyyy-mm-dd');
@@ -120,7 +127,7 @@ function createSimpleForm(id, tag){
         inputTag.attr('type', 'email');
 
     let new_tag = $(
-        '<form id="change-pass-form" method="post" action="actions/edit_profile.php">' +
+        '<form id="change_' + id +'_form" method="post" action="actions/edit_profile.php">' +
         '<div class="inputs">' +
         '</div>' +
         '<div class="edit_options">' +
@@ -130,6 +137,9 @@ function createSimpleForm(id, tag){
         '</form>');
 
     new_tag.children(".inputs").append(inputTag);
+    new_tag.css({"margin-left":"100px", "display":"inline-block"});
+    new_tag.children(".edit_options").css("text-align","center");
+    new_tag.children(".edit_options").children().css("margin-right","5px");
 
     return new_tag;
 }
@@ -145,7 +155,7 @@ function editListener() {
 
     switch(id){
         case 'gender':
-            new_tag = createGenderForm();
+            new_tag = createGenderForm(tag);
             break;
 
         case 'password':
@@ -157,47 +167,19 @@ function editListener() {
             break;
 
         default:
-            new_tag = createSimpleForm(id, tag);
+            new_tag = createSimpleForm(id,tag);
             break;
     }
 
     tag.replaceWith(new_tag);
 
-    let cancel_btn = $(".cancel_btn");
+    let cancel_btn = new_tag.find(".cancel_btn");
     cancel_btn.on("click", function(){
         new_tag.replaceWith(tag);
         btn.show();
     });
 }
 
-function loadDocument() {
-    createListeners();
-
-    // Get the modal
-    let modal = document.getElementById('change-pass-modal');
-
-    // Get the button that opens the modal
-    let btn = document.getElementById("change-pass-btn");
-
-    // Get the <span> element that closes the modal
-    let span = document.getElementsByClassName("close")[0];
-
-    // When the user clicks on the button, open the modal
-    btn.onclick = function () {
-        modal.style.display = "block";
-    };
-
-    // When the user clicks on <span> (x), close the modal
-    span.onclick = function () {
-        modal.style.display = "none";
-    };
-
-    // When the user clicks anywhere outside of the modal, close it
-    window.onclick = function (event) {
-        if (event.target == modal) {
-            modal.style.display = "none";
-        }
-    };
-
-}
-$(document).ready(loadDocument);
+$(document).ready(loadDocument = function(){
+    $(".edit_link").on('click', editListener);
+});
