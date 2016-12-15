@@ -1,5 +1,4 @@
 $(document).ready(function () {
-    updateSearch();
 
     $('#search-tabs:not(.active)').children().on('click', activateTab);
     $('#search-box').on('input', updateSearch).trigger('focus');
@@ -25,6 +24,7 @@ $(document).ready(function () {
     });
 
     $('#slider')[0].noUiSlider.on('change', updateSearch);
+    updateSearch();
 });
 
 function activateTab(event) {
