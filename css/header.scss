@@ -139,6 +139,11 @@ button::-moz-focus-inner {
     }
 
     .column {
+      // Needed in order to make sure the columns don't grow
+      // when elements are added to them.
+      flex-basis: 0;
+      flex-grow: 1;
+
       &:first-child {
         margin-right: 0.3em;
       }
@@ -214,6 +219,14 @@ button::-moz-focus-inner {
       display: block;
       color: #764a34;
     }
+  }
+}
+
+.error {
+  color: #801815;
+
+  i {
+    margin-right: 0.3em;
   }
 }
 
