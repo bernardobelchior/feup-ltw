@@ -1,6 +1,9 @@
 $(document).ready(function () {
-    $('.edit_link').on('click', onEdit);
+    $('.edit_link').on('click', openEditField);
     $('#delete-photo').on('click', deleteCurrentPhoto);
+    $('#edit-categories').hide();
+
+    $('#categories .cancel_btn').on('click', toggleCategoriesEditForm);
 });
 
 function deleteCurrentPhoto() {
@@ -17,123 +20,101 @@ function deleteCurrentPhoto() {
     });
 }
 
-function hourListener(target) {
-  let tag = $(target).prev();
-  let value = tag.text();
-  let id = tag.parents("li").attr('id');
-
-
-  let new_tag = $('#' + id + '-time');
-  new_tag.css('display', 'inline-block');
-  tag.hide();
-
-  let btn = $(target);
-  let new_btn_id = "btn_" + id;
-  btn.replaceWith($('<span id="' + new_btn_id + '" class=' + btn.attr('class') + '>Confirm</span>'));
-  let new_btn = $('span#' + new_btn_id);
-
-  new_btn.on('click', function () {
-      let token = $('input#token').val();
-      let restaurant_id = $('input#restaurant_id').val();
-      let new_value = new_tag.val();
-      if (new_value !== value)
-          $.post("../actions/edit_restaurant.php", {
-              token: token,
-              restaurant_id: restaurant_id,
-              type: id,
-              value: new_value/10
-          });
-      tag.text($('option[value="' + new_value + '"]').html());
-      tag.show();
-      $('#opening-time').hide();
-      $('#closing-time').hide();
-      new_btn.replaceWith(btn);
-      btn.on('click', onEdit);
-  });
-
+function toggleCategoriesEditForm() {
+    $('#edit-categories').toggle();
+    $('#categories .confirm_btn').toggle();
+    $('#categories .cancel_btn').toggle();
+    $('#current-categories').toggle();
+    $('#categories .edit_link').toggle();
 }
 
-function onEdit() {
-    let tag = $(this).prev();
-    let value = tag.text();
-    let id = tag.parents("li").attr('id');
+function openEditField() {
+    let editButton = $(this);
+    let currentValueTag = editButton.prev();
+    let id = currentValueTag.parents("li").attr('id');
 
-    if (tag.parents("li").attr('class') === 'hour') {
-      hourListener(this);
-      return;
-    }
-    if (id === 'categories') {
-      categoriesListener(this);
-      return;
-    }
-    let new_tag = $('<input name="' + id + '" id="input_' + id + '" class=' + tag.attr('class') + ' value="' + tag.html() + '"/>')
-    tag.replaceWith(new_tag);
-    if (id === 'telephone-number') {
-        new_tag.attr('type', 'number');
-        new_tag.attr('min', '0');
-    }
-    else if (id === 'cost-for-two') {
-        new_tag.attr('type', 'number');
-        new_tag.attr('min', 1);
+    let editTag;
+    switch (id) {
+        case 'working-hours':
+            editTag = createHoursForm(id);
+            break;
+        case 'categories':
+            toggleCategoriesEditForm();
+            return;
+        default:
+            let editFieldType = 'text';
+
+            if (id === 'cost-for-two' || id === 'telephone-number')
+                editFieldType = 'number';
+
+            editTag = createSimpleForm(id, currentValueTag, editFieldType);
+            break;
     }
 
-    let btn = $(this);
-    let new_btn_id = "btn_" + id;
-    btn.replaceWith($('<span id="' + new_btn_id + '" class=' + btn.attr('class') + '>Confirm</span>'));
-    let new_btn = $('span#' + new_btn_id);
+    editButton.hide();
 
-    new_btn.on('click', function () {
-        let token = $('input#token').val();
-        let restaurant_id = $('input#restaurant_id').val();
-        let new_value = new_tag.val();
-        if (new_value !== value)
-            $.post("../actions/edit_restaurant.php", {
-                token: token,
-                restaurant_id: restaurant_id,
-                type: id,
-                value: new_value
-            });
-        tag.text(new_value);
-        new_tag.replaceWith(tag);
-        new_btn.replaceWith(btn);
-        btn.on('click', onEdit);
+    currentValueTag.replaceWith(editTag);
+    editTag.find('.cancel_btn').on('click', function () {
+        editTag.replaceWith(currentValueTag);
+        editButton.show();
     });
 }
 
-function categoriesListener(target) {
-    let tag = $(target).prev();
-    let id = tag.parents("li").attr('id');
+function createSimpleForm(id, currentValueTag, editFieldType) {
+    let inputTag = $('<input type="' + editFieldType + '" name="value" id="input_' + id + '"  value="' + currentValueTag.html() + '">');
 
-    $('.categories-list > li').show();
-    let old_text = tag.text();
-    tag.text('');
+    if (editFieldType === 'number')
+        inputTag.attr('min', '1');
 
-    let btn = $(target);
-    let new_btn_id = "btn_" + id;
-    btn.replaceWith($('<span id="' + new_btn_id + '" class=' + btn.attr('class') + '>Confirm</span>'));
-    let new_btn = $('span#' + new_btn_id);
+    let editTag = $(
+        '<div class="edit-field">' +
+        '<div class="inputs">' +
+        '</div>' +
+        '<div class="edit_options">' +
+        '<button class="confirm_btn">Confirm</button>' +
+        '<input class="cancel_btn" type="reset" value="Cancel">' +
+        '</div></div>');
 
-    new_btn.on('click', function () {
-        let token = $('input#token').val();
-        let restaurant_id = $('input#restaurant_id').val();
-        let categories = [];
-        let category_names = [];
-        $('.categories-list label input').each(function () {
-            if ($(this).is(':checked')) {
-                categories.push($(this).val());
-                category_names.push($(this).attr('text'));
-            }
-        });
-        $('.categories-list > li').hide();
-        if (category_names.join(', ') !== old_text)
-            $.post("../actions/edit_restaurant.php", {
-                token: token,
-                restaurant_id: restaurant_id,
-                type: id,
-                picked_categories: categories
-            });
-        tag.text(category_names.join(', '));
-        new_btn.replaceWith(btn);
-        btn.on('click', onEdit);
-    });
+    editTag.children(".inputs").append(inputTag);
+
+    return editTag;
+}
+
+function createHoursForm(id) {
+    let hourSelectTag = $('<select class="select-time"></select>');
+
+    for (let hours = 0; hours < 24; hours++) {
+        hourSelectTag.append('<option value="' + hours + '">' + hours + ':00</option>');
+        hourSelectTag.append('<option value="' + (hours + 0.5) + '">' + hours + ':30</option>');
+    }
+
+    let editTag = $(
+        '<div class="edit-field">' +
+        '<div class="inputs">' +
+        '</div>' +
+        '<div class="edit_options">' +
+        '<button class="confirm_btn">Confirm</button>' +
+        '<input class="cancel_btn" type="reset" value="Cancel">' +
+        '</div></div>');
+
+    let openingTime = parseTime($('.list_attr_content span:first').text());
+    let closingTime = parseTime($('.list_attr_content span:last').text());
+    let closingSelectTag = hourSelectTag.clone(true);
+
+
+    hourSelectTag.attr('id', 'opening-time').attr('name', 'opening-time');
+    hourSelectTag.children('option[value="' + openingTime + '"]').attr('selected', 'selected');
+    editTag.children(".inputs").append(hourSelectTag);
+
+    closingSelectTag.attr('id', 'closing-time').attr('name', 'closing-time');
+    closingSelectTag.children('option[value="' + closingTime + '"]').attr('selected', 'selected');
+    editTag.children(".inputs").append(closingSelectTag);
+
+    return editTag;
+}
+
+function parseTime(time) {
+    let hour = parseInt(time.substring(0, 2));
+    let minutes = parseInt(time.substring(3)) / 60;
+    return hour + minutes;
 }

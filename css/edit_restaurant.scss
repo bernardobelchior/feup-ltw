@@ -1,0 +1,22 @@
+.categories-list {
+  list-style: none;
+  display: inline;
+  padding: 0;
+
+  & > li {
+    display: inline;
+    width: 50%;
+  }
+}
+
+div .list_attr_content {
+  display: inline;
+  margin: 0;
+  .category-box{
+    display: block;
+  }
+}
+
+#edit-categories {
+  display: block;
+}

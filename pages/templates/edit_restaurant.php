@@ -31,11 +31,11 @@ $costForTwo = $restaurantInfo['CostForTwo'];
 $telephoneNumber = $restaurantInfo['TelephoneNumber'];
 $openingTime = $restaurantInfo['OpeningHour'];
 $closingTime = $restaurantInfo['ClosingHour'];
-if(isset($openingTime) && isset($closingTime)){
-  $openingHour = intval($openingTime);
-  $openingMinute = ($openingTime - $openingHour) * 60;
-  $closingHour = intval($closingTime);
-  $closingMinute = ($closingTime - $closingHour) * 60;
+if (isset($openingTime) && isset($closingTime)) {
+    $openingHour = intval($openingTime);
+    $openingMinute = ($openingTime - $openingHour) * 60;
+    $closingHour = intval($closingTime);
+    $closingMinute = ($closingTime - $closingHour) * 60;
 }
 
 
@@ -43,103 +43,113 @@ $_SESSION['ownerId'] = $ownerId;
 unset($restaurantInfo);
 ?>
 
-<link rel="stylesheet" href="../css/common.min.css">
-<link rel="stylesheet" href="../css/edit_profile.min.css">
-
+<link rel="stylesheet" href="../css/edit_restaurant.min.css">
 <script type="text/javascript" src="../js/edit_restaurant.js"></script>
 
 <div class="page_content">
     <header class="page_title"><strong>Edit Restaurant</strong></header>
     <div id="restaurant-info">
         <div class="section_title">General Info</div>
-        <!-- <input type="hidden" id="token" name="token" value="<?php echo $_SESSION['token']; ?>"/>
-  <input type="hidden" id="restaurant_id" name="restaurant_id" value="<?php echo $id; ?>"/> -->
         <ul id="profile_attr_list">
             <li id="name">
-                <span class="list_attr_name"><strong>Name</strong></span>
-                <span class="list_attr_content"><?php echo $name; ?></span>
-                <span class="edit_link">Edit</span>
+                <form method="post" action="../actions/edit_restaurant.php">
+                    <input type="hidden" name="token" value="<?= $_SESSION['token'] ?>"/>
+                    <input type="hidden" name="restaurant_id" value="<?= $id ?>"/>
+                    <input type="hidden" name="type" value="name"/>
+                    <span class="list_attr_name"><strong>Name</strong></span>
+                    <span class="list_attr_content"><?php echo $name; ?></span>
+                    <span class="edit_link">Edit</span>
+                </form>
             </li>
             <li id="address">
-                <span class="list_attr_name"><strong>Address</strong></span>
-                <span class="list_attr_content"><?php echo $address; ?></span>
-                <span class="edit_link">Edit</span>
+                <form method="post" action="../actions/edit_restaurant.php">
+                    <input type="hidden" name="token" value="<?= $_SESSION['token'] ?>"/>
+                    <input type="hidden" name="restaurant_id" value="<?= $id ?>"/>
+                    <input type="hidden" name="type" value="address"/>
+                    <span class="list_attr_name"><strong>Address</strong></span>
+                    <span class="list_attr_content"><?php echo $address; ?></span>
+                    <span class="edit_link">Edit</span>
+                </form>
             </li>
             <li id="description">
-                <span class="list_attr_name"><strong>Description</strong></span>
-                <span class="list_attr_content"><?php echo $description; ?></span>
-                <span class="edit_link">Edit</span>
+                <form method="post" action="../actions/edit_restaurant.php">
+                    <input type="hidden" name="token" value="<?= $_SESSION['token'] ?>"/>
+                    <input type="hidden" name="restaurant_id" value="<?= $id ?>"/>
+                    <input type="hidden" name="type" value="description"/>
+                    <span class="list_attr_name"><strong>Description</strong></span>
+                    <span class="list_attr_content"><?php echo $description; ?></span>
+                    <span class="edit_link">Edit</span>
+                </form>
             </li>
             <li id="cost-for-two">
-                <span class="list_attr_name"><strong>Cost For Two</strong></span>
-                <span class="list_attr_content"><?php echo $costForTwo; ?></span>
-                <span class="edit_link">Edit</span>
+                <form method="post" action="../actions/edit_restaurant.php">
+                    <input type="hidden" name="token" value="<?= $_SESSION['token'] ?>"/>
+                    <input type="hidden" name="restaurant_id" value="<?= $id ?>"/>
+                    <input type="hidden" name="type" value="cost-for-two"/>
+                    <span class="list_attr_name"><strong>Cost For Two</strong></span>
+                    <span class="list_attr_content"><?php echo $costForTwo; ?></span>
+                    <span class="edit_link">Edit</span>
+                </form>
             </li>
             <li id="telephone-number">
-                <span class="list_attr_name"><strong>Telephone Number</strong></span>
-                <span class="list_attr_content"><?php echo $telephoneNumber; ?></span>
-                <span class="edit_link">Edit</span>
+                <form method="post" action="../actions/edit_restaurant.php">
+                    <input type="hidden" name="token" value="<?= $_SESSION['token'] ?>"/>
+                    <input type="hidden" name="restaurant_id" value="<?= $id ?>"/>
+                    <input type="hidden" name="type" value="telephone-number"/>
+                    <span class="list_attr_name"><strong>Telephone Number</strong></span>
+                    <span class="list_attr_content"><?php echo $telephoneNumber; ?></span>
+                    <span class="edit_link">Edit</span>
+                </form>
             </li>
-        <li class="hour" id="opening">
-            <span class="list_attr_name"><strong>Opening Hour</strong></span>
-              <select class="select-time" id="opening-time">
-                <?php
-                for ($i=0; $i<24; $i++){
-                  for($j=0;$j<2;$j++){
-                    if($i + $j * 0.5 == $openingTime)
-                      echo sprintf('<option selected="selected" value="%d">%02d:%02d</option>', $i*10+$j*5, $i, $j*30);
-                    else
-                      echo sprintf('<option value="%d">%02d:%02d</option>', $i*10+$j*5, $i, $j*30);
-                  }
-                }
-                ?>
-            </select>
-            <span class="list_attr_content"><?php if(isset($openingHour)) echo sprintf("%02d:%02d", $openingHour, $openingMinute); ?></span>
-            <span class="edit_link">Edit</span>
-        </li>
-        <li class="hour" id="closing">
-            <span class="list_attr_name"><strong>Closing Hour</strong></span>
-            <select class="select-time" id="closing-time">
-              <?php
-              for ($i=0; $i<24; $i++){
-                for($j=0;$j<2;$j++){
-                  if($i + $j * 0.5 == $closingTime)
-                    echo sprintf('<option selected="selected" value="%d">%02d:%02d</option>', $i*10+$j*5, $i, $j*30);
-                  else
-                    echo sprintf('<option value=%d>%02d:%02d</option>', $i*10+$j*5, $i, $j*30);
-                }
-              }
-              ?>
-            </select>
-            <span class="list_attr_content"><?php if(isset($closingHour)) echo sprintf("%02d:%02d", $closingHour, $closingMinute); ?></span>
-            <span class="edit_link">Edit</span>
-        </li>
-            <li id="categories">
-                <span class="list_attr_name"><strong>Categories</strong></span>
-                <span class="list_attr_content"><?php $categories = getRestaurantCategories($id);
-                    for ($i = 0; $i < count($categories); $i++) {
-                        if ($i !== 0)
-                            echo ', ';
-                        echo $categories[$i]['Name'];
-                    } ?></span>
-                <span class="edit_link">Edit</span>
-                <ul class="categories-list">
+            <li id="working-hours">
+                <form method="post" action="../actions/edit_restaurant.php">
+                    <input type="hidden" name="token" value="<?= $_SESSION['token'] ?>"/>
+                    <input type="hidden" name="restaurant_id" value="<?= $id ?>"/>
+                    <input type="hidden" name="type" value="working-hours"/>
+                    <span class="list_attr_name"><strong>Workings Hours</strong></span>
+                    <span class="list_attr_content">
                     <?php
-                    $categories = getAllCategories();
-                    $current_categories = getRestaurantCategories($id);
-                    $current_categories_names = [];
-                    foreach ($current_categories as $category) {
-                        array_push($current_categories_names, $category['Name']);
-                    }
-
-                    foreach ($categories as $category) {
-                        if (in_array($category['Name'], $current_categories_names))
-                            echo '<li class="category-box"><label><input type="checkbox" checked="true" name="categories[]" text="' . $category['Name'] . '"value="' . $category['ID'] . '">' . $category['Name'] . '</label></li>';
-                        else
-                            echo '<li class="category-box"><label><input type="checkbox" name="categories[]" text="' . $category['Name'] . '" value="' . $category['ID'] . '">' . $category['Name'] . '</input></label></li>';
+                    if (isset($openingTime) && isset($closingTime)) {
+                        echo '<span>' . sprintf("%02d:%02d", $openingHour, $openingMinute) . '</span>';
+                        echo '<span> - </span>';
+                        echo '<span>' . sprintf("%02d:%02d", $closingHour, $closingMinute) . '</span>';
                     }
                     ?>
-                </ul>
+                    </span>
+                    <span class="edit_link">Edit</span>
+                </form>
+            </li>
+            <li id="categories">
+                <form method="post" action="../actions/edit_restaurant.php">
+                    <input type="hidden" name="token" value="<?= $_SESSION['token'] ?>"/>
+                    <input type="hidden" name="restaurant_id" value="<?= $id ?>"/>
+                    <input type="hidden" name="type" value="name"/>
+                    <span class="list_attr_name"><strong>Categories</strong></span>
+                    <div class="list_attr_content">
+                        <ul class="categories-list" id="current-categories">
+                            <?php
+                            $current_categories = getRestaurantCategories($id);
+                            foreach ($current_categories as $category)
+                                echo '<li class="category-box" name="categories" value=' . $category['ID'] . '>' . $category['Name'] . '</li>';
+                            ?>
+                        </ul>
+                        <ul class="categories-list" id="edit-categories" hidden="hidden">
+                            <?php
+                            $categories = getAllCategories();
+
+                            foreach ($categories as $category) {
+                                if (in_array($category['ID'], $current_categories))
+                                    echo '<li class="category-box"><label><input type="checkbox" checked="checked" name="categories[]" "value="' . $category['ID'] . '">' . $category['Name'] . '</label></li>';
+                                else
+                                    echo '<li class="category-box"><label><input type="checkbox" name="categories[]" value="' . $category['ID'] . '">' . $category['Name'] . '</input></label></li>';
+                            }
+                            ?>
+                        </ul>
+                        <button hidden="hidden" class="confirm_btn">Confirm</button>
+                        <input hidden="hidden" class="cancel_btn" type="reset" value="Cancel">
+                    </div>
+                    <span class="edit_link">Edit</span>
+                </form>
             </li>
         </ul>
     </div>
@@ -156,7 +166,6 @@ unset($restaurantInfo);
             </form>
         </div>
 
-        <script src="../js/restaurant_profile.js"></script>
         <div id="restaurant-gallery">
             <?php
             $photos = getRestaurantPhotos($id);

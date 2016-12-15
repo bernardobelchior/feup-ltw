@@ -44,9 +44,9 @@ function validateNewPassword() {
     return true;
 }
 
-function createGenderForm(current_value_tag) {
+function createGenderForm(currentValueTag) {
     let inputs;
-    let gender = current_value_tag.html();
+    let gender = currentValueTag.html();
     if (gender == 'M')
         inputs = '<input name="value" type="radio" value="M" checked>Male' +
             '<input name="value" type="radio" value="F">Female';
@@ -57,7 +57,7 @@ function createGenderForm(current_value_tag) {
         inputs = '<input name="value" type="radio" value="M">Male' +
             '<input name="value" type="radio" value="F">Female';
 
-    let new_tag = $(
+    let editFieldTag = $(
         '<div class="edit-field">' +
         '<div class="inputs">' + inputs + '</div>' +
         '<div class="edit_options">' +
@@ -65,11 +65,11 @@ function createGenderForm(current_value_tag) {
         '<button class="cancel_btn" type="reset">Cancel</button>' +
         '</div></div>');
 
-    return new_tag;
+    return editFieldTag;
 }
 
 function createPasswordForm() {
-    let new_tag = $(
+    let editFieldTag = $(
         '<div class="edit-field">' +
         '<div class="inputs">' +
         '<input name="old_password" type="password" id="input_old_pw" placeholder="Current Password"/>' +
@@ -81,13 +81,13 @@ function createPasswordForm() {
         '<button class="cancel_btn" type="reset">Cancel</button>' +
         '</div></div>');
 
-    new_tag.children(".inputs").children("input").css("display", "block");
+    editFieldTag.children(".inputs").children("input").css("display", "block");
 
-    return new_tag;
+    return editFieldTag;
 }
 
 function createPhotoForm() {
-    let new_tag = $(
+    return $(
         '<div class="edit-field">' +
         '<input type="hidden" name="token" value="' + $('#token').val() + '">' +
         '<input type="hidden" name="profile_id" value="' + $('#profile_id').val() + '">' +
@@ -99,19 +99,17 @@ function createPhotoForm() {
         '<button class="confirm_btn">Upload Photo</button>' +
         '<button class="cancel_btn" type="reset">Cancel</button>' +
         '</div></div>');
-
-    return new_tag;
 }
 
-function createSimpleForm(id, current_value_tag) {
-    let inputTag = $('<input name="value" id="input_' + id + '"  value="' + current_value_tag.html() + '">');
+function createSimpleForm(id, currentValueTag) {
+    let inputTag = $('<input name="value" id="input_' + id + '"  value="' + currentValueTag.html() + '">');
 
     if (id === 'dob')
         inputTag.attr('placeholder', 'yyyy-mm-dd');
     else if (id === 'email')
         inputTag.attr('type', 'email');
 
-    let new_tag = $(
+    let editFieldTag = $(
         '<div class="edit-field">' +
         '<div class="inputs">' +
         '</div>' +
@@ -120,42 +118,42 @@ function createSimpleForm(id, current_value_tag) {
         '<input class="cancel_btn" type="reset" value="Cancel">' +
         '</div></div>');
 
-    new_tag.children(".inputs").append(inputTag);
+    editFieldTag.children(".inputs").append(inputTag);
 
-    return new_tag;
+    return editFieldTag;
 }
 
 function editListener() {
-    let current_value_tag = $(this).prev();
-    let field_id = current_value_tag.closest("li").attr('id');
-    let edit_btn = $(this);
-    edit_btn.hide();
+    let currentValueTag = $(this).prev();
+    let fieldId = currentValueTag.closest("li").attr('id');
+    let editButton = $(this);
+    editButton.hide();
 
-    let field_edit_tag;
+    let fieldEditTag;
 
-    switch (field_id) {
+    switch (fieldId) {
         case 'gender':
-            field_edit_tag = createGenderForm(current_value_tag);
+            fieldEditTag = createGenderForm(currentValueTag);
             break;
 
         case 'password':
-            field_edit_tag = createPasswordForm();
+            fieldEditTag = createPasswordForm();
             break;
 
         case 'photo':
-            field_edit_tag = createPhotoForm();
+            fieldEditTag = createPhotoForm();
             break;
 
         default:
-            field_edit_tag = createSimpleForm(field_id, current_value_tag);
+            fieldEditTag = createSimpleForm(fieldId, currentValueTag);
             break;
     }
 
-    current_value_tag.replaceWith(field_edit_tag);
+    currentValueTag.replaceWith(fieldEditTag);
 
-    field_edit_tag.find(".cancel_btn").on("click", function () {
-        field_edit_tag.replaceWith(current_value_tag);
-        edit_btn.show();
+    fieldEditTag.find(".cancel_btn").on("click", function () {
+        fieldEditTag.replaceWith(currentValueTag);
+        editButton.show();
     });
 }
 

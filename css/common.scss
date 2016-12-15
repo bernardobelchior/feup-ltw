@@ -41,7 +41,7 @@ body {
 #profile_attr_list {
   list-style-type: none;
 
-  li {
+  & > li {
     padding: 5px 5px;
     border-bottom: solid 1px #d2d3bc;
 
@@ -51,7 +51,7 @@ body {
 .list_attr_name {
   float: left;
   text-align: left;
-  width: 120px;
+  width: 10em;
 }
 
 .list_attr_content {

@@ -21,7 +21,6 @@ $(document).ready(function () {
                 return value;
             }
         }
-
     });
 
     $('#slider')[0].noUiSlider.on('change', updateSearch);
