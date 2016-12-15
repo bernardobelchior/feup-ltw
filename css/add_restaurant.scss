@@ -1,3 +1,7 @@
+.section_title{
+  margin-bottom: 3px;
+}
+
 #add-restaurant {
   #categories {
     list-style: none;
@@ -8,6 +12,17 @@
     }
   }
 
+  #general-info{
+    input{
+      display: inline-block;
+      vertical-align: top;
+    }
+
+    textarea{
+      display: block;
+    }
+
+  }
   #categories-label {
     margin-top: 1em;
   }
