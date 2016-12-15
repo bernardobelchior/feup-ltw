@@ -92,7 +92,15 @@ unset($restaurantInfo);
                 }
 
                 echo '</div>
-            <i id="right-arrow" class="fa fa-chevron-right fa-4x" aria-hidden="true"></i>';
+                <i id="right-arrow" class="fa fa-chevron-right fa-4x" aria-hidden="true"></i>';
+                foreach ($photos as $photo){
+                  $photoUploader;
+                  if($photo['UploaderID'] === $ownerId)
+                    $photoUploader = $name;
+                  else
+                    $photoUploader = getUserField($photo['UploaderID'], 'Name');
+                  echo '<span class="photo-label"> Photo added by: ' . $photoUploader . '</span>';
+                }
             }
             ?>
 

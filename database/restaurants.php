@@ -202,12 +202,12 @@ function addPhoto($restaurantId, $uploaderId, $photoPath) {
 
 /** Gets all photos related to that restaurant.
  * @param $restaurantId int Restaurant ID.
- * @return array Array of paths to photos.
+ * @return array Array of photos info.
  */
 function getRestaurantPhotos($restaurantId) {
     global $db;
 
-    $statement = $db->prepare('SELECT Path FROM RestaurantPhotos WHERE RestaurantID = ?');
+    $statement = $db->prepare('SELECT * FROM RestaurantPhotos WHERE RestaurantID = ?');
     $statement->execute([$restaurantId]);
     return $statement->fetchAll();
 }
@@ -325,6 +325,24 @@ function updateRestaurantCostForTwo($id, $value){
  */
 function updateRestaurantTelephoneNumber($id, $value){
   return updateRestaurantField($id, 'TelephoneNumber', $value);
+}
+
+/**
+ * Updates the Opening Hour field of a given restaurant
+ * @param $id int Restaurant Id
+ * @param $value float New Opening hour for the restaurant
+ */
+function updateRestaurantOpeningHour($id, $value){
+  return updateRestaurantField($id, 'OpeningHour', $value);
+}
+
+/**
+ * Updates the Closing Hour field of a given restaurant
+ * @param $id int Restaurant Id
+ * @param $value float New Closing hour for the restaurant
+ */
+function updateRestaurantClosingHour($id, $value){
+  return updateRestaurantField($id, 'ClosingHour', $value);
 }
 
 /**
