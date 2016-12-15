@@ -49,13 +49,21 @@ if ($profile_picture === null)
         /* Show all the restaurant the user has. */
         if (isset($_GET['id'])) {
             $restaurants = getUserRestaurants(htmlspecialchars($_GET['id']));
+            $numRestaurants = count($restaurants);
 
-            foreach ($restaurants as $restaurant) {
-                echo '<div class="restaurant-container" onclick="openRestaurantProfile(' . $restaurant['ID'] . ')">';
-                // echo image
-                echo '<span>' . (string)$restaurant['Name'] . '</span>';
-                echo '<span>' . (string)$restaurant['Address'] . '</span>';
-                echo '</div>';
+            if($numRestaurants != 0) {
+                echo '<div class="section_title">' . $name .'\'s Restaurants</div>';
+                echo '<ul id="user-restaurants">';
+
+                foreach ($restaurants as $restaurant) {
+                    // echo image
+                    echo '<li>';
+                    echo '<span class="usr-rest-name" onclick="openRestaurantProfile('. $restaurant['ID'].')"><strong>' . (string)$restaurant['Name'] . '</strong></span><br>';
+                    echo '<span class="usr-rest-addr">' . (string)$restaurant['Address'] . '</span>';
+                    echo '</li>';
+                }
+
+                echo '</ul>';
             }
         }
 
