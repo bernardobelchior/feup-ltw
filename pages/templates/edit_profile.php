@@ -23,7 +23,7 @@ if (!idExists($id)) {
 
 $profile_picture = getUserField($id, 'Picture');
 if ($profile_picture === null)
-    $profile_picture = '../profile_pictures/facebook-avatar.jpg';
+    $profile_picture = 'profile_pictures/facebook-avatar.jpg';
 
 ?>
 
