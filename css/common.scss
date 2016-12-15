@@ -104,3 +104,46 @@ button::-moz-focus-inner {
     border-bottom: 0;
   }
 }
+
+#restaurant-gallery {
+  display: flex;
+  align-items: center;
+  position: relative;
+  width: 100%;
+  height: 300px;
+
+  img {
+    max-width: 512px;
+    max-height: 512px;
+    margin: auto auto 20px;
+  }
+
+  .arrow_bg {
+    width: 10%;
+    position: absolute;
+    top: 50%;
+  }
+
+  #right_arrow_bg {
+    right: 10%;
+  }
+
+  #left_arrow_bg {
+    left: 10%;
+  }
+
+  div {
+    width: 100%;
+    text-align: center;
+  }
+
+  i {
+    padding: 0 0.2em;
+    cursor: pointer;
+  }
+}
+
+.photo-label {
+  text-align: center;
+  font-size: 0.8em;
+}

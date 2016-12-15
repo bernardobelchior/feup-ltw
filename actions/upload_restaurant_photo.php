@@ -28,5 +28,5 @@ for ($i = 0; $i < count($_FILES['photos']['name']); $i++) {
 }
 
 $_SESSION['token'] = generateRandomToken();
-header('Location: ../pages/index.php?page=restaurant_profile.php&id=' . $id);
+header('Location: ' . $_SERVER['HTTP_REFERER']);
 die();

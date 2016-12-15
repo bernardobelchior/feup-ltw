@@ -48,6 +48,11 @@ unset($restaurantInfo);
 
 <div class="page_content">
     <header class="page_title"><strong>Edit Restaurant</strong></header>
+    <form id="delete-restaurant" method="post" action="../actions/delete_restaurant.php">
+        <input type="hidden" name="token" value="<?= $_SESSION['token'] ?>"/>
+        <input type="hidden" name="restaurant_id" value="<?= $id ?>"/>
+        <button type="submit">Delete Restaurant</button>
+    </form>
     <div id="restaurant-info">
         <div class="section_title">General Info</div>
         <ul id="profile_attr_list">
@@ -123,19 +128,22 @@ unset($restaurantInfo);
                 <form method="post" action="../actions/edit_restaurant.php">
                     <input type="hidden" name="token" value="<?= $_SESSION['token'] ?>"/>
                     <input type="hidden" name="restaurant_id" value="<?= $id ?>"/>
-                    <input type="hidden" name="type" value="name"/>
+                    <input type="hidden" name="type" value="categories"/>
                     <span class="list_attr_name"><strong>Categories</strong></span>
                     <div class="list_attr_content">
                         <ul class="categories-list" id="current-categories">
                             <?php
                             $current_categories = getRestaurantCategories($id);
                             foreach ($current_categories as $category)
-                                echo '<li class="category-box" name="categories" value=' . $category['ID'] . '>' . $category['Name'] . '</li>';
+                                echo '<li class="category-box" value=' . $category['ID'] . '>' . $category['Name'] . '</li>';
                             ?>
                         </ul>
                         <ul class="categories-list" id="edit-categories" hidden="hidden">
                             <?php
                             $categories = getAllCategories();
+                            var_dump($categories);
+                            var_dump($current_categories);
+
 
                             foreach ($categories as $category) {
                                 if (in_array($category['ID'], $current_categories))
@@ -154,8 +162,37 @@ unset($restaurantInfo);
         </ul>
     </div>
     <div id="photos">
-        <div class="section_title">Photos</div>
-        <div id="upload">
+        <div class="section_title" id="photos-header">Photos</div>
+        <div id="restaurant-gallery">
+            <?php
+            $photos = getRestaurantPhotos($id);
+            if (count($photos) > 0) {
+                echo '<div class="arrow_bg" id="left_arrow_bg">
+            <i id="left-arrow" class="fa fa-chevron-left fa-4x" aria-hidden="true"></i>
+            </div>';
+
+                foreach ($photos as $photo) {
+                    echo '<img class="rest-photo" src ="../' . $photo['Path'] . '">';
+                    if ($photo['UploaderID'] === $ownerId)
+                        $photoUploader = $name;
+                    else
+                        $photoUploader = getUserField($photo['UploaderID'], 'Name');
+                }
+
+
+                echo '
+            <div class="arrow_bg" id="right_arrow_bg">
+            <i id="right-arrow" class="fa fa-chevron-right fa-4x" aria-hidden="true"></i>
+            </div>';
+            }
+            ?>
+        </div>
+        <?php
+        if (count($photos) > 0)
+            echo '<div class="photo-label" > Photo added by: ' . $photoUploader . '</div>';
+        ?>
+
+        <div id="photo-management">
             <span>Add some photos:</span>
             <form id="photos-form" method='post' action="../actions/upload_restaurant_photo.php"
                   enctype="multipart/form-data">
@@ -164,29 +201,6 @@ unset($restaurantInfo);
                 <input name="photos[]" type="file" multiple="multiple"/>
                 <button class="upload_photos" type="submit">Submit</button>
             </form>
+            <button id="delete-photo">Delete Photo</button>
         </div>
 
-        <div id="restaurant-gallery">
-            <?php
-            $photos = getRestaurantPhotos($id);
-
-            if (count($photos) > 0) {
-                echo '<i id="left-arrow" class="fa fa-chevron-left fa-4x" aria-hidden="true"></i>';
-                echo '<div>';
-
-                foreach ($photos as $photo) {
-                    echo '<img class="photo" src="' . '../' . $photo['Path'] . '" alt="Restaurant photo"></img>';
-                }
-
-                echo '</div>
-          <i id="right-arrow" class="fa fa-chevron-right fa-4x" aria-hidden="true"></i>';
-            }
-            ?>
-        </div>
-        <button id="delete-photo">Delete Photo</button>
-        <form id="delete-restaurant" method="post" action="../actions/delete_restaurant.php">
-            <input type="hidden" name="token" value="<?= $_SESSION['token'] ?>"/>
-            <input type="hidden" name="restaurant_id" value="<?= $id ?>"/>
-            <button type="submit">Delete Restaurant</button>
-        </form>
-    </div>

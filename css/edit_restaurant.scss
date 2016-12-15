@@ -12,13 +12,18 @@
 div .list_attr_content {
   display: inline;
   margin: 0;
-  .category-box{
+
+  .category-box {
     display: inline-block;
   }
 }
 
-#edit-categories {
+#edit-categories, #current-categories {
   display: inline-block;
+}
+
+#current-categories li {
+  margin-left: 1em;
 }
 
 .edit-field {
@@ -33,12 +38,37 @@ div .list_attr_content {
   }
 }
 
-#opening-time{
+#opening-time {
   margin-right: 10px;
 }
 
-.inputs{
-  select{
+.inputs {
+  select {
     width: 7em;
+  }
+}
+
+header {
+  display: inline-block;
+}
+
+#delete-restaurant {
+  float: right;
+}
+
+#photos-header {
+  margin-bottom: 1.5em;
+}
+
+#photo-management {
+  margin-top: 2em;
+  display: block;
+
+  form {
+    display: inline;
+  }
+
+  #delete-photo {
+    float: right;
   }
 }

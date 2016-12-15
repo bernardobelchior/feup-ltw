@@ -4,7 +4,55 @@ $(document).ready(function () {
     $('#edit-categories').hide();
 
     $('#categories .cancel_btn').on('click', toggleCategoriesEditForm);
+
+    $('#restaurant-gallery img:not(:first)').hide();
+    $('#restaurant-gallery span:not(:first)').hide();
+
+    $('#right-arrow').on('click', nextImage);
+    $('#left-arrow').on('click', previousImage);
 });
+
+function nextImage() {
+    let currentImage = $('#restaurant-gallery img:not(:hidden):first');
+    let currentLabel = $('#restaurant-gallery span:not(:hidden):first');
+
+    if (!currentImage.siblings('img').length)
+        return;
+
+    currentImage.hide();
+    currentLabel.hide();
+
+    let next = currentImage.next('img');
+    let nextLabel = currentLabel.next('span');
+
+    if (next.length === 0) {
+        next = currentImage.siblings('img').first();
+        nextLabel = currentLabel.siblings('span').first();
+    }
+    next.show();
+    nextLabel.show();
+}
+
+function previousImage() {
+    let currentImage = $('#restaurant-gallery img:not(:hidden):first');
+    let currentLabel = $('#restaurant-gallery span:not(:hidden):first');
+
+    if (!currentImage.siblings('img').length)
+        return;
+
+    currentImage.hide();
+    currentLabel.hide();
+
+    let prev = currentImage.prev('img');
+    let prevLabel = currentLabel.prev('span');
+
+    if (prev.length === 0) {
+        prev = currentImage.siblings('img').last();
+        prevLabel = currentLabel.siblings('span').last();
+    }
+    prev.show();
+    prevLabel.show();
+}
 
 function deleteCurrentPhoto() {
     let token = $('input#token').val();

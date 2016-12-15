@@ -1,13 +1,13 @@
 @import "common";
 
-ul{
+ul {
   margin: 0;
   padding-left: 1em;
   display: inline-block;
   vertical-align: top;
 }
 
-li{
+li {
   list-style: none;
   padding: 0;
   margin: 0;
@@ -15,9 +15,9 @@ li{
 
 #restaurant-profile {
 
-  .page_title{
+  .page_title {
     margin-top: 1em;
-    margin-bottom:1em;
+    margin-bottom: 1em;
     border-bottom: none;
   }
 
@@ -27,7 +27,7 @@ li{
     color: #3f4035;
   }
 
-  #restaurant-information{
+  #restaurant-information {
     width: 100%;
     margin-bottom: 2em;
 
@@ -39,16 +39,16 @@ li{
       vertical-align: top;
     }
 
-    #restaurant-categ-div{
+    #restaurant-categ-div {
       margin-top: 30px;
     }
 
-    #restaurant-desc-categ{
-      div{
+    #restaurant-desc-categ {
+      div {
         width: 100%;
       }
 
-      #restaurant-description-cont{
+      #restaurant-description-cont {
         height: 60%;
         overflow-y: auto;
         overflow-x: hidden;
@@ -56,11 +56,11 @@ li{
     }
   }
 
-  #rating{
+  #rating {
     height: 1.2em;
   }
 
-  .restaurant-general{
+  .restaurant-general {
     display: inline;
     justify-content: space-between;
   }
@@ -76,7 +76,7 @@ li{
     }
   }
 
-  #restaurant-description{
+  #restaurant-description {
     width: 45%;
     height: 100%;
     display: inline-block;
@@ -84,14 +84,11 @@ li{
 
   }
 
-
   #restaurant-profile-header {
     display: inline;
 
-
     #resturant-header {
       border-bottom: 1px solid #62AB93;
-
 
       #average {
         padding-left: 0.6em;
@@ -124,51 +121,7 @@ li{
   }
 }
 
-#restaurant-gallery {
-  display: flex;
-  align-items: center;
-  position: relative;
-  width: 100%;
-  height: 300px;
-
-  img{
-    margin: auto;
-    max-width: 512px;
-    max-height: 512px;
-  }
-
-  .arrow_bg{
-    width: 10%;
-    position: absolute;
-    top: 50%;
-  }
-
-  #right_arrow_bg{
-    right: 10%;
-  }
-
-  #left_arrow_bg{
-    left: 10%;
-  }
-
-
-
-  div{
-    width: 100%;
-    text-align: center;
-  }
-
-  img{
-    margin-bottom: 20px;
-  }
-
-  i {
-    padding: 0 0.2em;
-    cursor: pointer;
-  }
-}
-
-.restaurant-main-picture-container{
+.restaurant-main-picture-container {
   display: inline;
   z-index: 1;
   width: 200px;
@@ -177,7 +130,7 @@ li{
   text-align: center;
   vertical-align: middle;
 
-  img{
+  img {
     width: 168px;
     height: 168px;
     border: 1px solid #acae99;
@@ -192,7 +145,7 @@ li{
     }
   }
 
-  .review-container{
+  .review-container {
     background: #d2ccb4;
     padding: 1em;
     border-radius: 3px;
@@ -302,11 +255,9 @@ li{
   color: red;
 }
 
-#user-photos{
+#user-photos {
   margin-top: 20px;
 }
 
-.photo-label{
-  text-align: center;
-  font-size: 0.8em;
-}
+
+

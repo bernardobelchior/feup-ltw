@@ -13,7 +13,7 @@ if ($_SESSION['token'] !== $_POST['token'] ||
         $_SESSION['userId'] !== intval(getRestaurantField($restaurant_id, 'OwnerID')))
 ) {
     header('HTTP/1.0 403 Forbidden');
-    header('Location: ../403.php');
+    header('Location: ../pages/index.php?page=403.php');
     die();
 }
 
@@ -49,19 +49,14 @@ switch ($type) {
         updateRestaurantClosingHour($restaurant_id, $closingHour);
         break;
     case 'categories' :
-        $categories = getRestaurantCategories($restaurant_id);
-        $categories_ids = [];
+        $categories = $_POST['categories'];
 
-        foreach ($categories as $category) {
-            array_push($categories_ids, $category['ID']);
-        }
+        foreach ($categories as $category)
+            $category = htmlspecialchars($category);
 
-        foreach ($value as $category) {
-            if (!in_array($category, $categories_ids))
-                addCategoryToRestaurant($restaurant_id, $category);
-        }
-        removeOtherCategoriesFromRestaurant($restaurant_id, $value);
+        updateRestaurantCategories($restaurant_id, $categories);
         break;
 }
+
 header('Location: ' . $_SERVER['HTTP_REFERER']);
 die();

@@ -137,7 +137,7 @@ unset($restaurantInfo);
 
             foreach ($photos as $photo) {
                 $photoUploader;
-                echo '<img class="rest-photo" src ="../' . $photo['Path'] . '">"';
+                echo '<img class="rest-photo" src ="../' . $photo['Path'] . '">';
                 if ($photo['UploaderID'] === $ownerId)
                     $photoUploader = $name;
                 else
@@ -246,8 +246,8 @@ unset($restaurantInfo);
     </form>';
             }
         }
-        ?>
-        <?php if (isset($_SESSION['userId']))
+
+        if (isset($_SESSION['userId']))
             echo '<div id="user-photos">Add your photos:</div>
     <form id="photos-form" method="post" action="../actions/upload_restaurant_photo.php"
     enctype="multipart/form-data">
