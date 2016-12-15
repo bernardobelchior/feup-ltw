@@ -30,7 +30,7 @@ unset($restaurantInfo);
 ?>
 
 <link rel="stylesheet" href="../css/restaurant_profile.min.css">
-<script src="../../js/restaurant_profile.js"></script>
+<script src="../js/restaurant_profile.js"></script>
 
 <div id="restaurant-profile" class="page_content">
 
@@ -100,9 +100,9 @@ unset($restaurantInfo);
                 <div id="restaurant-description-cont">
                     <?php if ($openingTime == $closingTime)
                         echo '<a id="rest-hour-cont">Open All Day</a>';
-
-                    else
-                        echo '<a id="rest-hour-cont">From ' . $openingTime . 'h to ' . $closingTime . 'h</a>';
+                    else {
+                        echo '<a id="rest-hour-cont">From ' . floor($openingTime) . ':' . ($openingTime - floor($openingTime)) * 60 . 'h to ' . floor($closingTime) . ':' . ($closingTime - floor($closingTime)) * 60 . 'h</a>';
+                    }
                     ?>
                 </div>
             </div>
@@ -127,36 +127,34 @@ unset($restaurantInfo);
         </span>
     </div>
     <div class="maindiv" id="photos-div">
-    <div class="page_title">Photos</div>
-    <div id="restaurant-gallery" >
-        <?php
-        if (count($photos) > 0) {
-            echo '<div class="arrow_bg" id="left_arrow_bg">
+        <div class="page_title">Photos</div>
+        <div id="restaurant-gallery">
+            <?php
+            if (count($photos) > 0) {
+                echo '<div class="arrow_bg" id="left_arrow_bg">
             <i id="left-arrow" class="fa fa-chevron-left fa-4x" aria-hidden="true"></i>
             </div>';
-
-            foreach ($photos as $photo) {
-                $photoUploader;
-                echo '<img class="rest-photo" src ="../' . $photo['Path'] . '">';
-                if ($photo['UploaderID'] === $ownerId)
-                    $photoUploader = $name;
-                else
-                    $photoUploader = getUserField($photo['UploaderID'], 'Name');
-            }
+                foreach ($photos as $photo) {
+                    echo '<img class="rest-photo" src ="../' . $photo['Path'] . '">';
+                    if ($photo['UploaderID'] === $ownerId)
+                        $photoUploader = $name;
+                    else
+                        $photoUploader = getUserField($photo['UploaderID'], 'Name');
+                }
 
 
-            echo '
+                echo '
             <div class="arrow_bg" id="right_arrow_bg">
             <i id="right-arrow" class="fa fa-chevron-right fa-4x" aria-hidden="true"></i>
             </div>';
-        }
+            }
+            ?>
+        </div>
+        <?php
+        if (count($photos) > 0)
+            echo '<div class="photo-label" > Photo added by: ' . $photoUploader . '</div>';
         ?>
     </div>
-    <?php
-    if (count($photos) > 0)
-        echo '<div class="photo-label" > Photo added by: ' . $photoUploader . '</div>';
-    ?>
-</div>
 
     <div id="reviews" class="maindiv" style="padding: 1em">
         <div class="page_title"><strong>Restaurant Reviews</strong></div>

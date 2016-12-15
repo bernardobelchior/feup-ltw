@@ -19,7 +19,7 @@ $_SESSION['signup-token'] = generateRandomToken(); ?>
 <div class="top-bar">
     <ul>
         <li id="home_button"><a href="../index.php">
-                <img src="/res/eatr.png" alt="W3Schools.com"> </a>
+                <img src="../res/eatr.png" alt="Eatr logo"> </a>
         </li>
         <li id="user-zone">
             <ul>
