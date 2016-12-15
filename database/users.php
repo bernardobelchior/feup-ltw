@@ -27,7 +27,7 @@ function createUser($username, $password, $email, $name) {
  * @param $password string User's password.
  * @return bool Returns true if the $username and $password match.
  */
-function login($username, $password) {
+function verifyLogin($username, $password) {
     global $db;
 
     $statement = $db->prepare('SELECT Password FROM Users WHERE Username = ?');

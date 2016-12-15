@@ -59,44 +59,36 @@ $_SESSION['signup-token'] = generateRandomToken(); ?>
 
 <div class="spacing" style="margin-bottom: 4em"></div>
 
-<!-- TODO: Check for $_SESSION['signup-error'].
- If it is set, then there was an error in signup and the signup form should open
- immediately.
-Don't forget to unset it afterwards.
- -->
-<div class="overlay">
-    <div id="sign_up_overlay" hidden="hidden">
+<div class="overlay" hidden="hidden">
+    <div id="sign_up_overlay">
         <div id="signup_form">
             <h1>Sign Up</h1>
-            <form id="sign_up_form" method="post" action="../actions/sign_up.php" onsubmit="return validateForm();">
+            <form id="sign_up_form">
+                <input type="hidden" id="signup-token" value="<?= $_SESSION['signup-token'] ?>">
                 <label id="username-label" for="username">Username</label>
-                <input id="username" type="text" name="username" placeholder="Username" required/>
+                <input id="username" type="text" name="username" placeholder="Username" required tabindex="10"/>
                 <div class="columns">
                     <div class="column">
                         <label for="password">Password</label>
-                        <input id="password" type="password" name="password" placeholder="Password" required/>
+                        <input id="password" type="password" name="password" placeholder="Password" required
+                               tabindex="11"/>
 
                         <label for="email">Email</label>
-                        <input id="email" type="email" name="email" placeholder="Email" required/>
+                        <input id="email" type="email" name="email" placeholder="Email" required tabindex="13"/>
                         <button id="sign_up_cancel" type="button" onclick="closeSignUpModal()">Cancel</button>
                     </div>
                     <div class="column">
                         <label for="password-repeat">Repeat password</label>
                         <input id="password-repeat" type="password" name="password-repeat"
                                placeholder="Repeat your Password"
-                               required/>
+                               required tabindex="12"/>
 
                         <label for="name">Name</label>
-                        <input id="name" type="text" name="name" placeholder="Name" required/>
-                        <button id="sign_up_submit">Sign Up!</button>
+                        <input id="name" type="text" name="name" placeholder="Name" required tabindex="14"/>
+                        <button id="sign_up_submit" type="button">Sign Up!</button>
                     </div>
                 </div>
             </form>
-            <!-- TODO: Check for $_SESSION['signup-error'].
-             If it is set, then there was an error in signup and the signup form should open
-             immediately.
-            Don't forget to unset it afterwards.
-             -->
         </div>
     </div>
 </div>
