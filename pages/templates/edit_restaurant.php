@@ -96,7 +96,7 @@ unset($restaurantInfo);
                     <input type="hidden" name="token" value="<?= $_SESSION['token'] ?>"/>
                     <input type="hidden" name="restaurant_id" value="<?= $id ?>"/>
                     <input type="hidden" name="type" value="telephone-number"/>
-                    <span class="list_attr_name"><strong>Telephone Number</strong></span>
+                    <span class="list_attr_name"><strong>Phone Number</strong></span>
                     <span class="list_attr_content"><?php echo $telephoneNumber; ?></span>
                     <span class="edit_link">Edit</span>
                 </form>

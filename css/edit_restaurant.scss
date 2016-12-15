@@ -13,10 +13,32 @@ div .list_attr_content {
   display: inline;
   margin: 0;
   .category-box{
-    display: block;
+    display: inline-block;
   }
 }
 
 #edit-categories {
-  display: block;
+  display: inline-block;
+}
+
+.edit-field {
+  display: inline-block;
+
+  .edit_options {
+    text-align: center;
+
+    * {
+      margin-right: 5px;
+    }
+  }
+}
+
+#opening-time{
+  margin-right: 10px;
+}
+
+.inputs{
+  select{
+    width: 7em;
+  }
 }
