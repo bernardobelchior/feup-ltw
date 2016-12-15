@@ -9,6 +9,9 @@ if (isset($_GET['query']))
 ?>
 
 <link rel="stylesheet" type="text/css" href="../css/landing_page.min.css"/>
+<div id="logo">
+    <img alt="logo" src="../res/eatr.png">
+</div>
 
 <form id="search-form" action="index.php" method="get">
     <input hidden="hidden" type="text" name="page" value="search_results.php">

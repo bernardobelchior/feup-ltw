@@ -81,6 +81,7 @@ button::-moz-focus-inner {
         display: inline;
 
         * {
+          color: #e9ffee;
           margin-right: 10px;
         }
 
@@ -266,4 +267,8 @@ button::-moz-focus-inner {
 
 .divider {
   font-size: 150%;
+}
+
+#logo{
+  text-align: center;
 }

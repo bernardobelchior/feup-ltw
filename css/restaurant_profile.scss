@@ -181,6 +181,12 @@ li{
       font-size: 110%;
     }
   }
+
+  .review-container{
+    background: #d2ccb4;
+    padding: 1em;
+    border-radius: 3px;
+  }
 }
 
 .response-header {
@@ -202,7 +208,7 @@ li{
 }
 
 .review-comment {
-  border: solid 1px #62AB93;
+
 }
 
 .toggle-replies {
@@ -225,7 +231,7 @@ li{
 .reply {
   padding: 1em;
   margin: 1em;
-  background-color: #EAF363;
+  background-color: #E3DBBB;
   border-radius: 5px;
 
   .reply-name {
@@ -235,7 +241,7 @@ li{
   }
 
   .replier-restaurant {
-    color: #447c67;
+    color: #e42c2c;
   }
 
   .reply-date {
@@ -284,4 +290,8 @@ li{
 
 .closed-info {
   color: red;
+}
+
+#user-photos{
+  margin-top: 20px;
 }
