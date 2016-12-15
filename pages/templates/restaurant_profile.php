@@ -21,6 +21,8 @@ $address = $restaurantInfo['Address'];
 $phoneNumber = $restaurantInfo['TelephoneNumber'];
 $costForTwo = $restaurantInfo['CostForTwo'];
 $description = $restaurantInfo['Description'];
+$openingTime = $restaurantInfo['OpeningHour'];
+$closingTime = $restaurantInfo['ClosingHour'];
 $_SESSION['ownerId'] = $ownerId;
 unset($restaurantInfo);
 ?>
@@ -46,6 +48,21 @@ unset($restaurantInfo);
             <div id="restaurant-phone-number">
                 Phone number: <?= $phoneNumber ?>
             </div>
+
+            <?php
+            if(isset($openingTime) && isset($closingTime)){
+              $now = date("H:i");
+              sscanf($now, "%d:%d", $hours, $mins);
+              $time = $hours-1 + $mins/60;
+              if($openingTime < $closingTime && $time > $openingTime && $time < $closingTime || //is open on day hours
+              $openingTime > $closingTime &&                                                    //is open through midnight
+                                          ($time < $openingTime && $time < $closingTime ||      //is open through midnight
+                                           $time > $openingTime))                               //is open through midnight
+                echo '<span class="open-info">The restaurant is open now</span>';
+              else
+                echo '<span class="closed-info">The restaurant is closed now</span>';
+            }
+            ?>
 
             <?php
             $categories = getRestaurantCategories($id);
@@ -75,13 +92,32 @@ unset($restaurantInfo);
                 }
 
                 echo '</div>
-            <i id="right-arrow" class="fa fa-chevron-right fa-4x" aria-hidden="true"></i>';
+                <i id="right-arrow" class="fa fa-chevron-right fa-4x" aria-hidden="true"></i>';
+                foreach ($photos as $photo){
+                  $photoUploader;
+                  if($photo['UploaderID'] === $ownerId)
+                    $photoUploader = $name;
+                  else
+                    $photoUploader = getUserField($photo['UploaderID'], 'Name');
+                  echo '<span class="photo-label"> Photo added by: ' . $photoUploader . '</span>';
+                }
             }
             ?>
 
+            <!-- <div id="upload"> -->
+          <!-- </div> -->
         </div>
     </div>
-
+    <?php if(isset($_SESSION['userId']))
+    echo '<span>Add your photos:</span>
+    <form id="photos-form" method="post" action="../actions/upload_restaurant_photo.php"
+    enctype="multipart/form-data">
+    <input type="hidden" id="token" name="token" value="' . $_SESSION['token'] . '"/>
+    <input type="hidden" id="restaurant_id" name="restaurant_id" value="' . $id . '"/>
+    <input name="photos[]" type="file" multiple="multiple"/>
+    <button class="upload_photos" type="submit">Submit</button>
+  </form>';
+  ?>
     <?php
     if (groupIdHasPermissions((int)$_SESSION['groupId'], 'EDIT_ANY_RESTAURANT') || (int)$_SESSION['userId'] === (int)$ownerId)
         echo '<a id="edit-restaurant" href="index.php?page=edit_restaurant.php&id=' . $id . '"><span>Edit Profile</span></a>';

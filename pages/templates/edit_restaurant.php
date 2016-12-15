@@ -29,6 +29,15 @@ $address = $restaurantInfo['Address'];
 $description = $restaurantInfo['Description'];
 $costForTwo = $restaurantInfo['CostForTwo'];
 $telephoneNumber = $restaurantInfo['TelephoneNumber'];
+$openingTime = $restaurantInfo['OpeningHour'];
+$closingTime = $restaurantInfo['ClosingHour'];
+if(isset($openingTime) && isset($closingTime)){
+  $openingHour = intval($openingTime);
+  $openingMinute = ($openingTime - $openingHour) * 60;
+  $closingHour = intval($closingTime);
+  $closingMinute = ($closingTime - $closingHour) * 60;
+}
+
 
 $_SESSION['ownerId'] = $ownerId;
 unset($restaurantInfo);
@@ -40,8 +49,6 @@ unset($restaurantInfo);
 <script type="text/javascript" src="../js/edit_restaurant.js"></script>
 
 <div id="restaurant-profile" class="container">
-    <!-- <input type="hidden" id="token" name="token" value="<?php echo $_SESSION['token']; ?>"/>
-  <input type="hidden" id="restaurant_id" name="restaurant_id" value="<?php echo $id; ?>"/> -->
     <ul id="profile_attr_list">
         <li id="name">
             <span class="list_attr_name"><strong>Name</strong></span>
@@ -66,6 +73,40 @@ unset($restaurantInfo);
         <li id="telephone-number">
             <span class="list_attr_name"><strong>TelephoneNumber</strong></span>
             <span class="list_attr_content"><?php echo $telephoneNumber; ?></span>
+            <span class="edit_link">Edit</span>
+        </li>
+        <li class="hour" id="opening">
+            <span class="list_attr_name"><strong>Opening Hour</strong></span>
+              <select class="select-time" id="opening-time">
+                <?php
+                for ($i=0; $i<24; $i++){
+                  for($j=0;$j<2;$j++){
+                    if($i + $j * 0.5 == $openingTime)
+                      echo sprintf('<option selected="selected" value="%d">%02d:%02d</option>', $i*10+$j*5, $i, $j*30);
+                    else
+                      echo sprintf('<option value="%d">%02d:%02d</option>', $i*10+$j*5, $i, $j*30);
+                  }
+                }
+                ?>
+            </select>
+            <span class="list_attr_content"><?php if(isset($openingHour)) echo sprintf("%02d:%02d", $openingHour, $openingMinute); ?></span>
+            <span class="edit_link">Edit</span>
+        </li>
+        <li class="hour" id="closing">
+            <span class="list_attr_name"><strong>Closing Hour</strong></span>
+            <select class="select-time" id="closing-time">
+              <?php
+              for ($i=0; $i<24; $i++){
+                for($j=0;$j<2;$j++){
+                  if($i + $j * 0.5 == $closingTime)
+                    echo sprintf('<option selected="selected" value="%d">%02d:%02d</option>', $i*10+$j*5, $i, $j*30);
+                  else
+                    echo sprintf('<option value=%d>%02d:%02d</option>', $i*10+$j*5, $i, $j*30);
+                }
+              }
+              ?>
+            </select>
+            <span class="list_attr_content"><?php if(isset($closingHour)) echo sprintf("%02d:%02d", $closingHour, $closingMinute); ?></span>
             <span class="edit_link">Edit</span>
         </li>
         <li id="categories">
@@ -97,39 +138,29 @@ unset($restaurantInfo);
         </li>
         <li id="photos">
             <span class="list_attr_name"><strong>Photos</strong></span>
-            <div id="upload">
-                <span>Add some photos:</span>
-                <form id="photos-form" method='post' action="../actions/upload_restaurant_photo.php"
-                      enctype="multipart/form-data">
-                    <input type="hidden" id="token" name="token" value="<?= $_SESSION['token'] ?>"/>
-                    <input type="hidden" id="restaurant_id" name="restaurant_id" value="<?= $id ?>"/>
-                    <input name="photos[]" type="file" multiple="multiple"/>
-                    <button class="upload_photos" type="submit">Submit</button>
-                </form>
-            </div>
-
             <script src="../js/restaurant_profile.js"></script>
+
             <div id="restaurant-gallery">
                 <?php
                 $photos = getRestaurantPhotos($id);
 
                 if (count($photos) > 0) {
                     echo '<i id="left-arrow" class="fa fa-chevron-left fa-4x" aria-hidden="true"></i>
-          <div>';
+                          <div>';
 
                     foreach ($photos as $photo) {
                         echo '<img class="photo" src="' . '../' . $photo['Path'] . '" alt="Restaurant photo"></img>';
                     }
 
                     echo '</div>
-          <i id="right-arrow" class="fa fa-chevron-right fa-4x" aria-hidden="true"></i>';
+                          <i id="right-arrow" class="fa fa-chevron-right fa-4x" aria-hidden="true"></i>';
                 }
                 ?>
             </div>
             <button id="delete-photo">Delete Photo</button>
 </div>
 <form id="delete-restaurant" method="post" action="../actions/delete_restaurant.php">
-    <input type="hidden" name="token" value="<?= $_SESSION['token'] ?>"/>
-    <input type="hidden" name="restaurant_id" value="<?= $id ?>"/>
+    <input type="hidden" id="token" name="token" value="<?= $_SESSION['token'] ?>"/>
+    <input type="hidden" id="restaurant_id" name="restaurant_id" value="<?= $id ?>"/>
     <button type="submit">Delete Restaurant</button>
 </form>

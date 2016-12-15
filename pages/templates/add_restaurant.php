@@ -21,6 +21,25 @@ $_SESSION['token'] = generateRandomToken();
     <input name="address" id="address" type="text" placeholder="Address" required>
     <input name="cost-for-two" id="cost-for-two" type="number" min="1" placeholder="Cost for two">
     <input name="phone-number" id="phone-number" type="number" min="0" placeholder="Phone number">
+    <select name="opening-time">
+      <?php
+      for ($i=0; $i<24; $i++){
+        for($j=0;$j<2;$j++){
+            echo sprintf('<option value="%d">%02d:%02d</option>', $i*10+$j*5, $i, $j*30);
+        }
+      }
+      ?>
+    </select>
+    <select name="closing-time">
+      <?php
+      for ($i=0; $i<24; $i++){
+        for($j=0;$j<2;$j++){
+            echo sprintf('<option value="%d">%02d:%02d</option>', $i*10+$j*5, $i, $j*30);
+        }
+      }
+      ?>
+    </select>
+
     <textarea name="description" id="restaurant-description" placeholder="Description" rows="5" cols="55"></textarea>
     <div id="categories-label">Categories:</div>
     <ul id="categories">

@@ -12,10 +12,45 @@ function deleteCurrentPhoto() {
 
     let path = currentImage.attr('src').substr(3);
 
-    console.log('Called');
     $.post("../actions/delete_restaurant_photo.php", {token: token, src: path}).done(function () {
         window.location.reload(true);
     });
+}
+
+function hourListener(target) {
+  let tag = $(target).prev();
+  let value = tag.text();
+  let id = tag.parents("li").attr('id');
+
+
+  let new_tag = $('#' + id + '-time');
+  new_tag.css('display', 'inline-block');
+  tag.hide();
+
+  let btn = $(target);
+  let new_btn_id = "btn_" + id;
+  btn.replaceWith($('<span id="' + new_btn_id + '" class=' + btn.attr('class') + '>Confirm</span>'));
+  let new_btn = $('span#' + new_btn_id);
+
+  new_btn.on('click', function () {
+      let token = $('input#token').val();
+      let restaurant_id = $('input#restaurant_id').val();
+      let new_value = new_tag.val();
+      if (new_value !== value)
+          $.post("../actions/edit_restaurant.php", {
+              token: token,
+              restaurant_id: restaurant_id,
+              type: id,
+              value: new_value/10
+          });
+      tag.text($('option[value="' + new_value + '"]').html());
+      tag.show();
+      $('#opening-time').hide();
+      $('#closing-time').hide();
+      new_btn.replaceWith(btn);
+      btn.on('click', onEdit);
+  });
+
 }
 
 function onEdit() {
@@ -23,11 +58,15 @@ function onEdit() {
     let value = tag.text();
     let id = tag.parents("li").attr('id');
 
-    let new_tag = $('<input name="' + id + '" id="input_' + id + '" class=' + tag.attr('class') + ' value="' + tag.html() + '"/>')
-    if (id === 'categories') {
-        categoriesListener(this);
-        return;
+    if (tag.parents("li").attr('class') === 'hour') {
+      hourListener(this);
+      return;
     }
+    if (id === 'categories') {
+      categoriesListener(this);
+      return;
+    }
+    let new_tag = $('<input name="' + id + '" id="input_' + id + '" class=' + tag.attr('class') + ' value="' + tag.html() + '"/>')
     tag.replaceWith(new_tag);
     if (id === 'telephone-number') {
         new_tag.attr('type', 'number');

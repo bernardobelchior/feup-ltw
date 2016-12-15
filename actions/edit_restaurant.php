@@ -13,10 +13,10 @@ if ($_SESSION['token'] !== $_POST['token']) {
 
 $restaurant_id = htmlspecialchars($_POST['restaurant_id']);
 $type = htmlspecialchars($_POST['type']);
-$picked_categories = $_POST['picked_categories'];
+$value = $_POST['value'];
 
-for($i = 0; $i < count($picked_categories); $i++){
-  $picked_categories[$i] = htmlspecialchars($picked_categories[$i]);
+for($i = 0; $i < count($value); $i++){
+  $value[$i] = htmlspecialchars($value[$i]);
 }
 
 if ($type === 'name')
@@ -29,6 +29,10 @@ else if ($type === 'cost-for-two')
     return updateRestaurantCostForTwo($restaurant_id, $value);
 else if ($type === 'telephone-number')
     return updateRestaurantTelephoneNumber($restaurant_id, $value);
+else if ($type === 'opening')
+    return updateRestaurantOpeningHour($restaurant_id, $value);
+else if ($type === 'closing')
+    return updateRestaurantClosingHour($restaurant_id, $value);
 else if ($type === 'categories') {
     $categories = getRestaurantCategories($restaurant_id);
     $categories_ids = [];
@@ -37,9 +41,9 @@ else if ($type === 'categories') {
         array_push($categories_ids, $category['ID']);
     }
 
-    foreach ($picked_categories as $category) {
+    foreach ($value as $category) {
         if (!in_array($category, $categories_ids))
             addCategoryToRestaurant($restaurant_id, $category);
     }
-    removeOtherCategoriesFromRestaurant($restaurant_id, $picked_categories);
+    removeOtherCategoriesFromRestaurant($restaurant_id, $value);
 }

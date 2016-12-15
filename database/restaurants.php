@@ -8,15 +8,17 @@ include_once('connection.php');
  * @param $description string Restaurant's description.
  * @param $costForTwo integer Cost for two
  * @param $phoneNumber integer Phone number
+ * @param $openingTime float Opening time
+ * @param $closingTime float Closing time
  * @return string Returns the query error code.
  * @internal param float $lat Latitude
  * @internal param float $long Longitude
  */
-function addRestaurant($ownerId, $name, $address, $description, $costForTwo, $phoneNumber) {
+function addRestaurant($ownerId, $name, $address, $description, $costForTwo, $phoneNumber, $openingTime, $closingTime) {
     global $db;
 
-    $statement = $db->prepare('INSERT INTO Restaurants VALUES(NULL, ?, ?, ?, ?, ?, ?)');
-    $statement->execute([$ownerId, $name, $address, $description, $costForTwo, $phoneNumber]);
+    $statement = $db->prepare('INSERT INTO Restaurants VALUES(NULL, ?, ?, ?, ?, ?, ?, ?, ?)');
+    $statement->execute([$ownerId, $name, $address, $description, $costForTwo, $phoneNumber, $openingTime, $closingTime]);
     return $statement->errorInfo(); //Returns 0 even if the insertion failed due to repeated username or email.
 }
 
@@ -191,25 +193,26 @@ function getRestaurantByName($restaurantName) {
 
 /** Adds the photo provided to the respective restaurant.
  * @param $restaurantId int Restaurant ID.
+ * @param $uploaderId int Uploader ID
  * @param $photoPath string Path to photo.
  * @return array Statement's error info.
  */
-function addPhoto($restaurantId, $photoPath) {
+function addPhoto($restaurantId, $uploaderId, $photoPath) {
     global $db;
 
-    $statement = $db->prepare('INSERT INTO RestaurantPhotos VALUES (NULL, ?, ?)');
-    $statement->execute([$restaurantId, $photoPath]);
+    $statement = $db->prepare('INSERT INTO RestaurantPhotos VALUES (NULL, ?, ?, ?)');
+    $statement->execute([$restaurantId, $uploaderId, $photoPath]);
     return $statement->errorInfo();
 }
 
 /** Gets all photos related to that restaurant.
  * @param $restaurantId int Restaurant ID.
- * @return array Array of paths to photos.
+ * @return array Array of photos info.
  */
 function getRestaurantPhotos($restaurantId) {
     global $db;
 
-    $statement = $db->prepare('SELECT Path FROM RestaurantPhotos WHERE RestaurantID = ?');
+    $statement = $db->prepare('SELECT * FROM RestaurantPhotos WHERE RestaurantID = ?');
     $statement->execute([$restaurantId]);
     return $statement->fetchAll();
 }
@@ -327,6 +330,24 @@ function updateRestaurantCostForTwo($id, $value) {
  */
 function updateRestaurantTelephoneNumber($id, $value) {
     return updateRestaurantField($id, 'TelephoneNumber', $value);
+}
+
+/**
+ * Updates the Opening Hour field of a given restaurant
+ * @param $id int Restaurant Id
+ * @param $value float New Opening hour for the restaurant
+ */
+function updateRestaurantOpeningHour($id, $value){
+  return updateRestaurantField($id, 'OpeningHour', $value);
+}
+
+/**
+ * Updates the Closing Hour field of a given restaurant
+ * @param $id int Restaurant Id
+ * @param $value float New Closing hour for the restaurant
+ */
+function updateRestaurantClosingHour($id, $value){
+  return updateRestaurantField($id, 'ClosingHour', $value);
 }
 
 /**
