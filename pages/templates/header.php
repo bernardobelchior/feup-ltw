@@ -37,17 +37,18 @@ $_SESSION['signup-token'] = generateRandomToken(); ?>
                     <?php
                     if (isset($_SESSION['username'])) {
                         echo '<form id="logout_form" action="../actions/logout.php">';
-                        echo '<button id="logout" type="submit"><i class="fa fa-sign-out" aria-hidden="true"></i> Logout</button>';
+                        echo '<button id="logout" class="form-button" type="submit"><i class="fa fa-sign-out" aria-hidden="true"></i> Logout</button>';
                         echo '</form>';
                     } else {
                         echo '<div id="user_login">';
                         echo '<span id="login_text">Log In</span>';
                         echo '<form id="login_form" method="post" action="../actions/login.php">';
-                        echo '<input type="text" name="username" placeholder="Your Username"/>';
-                        echo '<input type="password" name="password" placeholder="Your Password"/>';
-                        echo '<button id="enter" type="submit">Enter</button>';
+                        echo '<input class="form-textbox" type="text" name="username" placeholder="Your Username"/>';
+                        echo '<input class="form-textbox" type="password" name="password" placeholder="Your Password"/>';
+                        echo '<button class="form-button" id="enter" type="submit">Enter</button>';
                         echo '</form>';
                         echo '</div>';
+                        echo '<span class="divider">|</span>';
                         echo '<span id="sign_up_text">Not a Member?</span>';
                     }
                     ?>
@@ -75,7 +76,9 @@ $_SESSION['signup-token'] = generateRandomToken(); ?>
 
                         <label for="email">Email</label>
                         <input id="email" type="email" name="email" placeholder="Email" required tabindex="13"/>
-                        <button id="sign_up_cancel" type="button" onclick="closeSignUpModal()">Cancel</button>
+                        <button id="sign_up_cancel" class="form-button" type="button" onclick="closeSignUpModal()">
+                            Cancel
+                        </button>
                     </div>
                     <div class="column">
                         <label for="password-repeat">Repeat password</label>
@@ -85,7 +88,7 @@ $_SESSION['signup-token'] = generateRandomToken(); ?>
 
                         <label for="name">Name</label>
                         <input id="name" type="text" name="name" placeholder="Name" required tabindex="14"/>
-                        <button id="sign_up_submit" type="button">Sign Up!</button>
+                        <button id="sign_up_submit" class="form-button" type="button">Sign Up!</button>
                     </div>
                 </div>
             </form>

@@ -186,15 +186,6 @@ button::-moz-focus-inner {
 
       padding: 0.5em 0.2em;
       margin-top: 0.8em;
-
-      border: 0;
-      border-radius: 2px;
-
-      text-shadow: 0px -1px #227B5E;
-
-      &:active {
-        transform: translate(0, 5px);
-      }
     }
 
     #sign_up_cancel {
@@ -242,3 +233,37 @@ button::-moz-focus-inner {
   background-color: rgba(0, 0, 0, 0.6);
 }
 
+.form-textbox {
+  box-sizing: border-box;
+
+  background-color: rgba(0, 0, 0, 0.2);
+
+  border: 0;
+  border-radius: 2px;
+
+  padding: 0.2em 0.4em;
+}
+
+.form-button {
+  border: 0;
+
+  background-color: rgba(0, 0, 0, 0.2);
+  border-bottom: 5px solid rgba(0, 0, 0, 0.3);
+
+  border-radius: 2px;
+
+  text-shadow: 0px -1px #227B5E;
+
+  &:active {
+    transform: translate(0, 5px);
+    border-bottom: 0;
+  }
+}
+
+#enter, #logout {
+  border-bottom-width: 2px;
+}
+
+.divider {
+  font-size: 150%;
+}
