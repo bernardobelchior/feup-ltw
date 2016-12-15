@@ -1,6 +1,8 @@
 <?php
 include_once('../database/users.php');
-include_once('../utils.php');
+include_once('../database/passwordLib.php');
+include_once('../utils/utils.php');
+
 session_start(['cookie_httponly' => true]);
 
 // Check if the user came from the Sign Up page.
@@ -9,7 +11,7 @@ if ($_SESSION['signup-token'] !== $_POST['signup-token']) {
     header('Location: ../pages/index.php?page=403.html');
     die();
 }
-$_SESSION['token'] = generateRandomToken();
+$_SESSION['signup-token'] = generateRandomToken();
 
 $username = htmlspecialchars($_POST['username']);
 $password = htmlspecialchars($_POST['password']);

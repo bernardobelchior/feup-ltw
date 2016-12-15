@@ -2,6 +2,29 @@ $(document).ready(function () {
     $('#search-tabs:not(.active)').children().on('click', activateTab);
     $('#search-box').on('input', updateSearch).on('input', showResults).trigger('focus');
     $('.category-box label input').on('change', updateSearch).on('change', showResults);
+
+    noUiSlider.create($('#slider')[0], {
+        start: [0, 1000],
+        connect: true,
+        range: {
+            'min': 0,
+            'max': 1000
+        },
+        tooltips: true,
+        format: {
+            to: function (value) {
+                return '€' + value.toFixed(0);
+            },
+            from: function (value) {
+                return value;
+            }
+        }
+
+    });
+
+    let slider = $('#slider')[0].noUiSlider;
+    slider.on('change', updateSearch);
+    slider.on('set', showResults);
 });
 
 function activateTab(event) {
@@ -28,10 +51,18 @@ function updateSearch() {
     $('#restaurants').children().remove();
     $('#users').children().remove();
 
+    let prices = $('#slider')[0].noUiSlider.get();
+
+    // Needed because of issues of noUiSlider with format
+    // https://github.com/leongersen/noUiSlider/issues/717
+    for (let i = 0; i < prices.length; i++)
+        prices[i] = parseFloat(prices[i].substring(1));
+
     $.ajax('../actions/search.php', {
         data: {
             query: query,
             categories: categories,
+            prices: prices
         },
         dataType: 'json'
     }).done(buildResults)
@@ -86,6 +117,7 @@ function getStarsHTML(value) {
 function showResults() {
     $('#search-box').off('input', showResults);
     $('.category-box label input').off('change', showResults);
+    $('#slider')[0].noUiSlider.off('set');
     $('#search-results').show();
 }
 

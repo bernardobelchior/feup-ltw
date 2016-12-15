@@ -1,11 +1,18 @@
-.page_content {
-  background-color: #EFF1D4;
-  width: 80%;
+body {
+  margin: 0;
+  min-height: 100%;
+}
+
+.page_content{
+  max-width: 90%;
+  min-height: 90%;
+  background: #EFF1D4 linear-gradient(to right, #f0e8da, #f0e8da, #EFF1D4, #f0e8da, #f0e8da);
   position: relative;
-  left: 10%;
   padding: 1em;
   color: #555647;
   border: 1px solid #d8dac0;
+  left: 4%;
+  top: 3.5em;
 }
 
 .page_title {
@@ -17,17 +24,6 @@
   font-size: 1.2em;
   color: #47483E;
   border-bottom: 1px solid #757667;
-}
-
-@mixin container {
-  margin: 1em auto;
-  border: solid thin lightgray;
-  padding: 1em;
-}
-
-.container {
-  @include container;
-  width: 90%;
 }
 
 #body {
@@ -68,4 +64,10 @@
   &:hover {
     border-bottom: solid 1px #9d9e8d;
   }
+}
+
+.clickable:hover{
+  text-decoration: underline;
+  color: #3F4035;
+  cursor: pointer;
 }

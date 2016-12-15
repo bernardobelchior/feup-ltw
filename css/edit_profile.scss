@@ -1,43 +1,70 @@
-form {
-  * {
-    margin: 0.5em;
-    display: block;
+#profile_attr_list {
+  list-style-type: none;
+
+  li {
+    padding: 5px 5px;
+    border-bottom: solid 1px #d2d3bc;
+
   }
 }
-/* The Modal (background) */
-.modal {
-    display: none; /* Hidden by default */
-    position: fixed; /* Stay in place */
-    z-index: 1; /* Sit on top */
-    left: 0;
-    top: 0;
-    width: 100%; /* Full width */
-    height: 100%; /* Full height */
-    overflow: auto; /* Enable scroll if needed */
-    background-color: rgb(0,0,0); /* Fallback color */
-    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+
+.list_attr_name {
+  float: left;
+  text-align: left;
+  width: 120px;
 }
 
-/* Modal Content/Box */
-.modal-content {
-    background-color: #fefefe;
-    margin: 15% auto; /* 15% from the top and centered */
-    padding: 20px;
-    border: 1px solid #888;
-    width: 80%; /* Could be more or less, depending on screen size */
+.list_attr_content {
+  margin-left: 100px;
+  margin-right: 100px;
 }
 
-/* The Close Button */
-.close {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
+.edit_link {
+  float: right;
 }
 
-.close:hover,
-.close:focus {
-    color: black;
-    text-decoration: none;
-    cursor: pointer;
+#change-photo {
+  vertical-align: top;
+  padding-left: 1em;
+
+  form {
+    display: inline;
+  }
+}
+
+#change-photo-text {
+  float: right;
+}
+
+.profile_picture_container {
+  width: 120px;
+  display: inline-block;
+
+  img {
+    height: 64px;
+    width: 64px;
+    border: 1px solid #d2d3bc;
+  }
+}
+
+.fa-pencil {
+  margin-right: 3px;
+}
+
+.edit-field {
+  margin-left: 100px;
+  display: inline-block;
+
+  .edit_options {
+    text-align: center;
+
+    * {
+      margin-right: 5px;
+    }
+  }
+}
+
+#photo form {
+  margin: 0;
+  width: 100%;
 }

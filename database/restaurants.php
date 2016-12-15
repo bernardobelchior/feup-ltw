@@ -106,9 +106,10 @@ function restaurantIdExists($restaurantId) {
  * in order to make it case insensitive.
  * @param $query string The search string.
  * @param $categories array Optional categories to restrict the search.
+ * @param $prices array Optional price range. Index 0 is minimum price, index 1 is maximum.
  * @return array All results.
  */
-function searchRestaurants($query, $categories) {
+function searchRestaurants($query, $categories, $prices) {
     global $db;
 
     //Prepare the query to search for each word individually
@@ -116,6 +117,10 @@ function searchRestaurants($query, $categories) {
         $where = '"%"';
     else
         $where = '"%' . str_replace(' ', '%" OR LOWER(Name) LIKE "%', $query) . '%"';
+
+    $priceRange = '';
+    if (isset($prices) && is_array($prices))
+        $priceRange = ' AND (CostForTwo >= ' . $prices[0] . ' AND CostForTwo <= ' . $prices[1] . ')';
 
     if (isset($categories) && is_array($categories)) {
         $categoryQuery = ' AND (';
@@ -126,9 +131,9 @@ function searchRestaurants($query, $categories) {
         }
 
         $categoryQuery .= 'CategoryID = ' . $categories[$i] . ')';
-        $statement = $db->prepare('SELECT Restaurants.ID, Name, Address FROM Restaurants INNER JOIN RestaurantsCategories ON Restaurants.ID = RestaurantID WHERE LOWER(Name) LIKE ' . $where . $categoryQuery);
+        $statement = $db->prepare('SELECT Restaurants.ID, Name, Address FROM Restaurants INNER JOIN RestaurantsCategories ON Restaurants.ID = RestaurantID WHERE LOWER(Name) LIKE ' . $where . $categoryQuery . $priceRange);
     } else
-        $statement = $db->prepare('SELECT ID, Name, Address FROM Restaurants WHERE LOWER(Name) LIKE ' . $where);
+        $statement = $db->prepare('SELECT ID, Name, Address FROM Restaurants WHERE LOWER(Name) LIKE ' . $where . $priceRange);
 
     // Not sure why, but using the execute([$where]) does not work, this is a workaround.
     $statement->execute();
@@ -287,8 +292,8 @@ function deleteReply($replyId) {
  * @param $id int Restaurant Id
  * @param $value string New name for the restaurant
  */
-function updateRestaurantName($id, $value){
-  return updateRestaurantField($id, 'Name', $value);
+function updateRestaurantName($id, $value) {
+    return updateRestaurantField($id, 'Name', $value);
 }
 
 /**
@@ -296,8 +301,8 @@ function updateRestaurantName($id, $value){
  * @param $id int Restaurant Id
  * @param $value string New address for the restaurant
  */
-function updateRestaurantAddress($id, $value){
-  return updateRestaurantField($id, 'Address', $value);
+function updateRestaurantAddress($id, $value) {
+    return updateRestaurantField($id, 'Address', $value);
 }
 
 /**
@@ -305,8 +310,8 @@ function updateRestaurantAddress($id, $value){
  * @param $id int Restaurant Id
  * @param $value string New description for the restaurant
  */
-function updateRestaurantDescription($id, $value){
-  return updateRestaurantField($id, 'Description', $value);
+function updateRestaurantDescription($id, $value) {
+    return updateRestaurantField($id, 'Description', $value);
 }
 
 /**
@@ -314,8 +319,8 @@ function updateRestaurantDescription($id, $value){
  * @param $id int Restaurant Id
  * @param $value int New Cost For Two for the restaurant
  */
-function updateRestaurantCostForTwo($id, $value){
-  return updateRestaurantField($id, 'CostForTwo', $value);
+function updateRestaurantCostForTwo($id, $value) {
+    return updateRestaurantField($id, 'CostForTwo', $value);
 }
 
 /**
@@ -323,8 +328,8 @@ function updateRestaurantCostForTwo($id, $value){
  * @param $id int Restaurant Id
  * @param $value int New Telephone Number for the restaurant
  */
-function updateRestaurantTelephoneNumber($id, $value){
-  return updateRestaurantField($id, 'TelephoneNumber', $value);
+function updateRestaurantTelephoneNumber($id, $value) {
+    return updateRestaurantField($id, 'TelephoneNumber', $value);
 }
 
 /**
@@ -351,12 +356,12 @@ function updateRestaurantClosingHour($id, $value){
  * @param $field string given field to change
  * @param $value string New address for the restaurant
  */
-function updateRestaurantField($id, $field, $value){
-  global $db;
+function updateRestaurantField($id, $field, $value) {
+    global $db;
 
-  $statement = $db->prepare('UPDATE Restaurants SET ' . $field . ' = ? WHERE id = ?');
-  $statement->execute([$value, $id]);
-  return $statement->errorInfo();
+    $statement = $db->prepare('UPDATE Restaurants SET ' . $field . ' = ? WHERE id = ?');
+    $statement->execute([$value, $id]);
+    return $statement->errorInfo();
 }
 
 /**
@@ -365,13 +370,13 @@ function updateRestaurantField($id, $field, $value){
  * @param $category_id int id of the given field to remove
  * @return error information
  */
-function removeCategoryFromRestaurant($restaurant_id, $category_id){
-  global $db;
+function removeCategoryFromRestaurant($restaurant_id, $category_id) {
+    global $db;
 
-  $statement = $db->prepare('DELETE FROM RestaurantsCategories WHERE RestaurantID = ? AND CategoryID = ?');
-  $statement->execute([$restaurant_id, $category_id]);
+    $statement = $db->prepare('DELETE FROM RestaurantsCategories WHERE RestaurantID = ? AND CategoryID = ?');
+    $statement->execute([$restaurant_id, $category_id]);
 
-  return $statement->errorInfo();
+    return $statement->errorInfo();
 }
 
 /**
@@ -379,15 +384,15 @@ function removeCategoryFromRestaurant($restaurant_id, $category_id){
  * @param $id int Restaurant Id
  * @param $final_categories array of int ids of the categories to keep
  */
-function removeOtherCategoriesFromRestaurant($restaurant_id, $final_categories){
-  global $db;
+function removeOtherCategoriesFromRestaurant($restaurant_id, $final_categories) {
+    global $db;
 
-  $current_categories = getRestaurantCategories($restaurant_id);
+    $current_categories = getRestaurantCategories($restaurant_id);
 
-  foreach ($current_categories as $category) {
-    if(!in_array($category['ID'], $final_categories))
-      removeCategoryFromRestaurant($restaurant_id, $category['ID']);
-  }
+    foreach ($current_categories as $category) {
+        if (!in_array($category['ID'], $final_categories))
+            removeCategoryFromRestaurant($restaurant_id, $category['ID']);
+    }
 }
 
 /**
@@ -402,12 +407,11 @@ function getMaxPhotoName($id) {
     $statement->execute([$id]);
     $str = $statement->fetch()[0];
 
-    if($str){
-      list($my_val) = sscanf($str, 'restaurant_pictures/' . $id . '/%d.jpg');
-      return $my_val;
-    }
-    else
-      return 0;
+    if ($str) {
+        list($my_val) = sscanf($str, 'restaurant_pictures/' . $id . '/%d.jpg');
+        return $my_val;
+    } else
+        return 0;
 }
 
 /**

@@ -1,7 +1,7 @@
 <?php
 session_start(['cookie_httponly' => true]);
 
-include_once('../utils.php');
+include_once('../utils/utils.php');
 include_once('../database/restaurants.php');
 
 // If the user didn't come from a valid page.
@@ -23,8 +23,8 @@ for ($i = 0; $i < count($_FILES['photos']['name']); $i++) {
     $picNumber = $i + $lastPicNr;
     $extension = pathinfo($_FILES['photos']['name'][$i], PATHINFO_EXTENSION);
     $picturePath = 'restaurant_pictures/' . $id . '/' . $picNumber . '.' . $extension;
-    move_uploaded_file($_FILES['photos']['tmp_name'][$i], '../' . $picturePath);
-    addPhoto($id, $_SESSION['userId'], $picturePath);
+    if (move_uploaded_file($_FILES['photos']['tmp_name'][$i], '../' . $picturePath))
+        addPhoto($id, $_SESSION['userId'], $picturePath);
 }
 
 $_SESSION['token'] = generateRandomToken();

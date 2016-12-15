@@ -1,23 +1,50 @@
-@import "common";
+ul{
+  margin: 0;
+  padding-left: 1em;
+  display: inline-block;
+  vertical-align: top;
+}
+
+li{
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
 
 #profile {
-  display: flex;
+  display: inline;
   justify-content: space-between;
-  padding: 2em;
 
   #name {
     font-weight: bold;
+    font-size: 2em;
+    color: #3f4035;
   }
 
-  #edit-profile {
-    display: block;
-    text-align: right;
-    margin-bottom: 1em;
+  #email{
+    font-size: 1.2em;
   }
 
-  #profile-picture {
-    border: 1px solid grey;
+  #edit-profile{
+    vertical-align: top;
+    margin-left: 5px;
   }
+}
+
+.profile_picture_container{
+  display: inline;
+  z-index: 1;
+  width: 200px;
+  height: 200px;
+  background: none;
+  text-align: center;
+  vertical-align: middle;
+}
+
+#profile_picture{
+  width: 168px;
+  height: 168px;
+  border: 1px solid #acae99;
 }
 
 #restaurants {
@@ -25,10 +52,8 @@
   white-space: nowrap;
 
   .restaurant-container {
-    @include container;
     display: inline-block;
     vertical-align: middle;
-    margin: 0 0;
     overflow-x: hidden;
 
     &:not(:first-child) {
@@ -41,8 +66,3 @@
   }
 }
 
-img {
-  float: right;
-  width: 15em;
-  height: 15em;
-}

@@ -1,5 +1,6 @@
 <?php
 include_once('connection.php');
+
 $USER_GROUP_ID = 3; //Regular user group ID.
 //FIXME: All statements that return errorCode() should return errorInfo() as it gives more information.
 
@@ -127,24 +128,26 @@ function idExists($userId) {
  * @return array Statement error info.
  */
 function updateUserField($userId, $field, $value) {
-  global $db;
+    global $db;
 
-  $statement = $db->prepare('UPDATE Users SET ' . $field . ' = ? WHERE id = ?');
-  $statement->execute([$value, $userId]);
-  return $statement->errorInfo();
+    $statement = $db->prepare('UPDATE Users SET ' . $field . ' = ? WHERE id = ?');
+    $statement->execute([$value, $userId]);
+    return $statement->errorInfo();
 }
 
 /** Updates the user password
  * @param $userId int User ID
- * @param $password string User password. Not hashed
+ * @param $old_password string Old password. Not hashed.
+ * @param $new_password string User password. Not hashed.
  * @return string Returns error information.
  */
-function updatePassword($userId, $password) {
-  global $db;
+function updatePassword($userId, $old_password, $new_password) {
+    $hashed_password = password_hash($new_password, PASSWORD_DEFAULT);
 
-  $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-
-  return updateUserField($userId, 'Password', $hashed_password);
+    if ($old_password === $hashed_password)
+        return updateUserField($userId, 'Password', $hashed_password);
+    else
+        return false;
 }
 
 /** Updates the user Name
@@ -153,9 +156,7 @@ function updatePassword($userId, $password) {
  * @return string Returns error information.
  */
 function updateName($userId, $name) {
-  global $db;
-
-  return updateUserField($userId, 'Name', $name);
+    return updateUserField($userId, 'Name', $name);
 }
 
 /** Updates the user email
@@ -164,31 +165,31 @@ function updateName($userId, $name) {
  * @return string Returns error information.
  */
 function updateEmail($userId, $email) {
-  global $db;
-
-  return updateUserField($userId, 'Email', $email);
+    if ($email = filter_var($email, FILTER_VALIDATE_EMAIL))
+        return updateUserField($userId, 'Email', $email);
+    else
+        return false;
 }
 
 /** Updates the user gender
  * @param $userId int User ID
- * @param $gender char User gender
+ * @param $gender string User gender
  * @return string Returns error information.
  */
 function updateGender($userId, $gender) {
-  global $db;
-
-  return updateUserField($userId, 'Gender', $gender);
+    if ($gender === 'M' || $gender === 'F')
+        return updateUserField($userId, 'Gender', $gender);
+    else
+        return false;
 }
 
 /** Updates the user gender
  * @param $userId int User ID
- * @param $dob char User Date of Birth
+ * @param $dob string User Date of Birth
  * @return string Returns error information.
  */
 function updateDateOfBirth($userId, $dob) {
-  global $db;
-
-  return updateUserField($userId, 'DateofBirth', $dob);
+    return updateUserField($userId, 'DateofBirth', $dob);
 }
 
 /**
@@ -197,11 +198,11 @@ function updateDateOfBirth($userId, $dob) {
  * @return array Statement error info.
  */
 function changeProfilePicture($userId, $picturePath) {
-   global $db;
+    global $db;
 
-   $statement = $db->prepare('UPDATE Users SET Picture = ? WHERE ID = ?;');
-   $statement->execute([$picturePath, $userId]);
-   return $statement->errorInfo();
+    $statement = $db->prepare('UPDATE Users SET Picture = ? WHERE ID = ?;');
+    $statement->execute([$picturePath, $userId]);
+    return $statement->errorInfo();
 }
 
 /** Searches all users with any of the words present in query separated by a space.

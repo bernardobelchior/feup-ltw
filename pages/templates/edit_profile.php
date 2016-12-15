@@ -1,6 +1,6 @@
 <?php
 include_once('../database/users.php');
-include_once('../utils.php');
+include_once('../utils/utils.php');
 
 // Generate token for the update action
 $_SESSION['token'] = generateRandomToken();
@@ -21,74 +21,89 @@ if (!idExists($id)) {
     die();
 }
 
+$profile_picture = getUserField($id, 'Picture');
+if ($profile_picture === null)
+    $profile_picture = '../profile_pictures/facebook-avatar.jpg';
+
 ?>
 
 <link rel="stylesheet" href="../css/edit_profile.min.css">
 <link rel="stylesheet" type="text/css" href="../css/common.min.css"/>
 <script type="text/javascript" src="../js/edit_profile.js"></script>
 
-<div class="container">
+<div class="page_content">
     <header class="page_title"><strong>Edit Profile</strong></header>
     <div id="general_info">
         <div class="section_title">General Info</div>
     </div>
     <ul id="profile_attr_list">
-        <input type="hidden" name="token" id="token" value="<?php echo $_SESSION['token']; ?>"/>
-        <input type="hidden" name="profile_id" id="profile_id" value="<?php echo $id; ?>"/>
+        <li id="photo">
+            <form class="edit-field" action="../actions/upload_photo.php" enctype="multipart/form-data" method="post">
+                <input type="hidden" name="type" value="username">
+                <input type="hidden" name="token" id="token" value="<?php echo $_SESSION['token']; ?>"/>
+                <input type="hidden" name="id" value="<?php echo $id; ?>"/>
+                <span class="profile_picture_container">
+                <img src="<?php echo '../' . $profile_picture ?>" alt="User's profile picture"/>
+            </span>
+                <span class="list_attr_content" hidden></span>
+                <span id="change-photo-text" class="edit_link clickable"><i class="fa fa-pencil"></i>Change your profile picture</span>
+            </form>
+        </li>
         <li id="username">
             <span class="list_attr_name"><strong>Username</strong></span>
             <span class="list_attr_content"><?php echo getUserField($id, 'Username'); ?></span>
-            <!-- <span class="edit_link">Edit</span> -->
+        </li>
+        <li id="password">
+            <form method="post" action="../actions/edit_profile.php">
+                <input type="hidden" name="type" value="password">
+                <input type="hidden" name="token" value="<?php echo $_SESSION['token']; ?>"/>
+                <input type="hidden" name="profile_id" value="<?php echo $id; ?>"/>
+                <span class="list_attr_name"><strong>Password</strong></span>
+                <span class="list_attr_content">*****</span>
+                <span class="edit_link clickable"><i class="fa fa-pencil"></i>Edit</span>
+            </form>
         </li>
         <li id="name">
-            <span class="list_attr_name"><strong>Name</strong></span>
-            <span class="list_attr_content"><?php echo getUserField($id, 'Name'); ?></span>
-            <span class="edit_link">Edit</span>
+            <form method="post" action="../actions/edit_profile.php">
+                <input type="hidden" name="type" value="name">
+                <input type="hidden" name="token" value="<?php echo $_SESSION['token']; ?>"/>
+                <input type="hidden" name="profile_id" value="<?php echo $id; ?>"/>
+                <span class="list_attr_name"><strong>Name</strong></span>
+                <span class="list_attr_content"><?php echo getUserField($id, 'Name'); ?></span>
+                <span class="edit_link clickable"><i class="fa fa-pencil"></i>Edit</span>
+            </form>
         </li>
         <li id="gender">
-            <span class="list_attr_name"><strong>Gender</strong></span>
-            <span class="list_attr_content"><?php echo getUserField($id, 'Gender'); ?></span>
-            <span class="edit_link">Edit</span>
+            <form method="post" action="../actions/edit_profile.php">
+                <input type="hidden" name="type" value="gender">
+                <input type="hidden" name="token" value="<?php echo $_SESSION['token']; ?>"/>
+                <input type="hidden" name="profile_id" value="<?php echo $id; ?>"/>
+                <span class="list_attr_name"><strong>Gender</strong></span>
+                <span class="list_attr_content"><?php echo getUserField($id, 'Gender'); ?></span>
+                <span class="edit_link clickable"><i class="fa fa-pencil"></i>Edit</span>
+            </form>
         </li>
         <li id="email">
-            <span class="list_attr_name"><strong>e-mail</strong></span>
-            <span class="list_attr_content"><?php echo getUserField($id, 'Email'); ?></span>
-            <span class="edit_link">Edit</span>
-            <span class="output" id="email-output"></span>
+            <form method="post" action="../actions/edit_profile.php">
+                <input type="hidden" name="type" value="email">
+                <input type="hidden" name="token" value="<?php echo $_SESSION['token']; ?>"/>
+                <input type="hidden" name="profile_id" value="<?php echo $id; ?>"/>
+                <span class="list_attr_name"><strong>E-mail</strong></span>
+                <span class="list_attr_content"><?php echo getUserField($id, 'Email'); ?></span>
+                <span class="edit_link clickable"><i class="fa fa-pencil"></i>Edit</span>
+                <span class="output" id="email-output"></span>
+            </form>
         </li>
         <li id="dob">
-            <span class="list_attr_name"><strong>Date of Birth</strong></span>
-            <span class="list_attr_content"><?php echo getUserField($id, 'DateOfBirth'); ?></span>
-            <span class="edit_link">Edit</span>
-            <span class="output" id="dob-output"></span>
-        </li>
-
-    </ul>
-
-    <form action="../actions/upload_photo.php" method="post" enctype="multipart/form-data">
-        <input type="hidden" name="token" value="<?php echo $_SESSION['token']; ?>"/>
-        <input type="hidden" name="id" value="<?php echo $id; ?>">
-        Photo: <input type="file" name="photo" accept="image/*" required/>
-        <button type="submit">Upload Photo</button>
-    </form>
-
-    <!-- Trigger/Open The Modal -->
-    <button id="change-pass-btn">Change Password</button>
-
-    <!-- The Modal -->
-    <div id="change-pass-modal" class="modal">
-
-        <!-- Modal content -->
-        <div class="modal-content">
-            <span class="close">x</span>
-            <form id="change-pass-form" method="post" action="../actions/change_password.php"
-                  onsubmit="return validateNewPassword();">
-                <input id="old-password" type="password" name="old-password" placeholder="Current Password"/>
-                <input id="new-password" type="password" name="new-password" placeholder="New Password"/>
-                <input id="new-password-repeat" type="password" name="new-password-repeat"
-                       placeholder="Repeat New Password"/>
-                <button type="submit">Change Password</button>
-                <span id="password-output"/>
+            <form method="post" action="../actions/edit_profile.php">
+                <input type="hidden" name="type" value="dob">
+                <input type="hidden" name="token" value="<?php echo $_SESSION['token']; ?>"/>
+                <input type="hidden" name="profile_id" value="<?php echo $id; ?>"/>
+                <span class="list_attr_name"><strong>Date of Birth</strong></span>
+                <span class="list_attr_content"><?php echo getUserField($id, 'DateOfBirth'); ?></span>
+                <span class="edit_link clickable"><i class="fa fa-pencil"></i>Edit</span>
+                <span class="output" id="dob-output"></span>
             </form>
-        </div>
-    </div>
+        </li>
+    </ul>
+</div>

@@ -1,7 +1,7 @@
 <?php
 include_once('../database/users.php');
 include_once('../database/restaurants.php');
-include_once('../utils.php');
+include_once('../utils/utils.php');
 
 if (groupIdHasPermissions($_SESSION['groupId'], 'ADD_ANY_RESTAURANT') && !groupIdHasPermissions($_SESSION['groupId'], 'ADD_ANY_RESTAURANT')) {
     header('HTTP/1.0 403 Forbidden');
