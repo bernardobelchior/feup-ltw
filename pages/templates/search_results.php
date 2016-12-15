@@ -17,6 +17,10 @@ if (isset($_GET['query']))
 
 <div id="body">
     <input id="search-box" type="text" name="query" value="<?= $query ?>"/>
+
+    <div id="slider">
+    </div>
+
     <ul id="categories">
         <?php
         $categories = getAllCategories();
@@ -26,9 +30,7 @@ if (isset($_GET['query']))
         }
         ?>
     </ul>
-    <div id="slider">
 
-    </div>
 
     <div id="search-results">
         <ul id="search-tabs">
@@ -41,5 +43,6 @@ if (isset($_GET['query']))
 
         <div id="users" class="search-container">
         </div>
+      </div>
     </div>
 </div>
