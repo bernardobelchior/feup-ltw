@@ -56,6 +56,9 @@ body {
       display: inline;
       span {
         padding-right: 10px;
+        strong{
+          text-decoration: underline;
+        }
       }
     }
 
@@ -78,6 +81,7 @@ body {
         display: inline;
 
         * {
+          color: #e9ffee;
           margin-right: 10px;
         }
 
@@ -237,3 +241,4 @@ body {
 .divider {
   font-size: 150%;
 }
+

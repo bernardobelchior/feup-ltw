@@ -128,16 +128,27 @@ li{
   display: flex;
   align-items: center;
   position: relative;
+  width: 100%;
+  height: 300px;
+
+  img{
+    margin: auto;
+    max-width: 512px;
+    max-height: 512px;
+  }
 
   .arrow_bg{
     width: 10%;
     position: absolute;
     top: 50%;
-    background: rgba(0,0,0,0.18);
   }
 
   #right_arrow_bg{
-    right: 0;
+    right: 10%;
+  }
+
+  #left_arrow_bg{
+    left: 10%;
   }
 
 
@@ -148,7 +159,6 @@ li{
   }
 
   img{
-    width: 100%;
     margin-bottom: 20px;
   }
 
@@ -181,6 +191,12 @@ li{
       font-size: 110%;
     }
   }
+
+  .review-container{
+    background: #d2ccb4;
+    padding: 1em;
+    border-radius: 3px;
+  }
 }
 
 .response-header {
@@ -202,7 +218,7 @@ li{
 }
 
 .review-comment {
-  border: solid 1px #62AB93;
+
 }
 
 .toggle-replies {
@@ -225,7 +241,7 @@ li{
 .reply {
   padding: 1em;
   margin: 1em;
-  background-color: #EAF363;
+  background-color: #E3DBBB;
   border-radius: 5px;
 
   .reply-name {
@@ -235,7 +251,7 @@ li{
   }
 
   .replier-restaurant {
-    color: #447c67;
+    color: #e42c2c;
   }
 
   .reply-date {
@@ -284,4 +300,13 @@ li{
 
 .closed-info {
   color: red;
+}
+
+#user-photos{
+  margin-top: 20px;
+}
+
+.photo-label{
+  text-align: center;
+  font-size: 0.8em;
 }

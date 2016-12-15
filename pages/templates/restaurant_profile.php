@@ -34,36 +34,14 @@ unset($restaurantInfo);
 <script src="../../js/restaurant_profile.js"></script>
 
 <div id="restaurant-profile" class="page_content">
-    <div id="restaurant-gallery">
-        <?php
-
-        if (count($photos) > 0) {
-            echo '<div class="arrow_bg" id="left_arrow_bg">
-            <i id="right-arrow" class="fa fa-chevron-left fa-4x" aria-hidden="true"></i>
-            </div>';
-
-            foreach ($photos as $photo) {
-                $photoUploader;
-                if ($photo['UploaderID'] === $ownerId)
-                    $photoUploader = $name;
-                else
-                    $photoUploader = getUserField($photo['UploaderID'], 'Name');
-                echo '<span class="photo-label"> Photo added by: ' . $photoUploader . '</span>';
-            }
-
-
-            echo '
-            <div class="arrow_bg" id="right_arrow_bg">
-            <i id="right-arrow" class="fa fa-chevron-right fa-4x" aria-hidden="true"></i>
-            </div>';
-        }
-        ?>
-    </div>
 
     <div id="restaurant-presentation">
-        <div class="restaurant-main-picture-container">
-            <img src="<?= '../' . $mainPhoto ?>">
-        </div>
+        <?php if (count($photos) > 0) {
+
+            echo '<div class="restaurant-main-picture-container" >
+            <img src="../' . $mainPhoto . ' " >
+        </div >';
+        } ?>
         <div class="restaurant-general">
             <ul>
                 <li id="rest-name"><?= $name ?>
@@ -74,6 +52,24 @@ unset($restaurantInfo);
                 </li>
                 <li id="rating"><?= getStarsHTML(getRestaurantAverageRating($id)) ?></li>
                 <li id="cost-for-2">€ <?= $costForTwo ?> (for two)</li>
+                <li id="rest-is-open>">
+                    <?php
+                    if (isset($openingTime) && isset($closingTime)) {
+                        $now = date("H:i");
+                        sscanf($now, "%d:%d", $hours, $mins);
+                        $time = $hours - 1 + $mins / 60;
+                        if (($openingTime < $closingTime && $time >= $openingTime && $time <= $closingTime) || //is open on day hours
+                            $openingTime > $closingTime &&                                                    //is open through midnight
+                            ($time <= $openingTime && $time <= $closingTime) ||      //is open through midnight
+                            $time >= $openingTime || $closingTime == $openingTime
+                        )
+                            //is open through midnight
+                            echo '<span class="open-info">The restaurant is <strong class="open-info">open</strong> now</span>';
+                        else
+                            echo '<span class="closed-info">The restaurant is <strong class="closed-info">closed</strong> now</span>';
+                    }
+                    ?>
+                </li>
             </ul>
         </div>
     </div>
@@ -100,6 +96,17 @@ unset($restaurantInfo);
             </div>
         </span>
         <span id="restaurant-desc-categ">
+            <div id="hours">
+                <div class="page_title"><strong>Working Hours</strong></div>
+                <div id="restaurant-description-cont">
+                    <?php if ($openingTime == $closingTime)
+                        echo '<a id="rest-hour-cont">Open All Day</a>';
+
+                    else
+                        echo '<a id="rest-hour-cont">From ' . $openingTime . 'h to ' . $closingTime . 'h</a>';
+                    ?>
+                </div>
+            </div>
             <div id="restaurant-description">
                 <div class="page_title"><strong>Description</strong></div>
                 <div id="restaurant-description-cont">
@@ -120,15 +127,34 @@ unset($restaurantInfo);
             </div>
         </span>
     </div>
-    <?php if (isset($_SESSION['userId']))
-        echo '<span>Add your photos:</span>
-    <form id="photos-form" method="post" action="../actions/upload_restaurant_photo.php"
-    enctype="multipart/form-data">
-    <input type="hidden" id="token" name="token" value="' . $_SESSION['token'] . '"/>
-    <input type="hidden" id="restaurant_id" name="restaurant_id" value="' . $id . '"/>
-    <input name="photos[]" type="file" multiple="multiple"/>
-    <button class="upload_photos" type="submit">Submit</button>
-  </form>';
+    <div class="page_title">Photos</div>
+    <div id="restaurant-gallery">
+        <?php
+        if (count($photos) > 0) {
+            echo '<div class="arrow_bg" id="left_arrow_bg">
+            <i id="left-arrow" class="fa fa-chevron-left fa-4x" aria-hidden="true"></i>
+            </div>';
+
+            foreach ($photos as $photo) {
+                $photoUploader;
+                echo '<img class="rest-photo" src ="../' . $photo['Path'] . '">"';
+                if ($photo['UploaderID'] === $ownerId)
+                    $photoUploader = $name;
+                else
+                    $photoUploader = getUserField($photo['UploaderID'], 'Name');
+            }
+
+
+            echo '
+            <div class="arrow_bg" id="right_arrow_bg">
+            <i id="right-arrow" class="fa fa-chevron-right fa-4x" aria-hidden="true"></i>
+            </div>';
+        }
+        ?>
+    </div>
+    <?php
+    if (count($photos) > 0)
+        echo '<div class="photo-label" > Photo added by: ' . $photoUploader . '</div>';
     ?>
 
 
@@ -221,24 +247,16 @@ unset($restaurantInfo);
             }
         }
         ?>
-        <?php
-        if (isset($openingTime) && isset($closingTime)) {
-            $now = date("H:i");
-            sscanf($now, "%d:%d", $hours, $mins);
-            $time = $hours - 1 + $mins / 60;
-            if ($openingTime < $closingTime && $time > $openingTime && $time < $closingTime || //is open on day hours
-                $openingTime > $closingTime &&                                                    //is open through midnight
-                ($time < $openingTime && $time < $closingTime ||      //is open through midnight
-                    $time > $openingTime)
-            )                               //is open through midnight
-                echo '<span class="open-info">The restaurant is open now</span>';
-            else
-                echo '<span class="closed-info">The restaurant is closed now</span>';
-        }
+        <?php if (isset($_SESSION['userId']))
+            echo '<div id="user-photos">Add your photos:</div>
+    <form id="photos-form" method="post" action="../actions/upload_restaurant_photo.php"
+    enctype="multipart/form-data">
+    <input type="hidden" id="token" name="token" value="' . $_SESSION['token'] . '"/>
+    <input type="hidden" id="restaurant_id" name="restaurant_id" value="' . $id . '"/>
+    <input name="photos[]" type="file" multiple="multiple"/>
+    <button class="upload_photos" type="submit">Submit</button>
+  </form>';
         ?>
 
-
-        <!-- <div id="upload"> -->
-        <!-- </div> -->
     </div>
 </div>
