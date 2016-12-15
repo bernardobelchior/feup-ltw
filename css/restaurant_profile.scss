@@ -144,7 +144,11 @@ li{
   }
 
   #right_arrow_bg{
-    right: 0;
+    right: 10%;
+  }
+
+  #left_arrow_bg{
+    left: 10%;
   }
 
 
@@ -300,4 +304,9 @@ li{
 
 #user-photos{
   margin-top: 20px;
+}
+
+.photo-label{
+  text-align: center;
+  font-size: 0.8em;
 }

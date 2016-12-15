@@ -61,8 +61,9 @@ unset($restaurantInfo);
                         if (($openingTime < $closingTime && $time >= $openingTime && $time <= $closingTime) || //is open on day hours
                             $openingTime > $closingTime &&                                                    //is open through midnight
                             ($time <= $openingTime && $time <= $closingTime) ||      //is open through midnight
-                                $time >= $openingTime || $closingTime == $openingTime)
-                                                       //is open through midnight
+                            $time >= $openingTime || $closingTime == $openingTime
+                        )
+                            //is open through midnight
                             echo '<span class="open-info">The restaurant is <strong class="open-info">open</strong> now</span>';
                         else
                             echo '<span class="closed-info">The restaurant is <strong class="closed-info">closed</strong> now</span>';
@@ -129,7 +130,6 @@ unset($restaurantInfo);
     <div class="page_title">Photos</div>
     <div id="restaurant-gallery">
         <?php
-
         if (count($photos) > 0) {
             echo '<div class="arrow_bg" id="left_arrow_bg">
             <i id="left-arrow" class="fa fa-chevron-left fa-4x" aria-hidden="true"></i>
@@ -137,12 +137,11 @@ unset($restaurantInfo);
 
             foreach ($photos as $photo) {
                 $photoUploader;
-                echo '<img class="rest-photo" src ="../'.$photo['Path'].'">"';
+                echo '<img class="rest-photo" src ="../' . $photo['Path'] . '">"';
                 if ($photo['UploaderID'] === $ownerId)
                     $photoUploader = $name;
                 else
                     $photoUploader = getUserField($photo['UploaderID'], 'Name');
-                echo '<div class="photo-label" hidden="hidden"> Photo added by: ' . $photoUploader . '</div>';
             }
 
 
@@ -153,6 +152,11 @@ unset($restaurantInfo);
         }
         ?>
     </div>
+    <?php
+    if (count($photos) > 0)
+        echo '<div class="photo-label" > Photo added by: ' . $photoUploader . '</div>';
+    ?>
+
 
     <div id="reviews">
         <div class="page_title"><strong>Restaurant Reviews</strong></div>
