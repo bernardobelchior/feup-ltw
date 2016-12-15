@@ -14,11 +14,8 @@ li {
 }
 
 #restaurant-profile {
-
   .page_title {
-    margin-top: 1em;
-    margin-bottom: 1em;
-    border-bottom: none;
+    margin: 1em auto;
   }
 
   #rest-name {
@@ -189,6 +186,14 @@ li {
     resize: none;
     overflow-y: scroll;
   }
+}
+
+.maindiv {
+  background: #ede2cf;
+  border-radius: 7px;
+  border-bottom: #d4c2a1 3px solid;
+  border-right: #d4c2a1 3px solid;
+  margin-top: 2em;
 }
 
 .reply {

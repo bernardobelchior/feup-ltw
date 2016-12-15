@@ -11,7 +11,6 @@ if (groupIdHasPermissions($_SESSION['groupId'], 'ADD_ANY_RESTAURANT') && !groupI
 
 $_SESSION['token'] = generateRandomToken();
 ?>
-<link rel="stylesheet" type="text/css" href="../css/common.min.css"/>
 <link rel="stylesheet" type="text/css" href="../css/add_restaurant.min.css"/>
 
 <div class="page_content">

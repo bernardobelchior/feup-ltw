@@ -29,20 +29,19 @@ $mainPhoto = $photos[0]['Path'];
 unset($restaurantInfo);
 ?>
 
-<link rel="stylesheet" href="../css/common.min.css">
 <link rel="stylesheet" href="../css/restaurant_profile.min.css">
 <script src="../../js/restaurant_profile.js"></script>
 
 <div id="restaurant-profile" class="page_content">
 
-    <div id="restaurant-presentation">
+    <div id="restaurant-presentation" class="maindiv" style="padding: 1em">
         <?php if (count($photos) > 0) {
 
             echo '<div class="restaurant-main-picture-container" >
             <img src="../' . $mainPhoto . ' " >
         </div >';
         } ?>
-        <div class="restaurant-general">
+        <div class="restaurant-general ">
             <ul>
                 <li id="rest-name"><?= $name ?>
                     <?php
@@ -74,7 +73,7 @@ unset($restaurantInfo);
         </div>
     </div>
     <div id="restaurant-information">
-        <span id="restaurant-location-phone">
+        <span id="restaurant-location-phone" class="maindiv">
             <div class="page_title"><strong>Restaurant Information</strong></div>
             <div id="restaurant-location-phone-cont">
                 <ul>
@@ -95,7 +94,7 @@ unset($restaurantInfo);
                 </div>
             </div>
         </span>
-        <span id="restaurant-desc-categ">
+        <span id="restaurant-desc-categ" class="maindiv">
             <div id="hours">
                 <div class="page_title"><strong>Working Hours</strong></div>
                 <div id="restaurant-description-cont">
@@ -127,8 +126,9 @@ unset($restaurantInfo);
             </div>
         </span>
     </div>
+    <div class="maindiv" id="photos-div">
     <div class="page_title">Photos</div>
-    <div id="restaurant-gallery">
+    <div id="restaurant-gallery" >
         <?php
         if (count($photos) > 0) {
             echo '<div class="arrow_bg" id="left_arrow_bg">
@@ -156,9 +156,9 @@ unset($restaurantInfo);
     if (count($photos) > 0)
         echo '<div class="photo-label" > Photo added by: ' . $photoUploader . '</div>';
     ?>
+</div>
 
-
-    <div id="reviews">
+    <div id="reviews" class="maindiv" style="padding: 1em">
         <div class="page_title"><strong>Restaurant Reviews</strong></div>
         <?php
         $reviews = getAllReviews($id);

@@ -22,7 +22,6 @@ if ($profile_picture === null)
 ?>
 
 <link rel="stylesheet" href="../css/profile.min.css">
-<link rel="stylesheet" href="../css/common.min.css">
 <script type="application/javascript" src="../js/common.js"></script>
 
 <div class="page_content">

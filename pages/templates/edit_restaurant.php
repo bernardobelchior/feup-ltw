@@ -141,12 +141,12 @@ unset($restaurantInfo);
                         <ul class="categories-list" id="edit-categories" hidden="hidden">
                             <?php
                             $categories = getAllCategories();
-                            var_dump($categories);
-                            var_dump($current_categories);
 
+                            foreach ($current_categories as $category)
+                                $categories_id[] = $category['CategoryID'];
 
                             foreach ($categories as $category) {
-                                if (in_array($category['ID'], $current_categories))
+                                if (in_array($category['ID'], $categories_id))
                                     echo '<li class="category-box"><label><input type="checkbox" checked="checked" name="categories[]" "value="' . $category['ID'] . '">' . $category['Name'] . '</label></li>';
                                 else
                                     echo '<li class="category-box"><label><input type="checkbox" name="categories[]" value="' . $category['ID'] . '">' . $category['Name'] . '</input></label></li>';

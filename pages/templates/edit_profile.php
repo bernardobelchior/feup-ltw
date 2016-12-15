@@ -28,7 +28,6 @@ if ($profile_picture === null)
 ?>
 
 <link rel="stylesheet" href="../css/edit_profile.min.css">
-<link rel="stylesheet" type="text/css" href="../css/common.min.css"/>
 <script type="text/javascript" src="../js/edit_profile.js"></script>
 
 <div class="page_content">
