@@ -21,6 +21,8 @@ $address = $restaurantInfo['Address'];
 $phoneNumber = $restaurantInfo['TelephoneNumber'];
 $costForTwo = $restaurantInfo['CostForTwo'];
 $description = $restaurantInfo['Description'];
+$openingTime = $restaurantInfo['OpeningHour'];
+$closingTime = $restaurantInfo['ClosingHour'];
 $_SESSION['ownerId'] = $ownerId;
 unset($restaurantInfo);
 ?>
@@ -46,6 +48,21 @@ unset($restaurantInfo);
             <div id="restaurant-phone-number">
                 Phone number: <?= $phoneNumber ?>
             </div>
+
+            <?php
+            if(isset($openingTime) && isset($closingTime)){
+              $now = date("H:i");
+              sscanf($now, "%d:%d", $hours, $mins);
+              $time = $hours-1 + $mins/60;
+              if($openingTime < $closingTime && $time > $openingTime && $time < $closingTime || //is open on day hours
+              $openingTime > $closingTime &&                                                    //is open through midnight
+                                          ($time < $openingTime && $time < $closingTime ||      //is open through midnight
+                                           $time > $openingTime))                               //is open through midnight
+                echo '<span class="open-info">The restaurant is open now</span>';
+              else
+                echo '<span class="closed-info">The restaurant is closed now</span>';
+            }
+            ?>
 
             <?php
             $categories = getRestaurantCategories($id);

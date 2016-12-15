@@ -29,6 +29,10 @@ else if ($type === 'cost-for-two')
     return updateRestaurantCostForTwo($restaurant_id, $value);
 else if ($type === 'telephone-number')
     return updateRestaurantTelephoneNumber($restaurant_id, $value);
+else if ($type === 'opening')
+    return updateRestaurantOpeningHour($restaurant_id, $value);
+else if ($type === 'closing')
+    return updateRestaurantClosingHour($restaurant_id, $value);
 else if ($type === 'categories') {
     $categories = getRestaurantCategories($restaurant_id);
     $categories_ids = [];

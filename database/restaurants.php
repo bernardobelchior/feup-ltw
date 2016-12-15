@@ -8,15 +8,17 @@ include_once('connection.php');
  * @param $description string Restaurant's description.
  * @param $costForTwo integer Cost for two
  * @param $phoneNumber integer Phone number
+ * @param $openingTime float Opening time
+ * @param $closingTime float Closing time
  * @return string Returns the query error code.
  * @internal param float $lat Latitude
  * @internal param float $long Longitude
  */
-function addRestaurant($ownerId, $name, $address, $description, $costForTwo, $phoneNumber) {
+function addRestaurant($ownerId, $name, $address, $description, $costForTwo, $phoneNumber, $openingTime, $closingTime) {
     global $db;
 
-    $statement = $db->prepare('INSERT INTO Restaurants VALUES(NULL, ?, ?, ?, ?, ?, ?)');
-    $statement->execute([$ownerId, $name, $address, $description, $costForTwo, $phoneNumber]);
+    $statement = $db->prepare('INSERT INTO Restaurants VALUES(NULL, ?, ?, ?, ?, ?, ?, ?, ?)');
+    $statement->execute([$ownerId, $name, $address, $description, $costForTwo, $phoneNumber, $openingTime, $closingTime]);
     return $statement->errorInfo(); //Returns 0 even if the insertion failed due to repeated username or email.
 }
 

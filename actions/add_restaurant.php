@@ -16,12 +16,14 @@ $address = htmlspecialchars($_POST['address']);
 $description = htmlspecialchars($_POST['description']);
 $costForTwo = htmlspecialchars($_POST['cost-for-two']);
 $phoneNumber = htmlspecialchars($_POST['phone-number']);
+$openingTime = htmlspecialchars($_POST['opening-time'])/10;
+$closingTime = htmlspecialchars($_POST['closing-time'])/10;
 
 //Sets the owner. If no owner is set, the owner is the user signed in.
 $ownerId = isset($_SESSION['ownerId']) ? $_SESSION['ownerId'] : $_SESSION['userId'];
 
 if (isset($name) && isset($address)) {
-    $result = addRestaurant($ownerId, $name, $address, $description, $costForTwo, $phoneNumber);
+    $result = addRestaurant($ownerId, $name, $address, $description, $costForTwo, $phoneNumber, $openingTime, $closingTime);
 
     if ($result === null) { //If an error occurred, store the error message.
         $_SESSION['addRestaurantError'] = $result[2];

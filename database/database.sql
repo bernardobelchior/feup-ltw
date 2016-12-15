@@ -33,7 +33,9 @@ CREATE TABLE Restaurants (
   Address         TEXT    NOT NULL,
   Description     TEXT,
   CostForTwo      INTEGER,
-  TelephoneNumber INTEGER
+  TelephoneNumber INTEGER,
+  OpeningHour     REAL,
+  ClosingHour     REAL
 );
 
 CREATE TABLE Categories (
@@ -51,7 +53,7 @@ CREATE TABLE RestaurantsCategories (
 CREATE TABLE RestaurantPhotos (
   ID           INTEGER PRIMARY KEY,
   RestaurantID INTEGER NOT NULL REFERENCES Restaurants,
-  UploaderID INTEGER NOT NULL REFERENCES Users,
+  UploaderID   INTEGER NOT NULL REFERENCES Users,
   Path         TEXT    NOT NULL
 );
 
