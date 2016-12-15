@@ -49,21 +49,25 @@ li{
 }
 
 #restaurants {
-  overflow-x: scroll;
-  white-space: nowrap;
-
   .restaurant-container {
-    display: inline-block;
     vertical-align: middle;
     overflow-x: hidden;
-
-    &:not(:first-child) {
-      margin-left: 0.5rem;
-    }
 
     span {
       display: block;
     }
+  }
+
+  li{
+    padding-bottom: 10px;
+  }
+  .usr-rest-addr{
+    padding-left: 5px;
+  }
+
+  .usr-rest-name:hover{
+    cursor: pointer;
+    text-decoration: underline;
   }
 }
 
