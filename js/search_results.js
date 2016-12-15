@@ -1,7 +1,9 @@
 $(document).ready(function () {
+    updateSearch();
+
     $('#search-tabs:not(.active)').children().on('click', activateTab);
-    $('#search-box').on('input', updateSearch).on('input', showResults).trigger('focus');
-    $('.category-box label input').on('change', updateSearch).on('change', showResults);
+    $('#search-box').on('input', updateSearch).trigger('focus');
+    $('.category-box label input').on('change', updateSearch);
 
     noUiSlider.create($('#slider')[0], {
         start: [0, 1000],
@@ -22,9 +24,7 @@ $(document).ready(function () {
 
     });
 
-    let slider = $('#slider')[0].noUiSlider;
-    slider.on('change', updateSearch);
-    slider.on('set', showResults);
+    $('#slider')[0].noUiSlider.on('change', updateSearch);
 });
 
 function activateTab(event) {
@@ -112,13 +112,6 @@ function getStarsHTML(value) {
     }
 
     return html;
-}
-
-function showResults() {
-    $('#search-box').off('input', showResults);
-    $('.category-box label input').off('change', showResults);
-    $('#slider')[0].noUiSlider.off('set');
-    $('#search-results').show();
 }
 
 function buildResults(response) {

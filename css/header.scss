@@ -1,14 +1,11 @@
+@import "common";
+
 body {
   background: #EEF0C3 url("../res/background.jpg");
   font-family: 'Roboto', sans-serif;
   margin: auto;
   max-width: 1250px;
 
-}
-
-// No auto-border in Firefox when clicking buttons.
-button::-moz-focus-inner {
-  border: 0;
 }
 
 .top-bar {
@@ -232,33 +229,6 @@ button::-moz-focus-inner {
   height: 100%;
   z-index: 10;
   background-color: rgba(0, 0, 0, 0.6);
-}
-
-.form-textbox {
-  box-sizing: border-box;
-
-  background-color: rgba(0, 0, 0, 0.2);
-
-  border: 0;
-  border-radius: 2px;
-
-  padding: 0.2em 0.4em;
-}
-
-.form-button {
-  border: 0;
-
-  background-color: rgba(0, 0, 0, 0.2);
-  border-bottom: 5px solid rgba(0, 0, 0, 0.3);
-
-  border-radius: 2px;
-
-  text-shadow: 0px -1px #227B5E;
-
-  &:active {
-    transform: translate(0, 5px);
-    border-bottom: 0;
-  }
 }
 
 #enter, #logout {
