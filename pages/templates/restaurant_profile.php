@@ -34,31 +34,6 @@ unset($restaurantInfo);
 <script src="../../js/restaurant_profile.js"></script>
 
 <div id="restaurant-profile" class="page_content">
-    <div id="restaurant-gallery">
-        <?php
-
-        if (count($photos) > 0) {
-            echo '<div class="arrow_bg" id="left_arrow_bg">
-            <i id="right-arrow" class="fa fa-chevron-left fa-4x" aria-hidden="true"></i>
-            </div>';
-
-            foreach ($photos as $photo) {
-                $photoUploader;
-                if ($photo['UploaderID'] === $ownerId)
-                    $photoUploader = $name;
-                else
-                    $photoUploader = getUserField($photo['UploaderID'], 'Name');
-                echo '<span class="photo-label"> Photo added by: ' . $photoUploader . '</span>';
-            }
-
-
-            echo '
-            <div class="arrow_bg" id="right_arrow_bg">
-            <i id="right-arrow" class="fa fa-chevron-right fa-4x" aria-hidden="true"></i>
-            </div>';
-        }
-        ?>
-    </div>
 
     <div id="restaurant-presentation">
         <?php if (count($photos) > 0) {
@@ -150,6 +125,33 @@ unset($restaurantInfo);
                 ?>
             </div>
         </span>
+    </div>
+    <div class="page_title">Photos</div>
+    <div id="restaurant-gallery">
+        <?php
+
+        if (count($photos) > 0) {
+            echo '<div class="arrow_bg" id="left_arrow_bg">
+            <i id="left-arrow" class="fa fa-chevron-left fa-4x" aria-hidden="true"></i>
+            </div>';
+
+            foreach ($photos as $photo) {
+                $photoUploader;
+                echo '<img class="rest-photo" src ="../'.$photo['Path'].'">"';
+                if ($photo['UploaderID'] === $ownerId)
+                    $photoUploader = $name;
+                else
+                    $photoUploader = getUserField($photo['UploaderID'], 'Name');
+                echo '<div class="photo-label" hidden="hidden"> Photo added by: ' . $photoUploader . '</div>';
+            }
+
+
+            echo '
+            <div class="arrow_bg" id="right_arrow_bg">
+            <i id="right-arrow" class="fa fa-chevron-right fa-4x" aria-hidden="true"></i>
+            </div>';
+        }
+        ?>
     </div>
 
     <div id="reviews">

@@ -128,6 +128,14 @@ li{
   display: flex;
   align-items: center;
   position: relative;
+  width: 100%;
+  height: 300px;
+
+  img{
+    margin: auto;
+    max-width: 512px;
+    max-height: 512px;
+  }
 
   .arrow_bg{
     width: 10%;
@@ -148,7 +156,6 @@ li{
   }
 
   img{
-    width: 100%;
     margin-bottom: 20px;
   }
 
