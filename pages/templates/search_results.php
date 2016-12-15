@@ -30,7 +30,7 @@ if (isset($_GET['query']))
 
     </div>
 
-    <div id="search-results" hidden="hidden">
+    <div id="search-results">
         <ul id="search-tabs">
             <li class="tab active" id="restaurants-tab"><a href="#restaurants">Restaurants</a></li>
             <li class="tab" id="users-tab"><a href="#users">Users</a></li>
