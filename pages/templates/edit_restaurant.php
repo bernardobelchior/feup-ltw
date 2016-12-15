@@ -31,6 +31,13 @@ $costForTwo = $restaurantInfo['CostForTwo'];
 $telephoneNumber = $restaurantInfo['TelephoneNumber'];
 $openingTime = $restaurantInfo['OpeningHour'];
 $closingTime = $restaurantInfo['ClosingHour'];
+if(isset($openingTime) && isset($closingTime)){
+  $openingHour = intval($openingTime);
+  $openingMinute = ($openingTime - $openingHour) * 60;
+  $closingHour = intval($closingTime);
+  $closingMinute = ($closingTime - $closingHour) * 60;
+}
+
 
 $_SESSION['ownerId'] = $ownerId;
 unset($restaurantInfo);
