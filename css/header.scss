@@ -6,13 +6,17 @@ body {
 
 }
 
+// No auto-border in Firefox when clicking buttons.
+button::-moz-focus-inner {
+  border: 0;
+}
+
 .top-bar {
   background: #62AB93 linear-gradient(to right, #5da58b, #447C67);
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
-  //border-bottom: 1px solid #447c67;
   border-bottom: 5px solid #227B5E;
   margin-bottom: 2em;
   overflow: hidden;
@@ -112,10 +116,11 @@ body {
   transform: translate(-50%, -50%);
 
   padding: 2em;
-  border: 2px solid #c9c488;
-  border-radius: 10px;
+  border: 3px solid #408971;
+  border-radius: 5px;
 
-  background-color: #D25D00;
+  background-color: #60A991;
+
   width: 40%;
 
   h1 {
@@ -123,6 +128,7 @@ body {
     font-size: 2em;
     color: white;
     text-align: center;
+    text-shadow: 0 2px rgba(0, 0, 0, 0.3);
   }
 
   form {
@@ -134,12 +140,17 @@ body {
     }
 
     .column {
+      // Needed in order to make sure the columns don't grow
+      // when elements are added to them.
+      flex-basis: 0;
+      flex-grow: 1;
+
       &:first-child {
-        margin-right: 0.2em;
+        margin-right: 0.3em;
       }
 
       &:last-child {
-        margin-left: 0.2em;
+        margin-left: 0.3em;
       }
     }
 
@@ -150,6 +161,7 @@ body {
       font-size: 90%;
       width: 100%;
       margin-left: 0.2em;
+      margin-top: 1em;
     }
 
     input {
@@ -160,18 +172,62 @@ body {
 
       font-size: 125%;
       margin: 0.4em auto;
-      padding: 0.2em;
+      padding: 0.2em 0.4em;
 
-      background-color: #AE4D00;
+      // Makes the inputs darker than the overlay
+      background-color: rgba(0, 0, 0, 0.2);
 
       border: 0;
       border-radius: 3px;
+    }
+
+    button {
+      font-size: 125%;
+      width: 100%;
+
+      padding: 0.5em 0.2em;
+      margin-top: 0.8em;
+
+      border: 0;
+      border-radius: 2px;
+
+      text-shadow: 0px -1px #227B5E;
+
+      &:active {
+        transform: translate(0, 5px);
+      }
+    }
+
+    #sign_up_cancel {
+      background-color: rgba(0, 0, 0, 0.1);
+      border-bottom: 5px solid rgba(0, 0, 0, 0.2);
+
+      &:active {
+        border-bottom: 0;
+      }
+    }
+
+    #sign_up_submit {
+      background-color: rgba(0, 0, 0, 0.3);
+      border-bottom: 5px solid rgba(0, 0, 0, 0.4);
+
+      &:active {
+        border-bottom: 0;
+      }
     }
 
     #output {
       display: block;
       color: #764a34;
     }
+  }
+}
+
+.error {
+  color: #801815;
+
+  i {
+    margin-right: 0.3em;
   }
 }
 

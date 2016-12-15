@@ -1,26 +1,14 @@
 <?php
 include_once('../database/users.php');
+include_once('../utils/user_access_handler.php');
 session_start(['cookie_httponly' => true]);
 
 $username = htmlspecialchars($_POST['username']);
 $password = htmlspecialchars($_POST['password']);
 
 if ($username && $password) {
-    if (login($username, $password)) {
-        unset($_SESSION['login-error']);
-        initializeSession($username);
-        header('Location: ../pages/index.php?page=profile.php&id=' . $_SESSION['userId']);
-    } else
-        $_SESSION['login-error'] = 'The username and the password do not match.';
-
+    login($username, $password);
+    header('Location: ../pages/index.php?page=profile.php&id=' . $_SESSION['userId']);
     die();
-}
-
-function initializeSession($username) {
-    session_regenerate_id(true);
-    $_SESSION['username'] = $username;
-    $_SESSION['userId'] = getIdByUsername($username);
-    $_SESSION['email'] = getUserField($_SESSION['userId'], 'Email');
-    $_SESSION['name'] = getUserField($_SESSION['userId'], 'Name');
-    $_SESSION['groupId'] = getUserField($_SESSION['userId'], 'GroupID');
-}
+} else
+    echo 'The username and the password do not match.';
